@@ -16,9 +16,7 @@ const Home: NextPage = () => {
           Ryosuke Hiroe
         </h1>
 
-        <img className={styles.thumbnail}
-             src={'/rhiroe_icon.jpg'}>
-        </img>
+        <img className={styles.thumbnail} src={'/rhiroe_icon.jpg'} alt={"Icon of rhiroe"} />
 
         <p className={styles.description}>
           岡山でRuby書いたりTypeScript書いたりしてます。
@@ -26,7 +24,7 @@ const Home: NextPage = () => {
 
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
+            <h2>Contact &rarr;</h2>
             <p>Find in-depth information about Next.js features and API.</p>
           </a>
 
@@ -57,14 +55,25 @@ const Home: NextPage = () => {
 
       <footer className={styles.footer}>
         <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          href={"mailto:ride.poke@gmail.com"}
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <img src="/vercel.svg" alt="Vercel Logo" width="72" height="16" />
-          </span>
+          <img width="32px" src="/mail.svg" alt={"Icon of gmail"} />
+        </a>
+        <a
+            href={"https://github.com/rhiroe"}
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+          <img width="32px" src="/github.svg" alt={"Icon of twitter"} />
+        </a>
+        <a
+            href={"https://twitter.com/messages/compose?recipient_id=509745934"}
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+          <img width="32px" src="/twitter.svg" alt={"Icon of twitter"} />
         </a>
       </footer>
     </div>
