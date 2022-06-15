@@ -108,6 +108,14 @@
   margin-left: 0.5rem;
 }
 
+.thumbnail {
+  object-fit: contain;
+  border-radius: 50%;
+  margin: 1rem;
+  width: 10rem;
+  height: 10rem;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;

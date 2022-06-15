@@ -13,12 +13,15 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Ryosuke Hiroe
         </h1>
 
+        <img className={styles.thumbnail}
+             src={'/rhiroe_icon.jpg'}>
+        </img>
+
         <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
+          岡山でRuby書いたりTypeScript書いたりしてます。
         </p>
 
         <div className={styles.grid}>
