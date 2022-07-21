@@ -1,6 +1,7 @@
 name: Run ESLint
 
-on: push
+on:
+  workflow_call:
 
 jobs:
   build:

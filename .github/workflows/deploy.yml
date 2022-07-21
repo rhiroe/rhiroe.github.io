@@ -6,7 +6,17 @@ on:
       - main
 
 jobs:
-  build:
+  ESLint:
+    uses: ./.github/workflows/eslint.yml
+
+  Test:
+    uses: ./.github/workflows/test.yml
+
+  Deploy:
+    needs:
+      - ESLint
+      - Test
+
     runs-on: ubuntu-20.04
 
     steps:
