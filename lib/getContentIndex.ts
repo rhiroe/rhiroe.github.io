@@ -15,17 +15,17 @@ const postsDirectory = path.join(process.cwd(), "public/content");
  * postsDirectory 以下のディレクトリ名を取得する
  */
 export function getPostSlugs() {
-    const allDirents = fs.readdirSync(postsDirectory, { withFileTypes: true });
-    return allDirents
-        .filter((dirent) => dirent.isDirectory())
-        .map(({ name }) => name);
+    const allContents = fs.readdirSync(postsDirectory, { withFileTypes: true });
+    return allContents
+        .filter((dirent) => dirent.isFile())
+        .map(({ name }) => name.split('.')[0]);
 }
 
 /**
  * 指定したフィールド名から、記事のフィールドの値を取得する
  */
 export function getPostBySlug(slug: string, fields: string[] = []) {
-    const fullPath = path.join(postsDirectory, slug, "index.md");
+    const fullPath = path.join(postsDirectory, `${slug}.md`);
     const fileContents = fs.readFileSync(fullPath, "utf8");
     const { data, content } = matter(fileContents);
 
@@ -56,8 +56,7 @@ export function getPostBySlug(slug: string, fields: string[] = []) {
  */
 export function getAllPosts(fields: string[] = []) {
     const slugs = getPostSlugs();
-    const posts = slugs
+    return slugs
         .map((slug) => getPostBySlug(slug, fields))
         .sort((a, b) => (a.date > b.date ? -1 : 1));
-    return posts;
 }
