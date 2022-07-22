@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import styles from "~/styles/Home.module.css";
-import { getAllPosts, getPostBySlug } from "~/pages/api/getContentIndex";
-import markdownToHtml from "~/pages/api/markdownToHtml";
+import { getAllPosts, getPostBySlug } from "~/lib/getContentIndex";
+import markdownToHtml from "~/lib/markdownToHtml";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
