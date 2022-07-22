@@ -1,5 +1,6 @@
 import type { InferGetStaticPropsType, NextPage } from "next";
 import Head from "next/head";
+import Link from 'next/link'
 import styles from "~/styles/Home.module.css";
 import { getAllPosts } from "~/lib/getContentIndex";
 
@@ -26,10 +27,12 @@ const Home: NextPage<Props> = ({ allPosts }) => {
 
                 <div className={styles.grid}>
                     {allPosts.map((post) => (
-                        <a href={`blog/${post.slug}`} className={styles.card} key={post.slug}>
-                            <h2>{post.title}</h2>
-                            <p>{post.date}</p>
-                        </a>
+                        <Link href={`blog/${post.slug}`} key={post.slug}>
+                            <a className={styles.card}>
+                                <h2>{post.title}</h2>
+                                <p>{post.date}</p>
+                            </a>
+                        </Link>
                     ))}
                 </div>
             </main>
