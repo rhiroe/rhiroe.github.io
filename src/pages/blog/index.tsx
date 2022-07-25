@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from 'next/link'
 import styles from "~/styles/Home.module.css";
 import { getAllPosts } from "~/lib/getContentIndex";
+import PageTitle from "~/components/common/pageTitle";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -23,7 +24,7 @@ const Home: NextPage<Props> = ({ allPosts }) => {
             </Head>
 
             <main className={styles.main}>
-                <h1 className={styles.title}>rhiroeのブログ</h1>
+                <PageTitle>rhiroeのブログ</PageTitle>
 
                 <div>
                     {allPosts.map((post) => (

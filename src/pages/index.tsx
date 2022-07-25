@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import styles from '~/styles/Home.module.css'
+import PageTitle from "~/components/common/pageTitle";
 
 const Home: NextPage = () => {
   return (
@@ -13,9 +14,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Ryosuke Hiroe
-        </h1>
+        <PageTitle>Ryosuke Hiroe</PageTitle>
 
         <img className={styles.thumbnail} src={'/rhiroe_icon.jpg'} alt={"Icon of rhiroe"} />
 

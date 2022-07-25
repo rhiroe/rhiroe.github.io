@@ -4,7 +4,7 @@
 
 .main {
   min-height: 100vh;
-  padding: 4rem 0;
+  padding: 2rem 0;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -25,21 +25,10 @@
   margin: 0 0.5rem;
 }
 
-.title a {
-  color: #0070f3;
-  text-decoration: none;
-}
-
-.title a:hover,
-.title a:focus,
-.title a:active {
-  text-decoration: underline;
-}
-
 .title {
   margin: 0;
   line-height: 1.15;
-  font-size: 4rem;
+  font-size: 3rem;
 }
 
 .title,
@@ -109,8 +98,6 @@
   object-fit: contain;
   border-radius: 50%;
   margin: 1rem;
-  width: 10rem;
-  height: 10rem;
 }
 
 @media (max-width: 600px) {

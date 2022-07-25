@@ -8,9 +8,6 @@ import markdownToHtml from "~/lib/markdownToHtml";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-/**
- * 記事のパスを取得する
- */
 export const getStaticPaths = async () => {
     const posts = getAllPosts(["slug"]);
     return {

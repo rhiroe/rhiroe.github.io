@@ -9,22 +9,16 @@ type Post = {
     date: string;
 };
 
-const postsDirectory = path.join(process.cwd(), "public/content");
+const postsDirectory: string = path.join(process.cwd(), "public/content");
 
-/**
- * postsDirectory 以下のディレクトリ名を取得する
- */
-export function getPostSlugs() {
+export const getPostSlugs = (): string[] => {
     const allContents = fs.readdirSync(postsDirectory, { withFileTypes: true });
     return allContents
         .filter((dirent) => dirent.isFile())
         .map(({ name }) => name.split('.')[0]);
 }
 
-/**
- * 指定したフィールド名から、記事のフィールドの値を取得する
- */
-export function getPostBySlug(slug: string, fields: string[] = []) {
+export const getPostBySlug = (slug: string, fields: string[] = []): Post => {
     const fullPath = path.join(postsDirectory, `${slug}.md`);
     const fileContents = fs.readFileSync(fullPath, "utf8");
     const { data, content } = matter(fileContents);
@@ -37,24 +31,17 @@ export function getPostBySlug(slug: string, fields: string[] = []) {
     };
 
     fields.forEach((field) => {
-        if (field === "slug") {
+        if (field === "slug")
             items[field] = slug;
-        }
-        if (field === "content") {
+        if (field === "content")
             items[field] = content;
-        }
-        if (field === "title" || field === "date") {
+        if (field === "title" || field === "date")
             items[field] = data[field];
-        }
     });
     return items;
 }
 
-/**
- * すべての記事について、指定したフィールドの値を取得して返す
- * @param fields 取得するフィールド
- */
-export function getAllPosts(fields: string[] = []) {
+export function getAllPosts(fields: string[] = []): Post[] {
     const slugs = getPostSlugs();
     return slugs
         .map((slug) => getPostBySlug(slug, fields))
