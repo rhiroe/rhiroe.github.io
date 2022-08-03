@@ -6,6 +6,7 @@ type Post = {
     slug: string;
     content: string;
     title: string;
+    excerpt?: string;
     date: string;
 };
 
@@ -28,15 +29,19 @@ export const getPostBySlug = (slug: string, fields: string[] = []): Post => {
         content: "",
         title: "",
         date: "",
+        excerpt: ""
     };
 
     fields.forEach((field) => {
-        if (field === "slug")
+        if (field === "slug") {
             items[field] = slug;
-        if (field === "content")
+        } else if (field === "content") {
             items[field] = content;
-        if (field === "title" || field === "date")
+        } else if (field === "title" || field === "date") {
             items[field] = data[field];
+        } else if (field === "excerpt") {
+            items[field] = data[field] || "";
+        }
     });
     return items;
 }

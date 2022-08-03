@@ -2,6 +2,7 @@
 title: TypeScriptの型覚書
 date: 2022/8/3
 tags: ["TypeScript"]
+excerpt: TypeScriptの型について勉強する
 ---
 
 # TypeScriptの型
