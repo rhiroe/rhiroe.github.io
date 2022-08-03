@@ -1,4 +1,4 @@
-import { unified } from 'unified';
+import { remark } from "remark";
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import rehypeHighlight from 'rehype-highlight';
@@ -10,7 +10,7 @@ import rehypeStringify from 'rehype-stringify';
  * @returns HTML
  */
 const markdownToHtml = async (markdown: string) => {
-    const result = await unified()
+    const result = await remark()
         .use(remarkParse)
         .use(remarkRehype)
         .use(rehypeHighlight)
