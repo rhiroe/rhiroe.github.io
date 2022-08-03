@@ -63,9 +63,6 @@ const Post: NextPage<Props> = ({ post }) => {
                     </div>
                 </article>
             </main>
-            <footer className={styles.footer}>
-                <p>Powered by Next.js.</p>
-            </footer>
         </div>
     );
 };
