@@ -1,7 +1,7 @@
 import type { InferGetStaticPropsType, NextPage } from "next";
 import Head from "next/head";
 import Link from 'next/link'
-import styles from "~/styles/Home.module.css";
+import styles from "~/styles/Blog.module.css";
 import { getAllPosts } from "~/lib/getContentIndex";
 import PageTitle from "~/components/common/pageTitle";
 

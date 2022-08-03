@@ -2,7 +2,8 @@ import { NextPage, InferGetStaticPropsType } from "next";
 import { useRouter } from "next/router";
 import ErrorPage from "next/error";
 import Head from "next/head";
-import styles from "~/styles/Home.module.css";
+import 'highlight.js/styles/default.css';
+import styles from "~/styles/Blog.module.css";
 import { getAllPosts, getPostBySlug } from "~/lib/getContentIndex";
 import markdownToHtml from "~/lib/markdownToHtml";
 
