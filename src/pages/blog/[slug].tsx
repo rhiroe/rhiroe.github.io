@@ -41,7 +41,7 @@ export const getStaticProps = async ({ params }: any) => {
     };
 };
 
-const Post: NextPage<Props> = ({ post }) => {
+const BlogPage: NextPage<Props> = ({ post }) => {
     const router = useRouter();
     if (!router.isFallback && !post?.slug) {
         return <ErrorPage statusCode={404} />;
@@ -68,4 +68,4 @@ const Post: NextPage<Props> = ({ post }) => {
     );
 };
 
-export default Post;
+export default BlogPage;

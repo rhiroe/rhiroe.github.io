@@ -8,13 +8,13 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Ryosuke Hiroe</title>
+        <title>{'Ryosuke "Rio" Hiroe'}</title>
         <meta name="description" content="My page." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <PageTitle>Ryosuke Hiroe</PageTitle>
+        <PageTitle>{'Ryosuke "Rio" Hiroe'}</PageTitle>
 
         <img className={styles.thumbnail} src={'/rhiroe_icon.jpg'} alt={"Icon of rhiroe"} />
 
@@ -26,14 +26,16 @@ const Home: NextPage = () => {
           <Link href="blog">
             <a className={styles.card}>
               <h2>Blog &rarr;</h2>
-              <p>ブログです。markdownで管理してます。</p>
+              <p>プログラミングの話</p>
             </a>
           </Link>
 
-          {/*<a href="https://nextjs.org/learn" className={styles.card}>*/}
-          {/*  <h2>Learn &rarr;</h2>*/}
-          {/*  <p>Learn about Next.js in an interactive course with quizzes!</p>*/}
-          {/*</a>*/}
+          <Link href="english">
+            <a className={styles.card}>
+              <h2>English &rarr;</h2>
+              <p>英語学習の記録</p>
+            </a>
+          </Link>
 
           {/*<a*/}
           {/*  href="https://github.com/vercel/next.js/tree/canary/examples"*/}

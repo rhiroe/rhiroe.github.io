@@ -14,7 +14,7 @@ export const getStaticProps = async () => {
     };
 };
 
-const Home: NextPage<Props> = ({ allPosts }) => {
+const BlogsPage: NextPage<Props> = ({ allPosts }) => {
     return (
         <div className={styles.container}>
             <Head>
@@ -42,4 +42,4 @@ const Home: NextPage<Props> = ({ allPosts }) => {
     );
 };
 
-export default Home;
+export default BlogsPage;
