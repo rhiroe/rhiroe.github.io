@@ -32,16 +32,16 @@ const Home: NextPage = () => {
                 </Link>
               </Paper>
             </Grid>
-            <Grid item xs={6}>
-              <Paper sx={{ py: 0.5, px: 4 }}>
-                <Link href="english">
-                  <a>
-                    <h2>English &rarr;</h2>
-                    <p>英語学習の記録</p>
-                  </a>
-                </Link>
-              </Paper>
-            </Grid>
+            {/*<Grid item xs={6}>*/}
+            {/*  <Paper sx={{ py: 0.5, px: 4 }}>*/}
+            {/*    <Link href="english">*/}
+            {/*      <a>*/}
+            {/*        <h2>English &rarr;</h2>*/}
+            {/*        <p>英語学習の記録</p>*/}
+            {/*      </a>*/}
+            {/*    </Link>*/}
+            {/*  </Paper>*/}
+            {/*</Grid>*/}
             <Grid item xs={6}>
               <Paper sx={{ py: 0.5, px: 4 }}>
                 <a href="https://gist.github.com/rhiroe/62a5f0dbd9c44bbf539f6effc4ef5514">
