@@ -14,12 +14,16 @@ const Home: NextPage = () => {
         </Head>
 
         <main>
-          <p>
-            岡山でRuby書いたりTypeScript書いたりしてます。
-          </p>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} sx={{ mt: 1 }}>
+            <Grid display="flex" item xs={12} justifyContent="center" alignItems="center">
+              <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=rhiroe" />
+              <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=rhiroe&hide=HTML,CSS,SCSS&langs_count=3" />
+            </Grid>
+          </Grid>
+
+          <Grid container sx={{ my: 4 }} spacing={2}>
             <Grid item xs={6}>
-              <Paper>
+              <Paper sx={{ py: 0.5, px: 4 }}>
                 <Link href="blog">
                   <a>
                     <h2>Blog &rarr;</h2>
@@ -29,7 +33,7 @@ const Home: NextPage = () => {
               </Paper>
             </Grid>
             <Grid item xs={6}>
-              <Paper>
+              <Paper sx={{ py: 0.5, px: 4 }}>
                 <Link href="english">
                   <a>
                     <h2>English &rarr;</h2>
@@ -39,7 +43,7 @@ const Home: NextPage = () => {
               </Paper>
             </Grid>
             <Grid item xs={6}>
-              <Paper>
+              <Paper sx={{ py: 0.5, px: 4 }}>
                 <a href="https://gist.github.com/rhiroe/62a5f0dbd9c44bbf539f6effc4ef5514">
                   <h2>Profile &rarr;</h2>
                   <p>職務経歴とか</p>
