@@ -24,8 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <Fab
                       size="small"
                       sx={{ mr: 1 }}
-                      color="primary"
-                      aria-label="add"
+                      aria-label="email"
                       href="mailto:ride.poke@gmail.com"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -35,8 +34,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <Fab
                       size="small"
                       sx={{ mr: 1 }}
-                      color="primary"
-                      aria-label="add"
+                      aria-label="github"
                       href="https://github.com/rhiroe"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -46,8 +44,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <Fab
                       size="small"
                       sx={{ mr: 1 }}
-                      color="primary"
-                      aria-label="add"
+                      aria-label="twitter"
                       href="https://twitter.com/messages/compose?recipient_id=509745934"
                       target="_blank"
                       rel="noopener noreferrer"
