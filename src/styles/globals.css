@@ -21,19 +21,8 @@ a {
   text-align: center;
 }
 
-.float {
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-}
-
 .footer .row {
   margin: 0.5rem 0;
-}
-
-.footer a {
-  margin: 0 0.5rem;
 }
 
 :not(pre) > code {
