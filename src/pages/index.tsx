@@ -36,14 +36,15 @@ const Home: NextPage = () => {
               <p>英語学習の記録</p>
             </a>
           </Link>
-
-          {/*<a*/}
-          {/*  href="https://github.com/vercel/next.js/tree/canary/examples"*/}
-          {/*  className={styles.card}*/}
-          {/*>*/}
-          {/*  <h2>Examples &rarr;</h2>*/}
-          {/*  <p>Discover and deploy boilerplate example Next.js projects.</p>*/}
-          {/*</a>*/}
+        </div>
+        <div className={styles.grid}>
+          <a
+            href="https://gist.github.com/rhiroe/62a5f0dbd9c44bbf539f6effc4ef5514"
+            className={styles.card}
+          >
+            <h2>Profile &rarr;</h2>
+            <p>職務経歴とか</p>
+          </a>
 
           {/*<a*/}
           {/*  href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"*/}
