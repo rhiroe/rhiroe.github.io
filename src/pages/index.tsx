@@ -15,9 +15,8 @@ const Home: NextPage = () => {
 
         <main>
           <Grid container spacing={2} sx={{ mt: 1 }}>
-            <Grid display="flex" item xs={12} justifyContent="center" alignItems="center">
+            <Grid display="flex" item md={12} justifyContent="center" alignItems="center">
               <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=rhiroe" />
-              <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=rhiroe&hide=HTML,CSS,SCSS&langs_count=3" />
             </Grid>
           </Grid>
 
