@@ -92,22 +92,29 @@ const SkillsChart = () => {
         });
 
         const languages: { [key: string]: { size: number; stars: number; forks: number } } = {};
+        const excludedLanguages = ['HTML', 'CSS', 'SCSS', 'Less', 'XML', 'Markdown'];
         const repoPromises = repos.filter(repo => !repo.fork).map(async repo => {
           const langResponse = await octokit.repos.listLanguages({
             owner: 'rhiroe',
             repo: repo.name
           });
 
-          const totalSize = Object.values(langResponse.data).reduce((a, b) => a + b, 0);
-          Object.entries(langResponse.data).forEach(([lang, bytes]) => {
-            if (!languages[lang]) {
-              languages[lang] = { size: 0, stars: 0, forks: 0 };
-            }
-            const percentage = bytes / totalSize;
-            languages[lang].size += bytes * percentage;
-            languages[lang].stars += (repo.stargazers_count || 0) * percentage;
-            languages[lang].forks += (repo.forks_count || 0) * percentage;
-          });
+          const filteredLangs = Object.fromEntries(
+            Object.entries(langResponse.data).filter(([lang]) => !excludedLanguages.includes(lang))
+          );
+          const totalSize = Object.values(filteredLangs).reduce((a, b) => a + b, 0);
+          
+          if (totalSize > 0) {
+            Object.entries(filteredLangs).forEach(([lang, bytes]) => {
+              if (!languages[lang]) {
+                languages[lang] = { size: 0, stars: 0, forks: 0 };
+              }
+              const percentage = bytes / totalSize;
+              languages[lang].size += bytes * percentage;
+              languages[lang].stars += (repo.stargazers_count || 0) * percentage;
+              languages[lang].forks += (repo.forks_count || 0) * percentage;
+            });
+          }
         });
 
         await Promise.all(repoPromises);
