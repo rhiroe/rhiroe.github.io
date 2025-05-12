@@ -2,6 +2,7 @@ import { NextPage, InferGetStaticPropsType } from "next";
 import { useRouter } from "next/router";
 import ErrorPage from "next/error";
 import Head from "next/head";
+import Link from "next/link";
 import 'highlight.js/styles/github-dark.css';
 import styles from "~/styles/Blog.module.css";
 import { getAllPosts, getPostBySlug } from "~/lib/getContentIndex";
@@ -55,6 +56,9 @@ const BlogPage: NextPage<Props> = ({ post }) => {
             </Head>
             <main className={styles.main}>
                 <article>
+                    <Link href="/blog" className={styles.backLink}>
+                        ← 記事一覧に戻る
+                    </Link>
                     <h1 className={styles.title}>{post.title}</h1>
                     <div className={styles.grid}>
                         <div>
