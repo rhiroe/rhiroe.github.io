@@ -29,11 +29,9 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
                 <div>
                     {allPosts.map((post) => (
                         <Link href={`blog/${post.slug}`} key={post.slug}>
-                            <a>
-                                <h2>{post.title}</h2>
-                                <p>{post.excerpt}</p>
-                                <p>{post.date}</p>
-                            </a>
+                            <h2>{post.title}</h2>
+                            <p>{post.excerpt}</p>
+                            <p>{post.date}</p>
                         </Link>
                     ))}
                 </div>
