@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { Box, Container, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { Octokit } from '@octokit/rest'
 
 const Card = ({ href, title, description, index }: { href: string; title: string; description: string; index: number }) => {
@@ -75,41 +75,66 @@ const Card = ({ href, title, description, index }: { href: string; title: string
 }
 
 const SkillsChart = () => {
-  const [skillsData, setSkillsData] = useState<Array<{ language: string; value: number }>>([])
+  const [skillsData, setSkillsData] = useState<Array<{ language: string; value: number; percentage: number }>>([])
   const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
     setIsClient(true)
     const fetchGitHubData = async () => {
-      const octokit = new Octokit()
+      const octokit = new Octokit({
+        auth: process.env.NEXT_PUBLIC_GITHUB_TOKEN
+      })
       try {
-        const response = await octokit.repos.listForUser({
+        const repos = await octokit.paginate(octokit.repos.listForUser, {
           username: 'rhiroe',
-          per_page: 100
-        })
+          per_page: 100,
+          sort: 'updated'
+        });
 
-        const languages: { [key: string]: number } = {}
-        
-        for (const repo of response.data) {
-          if (!repo.fork) {
-            const langResponse = await octokit.repos.listLanguages({
-              owner: 'rhiroe',
-              repo: repo.name
-            })
-            
-            Object.entries(langResponse.data).forEach(([lang, bytes]) => {
-              languages[lang] = (languages[lang] || 0) + bytes
-            })
-          }
-        }
+        const languages: { [key: string]: { size: number; stars: number; forks: number } } = {};
+        const repoPromises = repos.filter(repo => !repo.fork).map(async repo => {
+          const langResponse = await octokit.repos.listLanguages({
+            owner: 'rhiroe',
+            repo: repo.name
+          });
+
+          const totalSize = Object.values(langResponse.data).reduce((a, b) => a + b, 0);
+          Object.entries(langResponse.data).forEach(([lang, bytes]) => {
+            if (!languages[lang]) {
+              languages[lang] = { size: 0, stars: 0, forks: 0 };
+            }
+            const percentage = bytes / totalSize;
+            languages[lang].size += bytes * percentage;
+            languages[lang].stars += (repo.stargazers_count || 0) * percentage;
+            languages[lang].forks += (repo.forks_count || 0) * percentage;
+          });
+        });
+
+        await Promise.all(repoPromises);
+
+        const maxValues = {
+          size: Math.max(...Object.values(languages).map(l => l.size)),
+          stars: Math.max(...Object.values(languages).map(l => l.stars)),
+          forks: Math.max(...Object.values(languages).map(l => l.forks))
+        };
+
+        const calculateScore = (lang: typeof languages[string]) => {
+          const sizeScore = lang.size / maxValues.size * 100;
+          const starsScore = (lang.stars / maxValues.stars || 0) * 100;
+          const forksScore = (lang.forks / maxValues.forks || 0) * 100;
+          return (sizeScore * 0.4) + (starsScore * 0.4) + (forksScore * 0.2);
+        };
+
+        const totalScore = Object.values(languages).reduce((acc, lang) => acc + calculateScore(lang), 0);
 
         const topLanguages = Object.entries(languages)
-          .sort(([, a], [, b]) => b - a)
-          .slice(0, 5)
-          .map(([name, value]) => ({
+          .map(([name, data]) => ({
             language: name,
-            value: Math.log10(value)
+            value: calculateScore(data),
+            percentage: (calculateScore(data) / totalScore) * 100
           }))
+          .sort((a, b) => b.value - a.value)
+          .slice(0, 5)
 
         setSkillsData(topLanguages)
       } catch (error) {
@@ -134,25 +159,45 @@ const SkillsChart = () => {
       }}
     >
       <ResponsiveContainer>
-        <RadarChart data={skillsData}>
-          <PolarGrid stroke="rgba(255, 255, 255, 0.3)" />
-          <PolarAngleAxis
+        <BarChart data={skillsData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.05)" />
+          <XAxis
             dataKey="language"
-            tick={{ fill: 'rgba(255, 255, 255, 0.7)', fontSize: 12 }}
+            tick={{ fill: 'rgba(255, 255, 255, 0.5)', fontSize: 12 }}
+            axisLine={{ stroke: 'rgba(255, 255, 255, 0.1)' }}
           />
-          <PolarRadiusAxis
-            angle={30}
-            domain={[0, 'auto']}
-            tick={{ fill: 'rgba(255, 255, 255, 0.7)' }}
+          <YAxis
+            tick={{ fill: 'rgba(255, 255, 255, 0.5)', fontSize: 12 }}
+            axisLine={{ stroke: 'rgba(255, 255, 255, 0.1)' }}
+            label={{
+              value: '言語スコア',
+              angle: -90,
+              position: 'insideLeft',
+              fill: 'rgba(255, 255, 255, 0.5)',
+              style: { textAnchor: 'middle' }
+            }}
           />
-          <Radar
-            name="Skills"
+          <Tooltip
+            contentStyle={{
+              backgroundColor: 'rgba(20, 20, 30, 0.95)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: 'rgba(255, 255, 255, 0.7)',
+              borderRadius: '4px',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+            }}
+          />
+          <Bar
             dataKey="value"
-            stroke="#8884d8"
-            fill="#8884d8"
-            fillOpacity={0.6}
+            fill="#2a2a4a"
+            name="言語スコア"
+            onMouseEnter={(data, index) => {
+              document.querySelector(`path[name="言語スコア-${index}"]`)?.setAttribute('fill', '#000000');
+            }}
+            onMouseLeave={(data, index) => {
+              document.querySelector(`path[name="言語スコア-${index}"]`)?.setAttribute('fill', '#2a2a4a');
+            }}
           />
-        </RadarChart>
+        </BarChart>
       </ResponsiveContainer>
     </Box>
   )
@@ -244,7 +289,7 @@ const Home: NextPage = () => {
                 animation: 'fadeIn 1s ease-out forwards 0.4s',
               }}
             >
-              GitHub言語統計
+              言語別スコア
             </Typography>
             <SkillsChart />
           </Box>
