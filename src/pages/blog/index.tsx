@@ -9,7 +9,8 @@ import PageTitle from "~/components/common/pageTitle";
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
-    const allPosts = getAllPosts(["slug", "title", "date", "tags", "excerpt"]);
+    const allPosts = getAllPosts(["slug", "title", "date", "tags", "excerpt"])
+                        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     return {
         props: { allPosts },
     };
@@ -46,7 +47,13 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
                                 <h2 className={styles.postTitle}>{post.title}</h2>
                                 <p className={styles.excerpt}>{post.excerpt}</p>
                                 <div className={styles.postMeta}>
-                                    <time className={styles.date}>{post.date}</time>
+                                    <time className={styles.date}>
+                                        {
+                                            new Date(post.date)
+                                                .toLocaleDateString('ja-JP', { year: 'numeric', month: 'numeric', day: 'numeric' })
+                                                .replace(/\-/g, '/')
+                                        }
+                                    </time>
                                     {post.tags && (
                                         <div className={styles.tags}>
                                             {post.tags.map((tag: string) => (
