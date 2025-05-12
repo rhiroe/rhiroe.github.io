@@ -12,7 +12,7 @@ jobs:
   Test:
     uses: ./.github/workflows/test.yml
 
-  Deploy:
+  Build:
     needs:
       - ESLint
       - Test
@@ -39,8 +39,25 @@ jobs:
         env:
           NEXT_PUBLIC_GITHUB_TOKEN: ${{ secrets.NEXT_PUBLIC_GITHUB_TOKEN }}
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Upload
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: out
+          path: out
+
+  Deploy:
+    needs: Build
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
