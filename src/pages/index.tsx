@@ -18,20 +18,16 @@ const Home: NextPage = () => {
             <Grid item xs={6}>
               <Paper sx={{ py: 0.5, px: 4 }}>
                 <Link href="blog">
-                  <a>
-                    <h2>Blog &rarr;</h2>
-                    <p>プログラミングの話</p>
-                  </a>
+                  <h2>Blog &rarr;</h2>
+                  <p>プログラミングの話</p>
                 </Link>
               </Paper>
             </Grid>
             {/*<Grid item xs={6}>*/}
             {/*  <Paper sx={{ py: 0.5, px: 4 }}>*/}
             {/*    <Link href="english">*/}
-            {/*      <a>*/}
-            {/*        <h2>English &rarr;</h2>*/}
-            {/*        <p>英語学習の記録</p>*/}
-            {/*      </a>*/}
+            {/*      <h2>English &rarr;</h2>*/}
+            {/*      <p>英語学習の記録</p>*/}
             {/*    </Link>*/}
             {/*  </Paper>*/}
             {/*</Grid>*/}
