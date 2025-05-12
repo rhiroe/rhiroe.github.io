@@ -181,6 +181,40 @@ article > .grid {
     width: 100%;
 }
 
+/* ページネーションのスタイル */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+.pageButton {
+    background: #333;
+    color: #fff;
+    border: 1px solid #4da3ff;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pageButton:hover {
+    background: #4da3ff;
+    color: #1a1a1a;
+}
+
+.activePage {
+    background: #4da3ff;
+    color: #1a1a1a;
+    font-weight: bold;
+    border-color: #74b7ff;
+}
+
+.ellipsis {
+    color: white;
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 0 1rem;
