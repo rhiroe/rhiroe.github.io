@@ -2,7 +2,9 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import { Box, Container, Typography } from '@mui/material'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts'
+import { Octokit } from '@octokit/rest'
 
 const Card = ({ href, title, description, index }: { href: string; title: string; description: string; index: number }) => {
   const [isHovered, setIsHovered] = useState(false)
@@ -72,6 +74,90 @@ const Card = ({ href, title, description, index }: { href: string; title: string
   )
 }
 
+const SkillsChart = () => {
+  const [skillsData, setSkillsData] = useState<Array<{ language: string; value: number }>>([])
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+    const fetchGitHubData = async () => {
+      const octokit = new Octokit()
+      try {
+        const response = await octokit.repos.listForUser({
+          username: 'rhiroe',
+          per_page: 100
+        })
+
+        const languages: { [key: string]: number } = {}
+        
+        for (const repo of response.data) {
+          if (!repo.fork) {
+            const langResponse = await octokit.repos.listLanguages({
+              owner: 'rhiroe',
+              repo: repo.name
+            })
+            
+            Object.entries(langResponse.data).forEach(([lang, bytes]) => {
+              languages[lang] = (languages[lang] || 0) + bytes
+            })
+          }
+        }
+
+        const topLanguages = Object.entries(languages)
+          .sort(([, a], [, b]) => b - a)
+          .slice(0, 5)
+          .map(([name, value]) => ({
+            language: name,
+            value: Math.log10(value)
+          }))
+
+        setSkillsData(topLanguages)
+      } catch (error) {
+        console.error('Error fetching GitHub data:', error)
+      }
+    }
+
+    if (isClient) {
+      fetchGitHubData()
+    }
+  }, [isClient])
+
+  if (!isClient) return null
+
+  return (
+    <Box
+      sx={{
+        width: '100%',
+        height: 300,
+        opacity: 0,
+        animation: 'fadeIn 1s ease-out forwards 0.6s',
+      }}
+    >
+      <ResponsiveContainer>
+        <RadarChart data={skillsData}>
+          <PolarGrid stroke="rgba(255, 255, 255, 0.3)" />
+          <PolarAngleAxis
+            dataKey="language"
+            tick={{ fill: 'rgba(255, 255, 255, 0.7)', fontSize: 12 }}
+          />
+          <PolarRadiusAxis
+            angle={30}
+            domain={[0, 'auto']}
+            tick={{ fill: 'rgba(255, 255, 255, 0.7)' }}
+          />
+          <Radar
+            name="Skills"
+            dataKey="value"
+            stroke="#8884d8"
+            fill="#8884d8"
+            fillOpacity={0.6}
+          />
+        </RadarChart>
+      </ResponsiveContainer>
+    </Box>
+  )
+}
+
 const Home: NextPage = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
@@ -88,9 +174,9 @@ const Home: NextPage = () => {
   }, [])
 
   return (
-    <>
+    <Box component="div">
       <Head>
-        <title>{'Ryosuke Hiroe'}</title>
+        <title>Ryosuke Hiroe</title>
         <meta name="description" content="My page." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -98,7 +184,7 @@ const Home: NextPage = () => {
       <Box
         sx={{
           minHeight: '100vh',
-          background: `linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)`,
+          background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
           overflow: 'hidden',
           display: 'flex',
           alignItems: 'center',
@@ -127,7 +213,7 @@ const Home: NextPage = () => {
                 },
               }}
             >
-              {"Ryosuke Hiroe"}
+              Ryosuke Hiroe
             </Typography>
             <Typography
               variant="h2"
@@ -142,6 +228,25 @@ const Home: NextPage = () => {
             >
               ソフトウェアエンジニア
             </Typography>
+          </Box>
+
+          <Box sx={{ mb: 6 }}>
+            <Typography
+              variant="h2"
+              sx={{
+                color: '#fff',
+                fontSize: { xs: '1.5rem', md: '2rem' },
+                fontWeight: 600,
+                letterSpacing: '-0.02em',
+                mb: 3,
+                textAlign: 'center',
+                opacity: 0,
+                animation: 'fadeIn 1s ease-out forwards 0.4s',
+              }}
+            >
+              GitHub言語統計
+            </Typography>
+            <SkillsChart />
           </Box>
 
           <Box
@@ -168,7 +273,7 @@ const Home: NextPage = () => {
           </Box>
         </Container>
       </Box>
-    </>
+    </Box>
   )
 }
 
