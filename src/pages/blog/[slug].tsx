@@ -55,18 +55,20 @@ const BlogPage: NextPage<Props> = ({ post }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className={styles.main}>
-                <article>
-                    <Link href="/blog" className={styles.backLink}>
-                        &larr; 一覧
-                    </Link>
-                    <h1 className={styles.title}>{post.title}</h1>
-                    <p style={{ textAlign: 'right', color: '#999' }}>{post.date}</p>
-                    <div className={styles.grid}>
-                        <div>
-                            <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                <div className={styles.container}>
+                    <article>
+                        <Link href="/blog" className={styles.backLink}>
+                            &larr; 一覧
+                        </Link>
+                        <h1 className={styles.title}>{post.title}</h1>
+                        <p style={{ textAlign: 'right', color: '#999' }}>{post.date}</p>
+                        <div className={styles.grid}>
+                            <div>
+                                <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                            </div>
                         </div>
-                    </div>
-                </article>
+                    </article>
+                </div>
             </main>
         </div>
     );
