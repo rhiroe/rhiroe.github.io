@@ -15,7 +15,7 @@ const Home: NextPage = () => {
 
         <main>
           <Grid container sx={{ my: 4 }} spacing={2}>
-            <Grid item xs={6}>
+            <Grid sx={{ gridColumn: 'span 6' }}>
               <Paper sx={{ py: 0.5, px: 4 }}>
                 <Link href="blog">
                   <h2>Blog &rarr;</h2>
@@ -23,7 +23,7 @@ const Home: NextPage = () => {
                 </Link>
               </Paper>
             </Grid>
-            {/*<Grid item xs={6}>*/}
+            {/*<Grid sx={{ gridColumn: 'span 6' }}>*/}
             {/*  <Paper sx={{ py: 0.5, px: 4 }}>*/}
             {/*    <Link href="english">*/}
             {/*      <h2>English &rarr;</h2>*/}
@@ -31,7 +31,7 @@ const Home: NextPage = () => {
             {/*    </Link>*/}
             {/*  </Paper>*/}
             {/*</Grid>*/}
-            <Grid item xs={6}>
+            <Grid sx={{ gridColumn: 'span 6' }}>
               <Paper sx={{ py: 0.5, px: 4 }}>
                 <a href="https://gist.github.com/rhiroe/62a5f0dbd9c44bbf539f6effc4ef5514">
                   <h2>Profile &rarr;</h2>
