@@ -116,13 +116,24 @@ const Home: NextPage = () => {
             <Typography
               variant="h1"
               sx={{
-                color: '#fff',
+                background: 'linear-gradient(45deg, #fff, #a8b2d1)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                color: 'transparent',
                 fontSize: { xs: '2rem', md: '3.5rem' },
                 fontWeight: 700,
                 letterSpacing: '-0.03em',
                 mb: 2,
                 opacity: 0,
-                animation: 'fadeIn 1s ease-out forwards',
+                animation: 'fadeIn 1s ease-out forwards, gradientText 6s linear infinite',
+                '@keyframes gradientText': {
+                  '0%': {
+                    filter: 'hue-rotate(0deg)',
+                  },
+                  '100%': {
+                    filter: 'hue-rotate(360deg)',
+                  },
+                },
                 '@keyframes fadeIn': {
                   from: { opacity: 0, transform: 'translateY(-20px)' },
                   to: { opacity: 1, transform: 'translateY(0)' },
