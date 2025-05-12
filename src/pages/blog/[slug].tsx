@@ -57,12 +57,12 @@ const BlogPage: NextPage<Props> = ({ post }) => {
             <main className={styles.main}>
                 <article>
                     <Link href="/blog" className={styles.backLink}>
-                        ← 記事一覧に戻る
+                        &larr; 一覧
                     </Link>
                     <h1 className={styles.title}>{post.title}</h1>
+                    <p style={{ textAlign: 'right', color: '#999' }}>{post.date}</p>
                     <div className={styles.grid}>
                         <div>
-                            <p>{post.date}</p>
                             <div dangerouslySetInnerHTML={{ __html: post.content }} />
                         </div>
                     </div>
