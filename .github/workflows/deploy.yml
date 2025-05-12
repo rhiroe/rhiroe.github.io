@@ -21,22 +21,19 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 14.x
-          cache: yarn
+        uses: actions/setup-node@v4
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: yarn build
+        run: pnpm build
 
       - name: export
-        run: yarn export
+        run: pnpm export
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
