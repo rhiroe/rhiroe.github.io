@@ -8,6 +8,7 @@ type Post = {
     title: string;
     excerpt?: string;
     date: string;
+    tags?: string[];
 };
 
 const postsDirectory: string = path.join(process.cwd(), "public/content");
@@ -41,6 +42,8 @@ export const getPostBySlug = (slug: string, fields: string[] = []): Post => {
             items[field] = data[field];
         } else if (field === "excerpt") {
             items[field] = data[field] || "";
+        } else if (field === "tags") {
+            items[field] = data[field] || [];
         }
     });
     return items;

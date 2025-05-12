@@ -24,14 +24,25 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
             </Head>
 
             <main className={styles.main}>
-                <PageTitle>rhiroeのブログ</PageTitle>
-
-                <div>
+                <div className={styles.grid}>
                     {allPosts.map((post) => (
-                        <Link href={`blog/${post.slug}`} key={post.slug}>
-                            <h2>{post.title}</h2>
-                            <p>{post.excerpt}</p>
-                            <p>{post.date}</p>
+                        <Link href={`blog/${post.slug}`} key={post.slug} className={styles.card}>
+                            <article>
+                                <h2 className={styles.postTitle}>{post.title}</h2>
+                                <p className={styles.excerpt}>{post.excerpt}</p>
+                                <div className={styles.postMeta}>
+                                    <time className={styles.date}>{post.date}</time>
+                                    {post.tags && (
+                                        <div className={styles.tags}>
+                                            {post.tags.map((tag: string) => (
+                                                <span key={tag} className={styles.tag}>
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </article>
                         </Link>
                     ))}
                 </div>
