@@ -156,7 +156,7 @@ const Home: NextPage = () => {
             <Card
               href="/blog"
               title="Blog"
-              description="プログラミングの話"
+              description="プログラミングの話とか"
               index={0}
             />
             <Card
