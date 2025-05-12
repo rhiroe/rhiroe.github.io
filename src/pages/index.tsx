@@ -160,41 +160,65 @@ const SkillsChart = () => {
     >
       <ResponsiveContainer>
         <BarChart data={skillsData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.05)" />
+          <defs>
+            <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#6366f1" stopOpacity={1} />
+              <stop offset="100%" stopColor="#3b82f6" stopOpacity={0.8} />
+            </linearGradient>
+            <linearGradient id="hoverGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#8b5cf6" stopOpacity={1} />
+              <stop offset="100%" stopColor="#6366f1" stopOpacity={0.8} />
+            </linearGradient>
+          </defs>
+          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" vertical={false} />
           <XAxis
             dataKey="language"
-            tick={{ fill: 'rgba(255, 255, 255, 0.5)', fontSize: 12 }}
-            axisLine={{ stroke: 'rgba(255, 255, 255, 0.1)' }}
+            tick={{ fill: 'rgba(255, 255, 255, 0.7)', fontSize: 13, fontWeight: 500 }}
+            axisLine={{ stroke: 'rgba(255, 255, 255, 0.2)' }}
+            tickLine={false}
           />
           <YAxis
-            tick={{ fill: 'rgba(255, 255, 255, 0.5)', fontSize: 12 }}
-            axisLine={{ stroke: 'rgba(255, 255, 255, 0.1)' }}
+            tick={{ fill: 'rgba(255, 255, 255, 0.7)', fontSize: 13 }}
+            axisLine={{ stroke: 'rgba(255, 255, 255, 0.2)' }}
+            tickLine={false}
             label={{
-              value: '言語スコア',
+              value: '',
               angle: -90,
               position: 'insideLeft',
-              fill: 'rgba(255, 255, 255, 0.5)',
-              style: { textAnchor: 'middle' }
+              fill: 'rgba(255, 255, 255, 0.8)',
+              style: {
+                textAnchor: 'middle',
+                fontSize: '14px',
+                fontWeight: 500,
+                letterSpacing: '0.05em'
+              }
             }}
           />
           <Tooltip
+            cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }}
             contentStyle={{
-              backgroundColor: 'rgba(20, 20, 30, 0.95)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              color: 'rgba(255, 255, 255, 0.7)',
-              borderRadius: '4px',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+              backgroundColor: 'rgba(15, 23, 42, 0.95)',
+              border: '1px solid rgba(148, 163, 184, 0.2)',
+              color: 'rgba(255, 255, 255, 0.9)',
+              borderRadius: '8px',
+              boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+              padding: '8px 12px',
+              fontSize: '0.875rem'
             }}
+            formatter={(value: any) => [`${Number(value).toFixed(1)}`, '言語スコア']}
           />
           <Bar
             dataKey="value"
-            fill="#2a2a4a"
+            fill="url(#colorGradient)"
             name="言語スコア"
+            radius={[4, 4, 0, 0]}
+            animationDuration={2000}
+            animationEasing="ease-in-out"
             onMouseEnter={(data, index) => {
-              document.querySelector(`path[name="言語スコア-${index}"]`)?.setAttribute('fill', '#000000');
+              document.querySelector(`path[name="言語スコア-${index}"]`)?.setAttribute('fill', 'url(#hoverGradient)');
             }}
             onMouseLeave={(data, index) => {
-              document.querySelector(`path[name="言語スコア-${index}"]`)?.setAttribute('fill', '#2a2a4a');
+              document.querySelector(`path[name="言語スコア-${index}"]`)?.setAttribute('fill', 'url(#colorGradient)');
             }}
           />
         </BarChart>
