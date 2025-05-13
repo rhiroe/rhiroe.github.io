@@ -150,6 +150,7 @@ article > .grid {
 .grid div p {
     margin-bottom: 1.5rem;
     color: #e0e0e0;
+    overflow-wrap: break-word;
 }
 
 .grid div a {
