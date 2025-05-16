@@ -173,7 +173,7 @@ const Home: NextPage = () => {
               index={0}
             />
             <Card
-              href="https://gist.github.com/rhiroe/62a5f0dbd9c44bbf539f6effc4ef5514"
+              href="/profile"
               title="Profile"
               description="職務経歴とか"
               index={1}
