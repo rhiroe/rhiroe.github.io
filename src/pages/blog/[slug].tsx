@@ -54,6 +54,16 @@ const BlogPage: NextPage<Props> = ({ post }) => {
                 <title>{post.title}</title>
                 <meta name="description" content={post.excerpt} />
                 <link rel="icon" href="/favicon.ico" />
+                
+                {/* OGP Tags */}
+                <meta property="og:title" content={post.title} />
+                <meta property="og:description" content={post.excerpt} />
+                <meta property="og:url" content={`https://rhiroe.github.io${router.asPath}`} />
+                <meta property="og:type" content="article" />
+                <meta property="og:site_name" content="rhiroe.github.io" />
+                {/* Twitter Card */}
+                <meta name="twitter:card" content="summary" />
+                <meta name="twitter:site" content="@rhiroe" />
             </Head>
             <main className={styles.main}>
                 <div className={styles.container}>
