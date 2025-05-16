@@ -1,5 +1,5 @@
 ---
-title: Rails8でn+1をテストで検知する
+title: Rails8でN+1をテストで検知する
 date: 2025/5/16
 tags: ["Rails"]
 ---
