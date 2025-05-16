@@ -11,9 +11,6 @@ export const InnerContainer: FC<Props> = ({ children, ...props }) => {
       maxWidth="lg"
       {...props}
       sx={{
-        padding: '0 2rem',
-        maxWidth: '1200px',
-        margin: '0 auto',
         width: '100%',
         backgroundColor: '#1a1a1a',
         ...props.sx

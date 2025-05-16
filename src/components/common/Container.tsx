@@ -10,9 +10,6 @@ export const Container: FC<Props> = ({ children, ...props }) => {
     <MuiContainer
       {...props}
       sx={{
-        padding: '0 2rem',
-        maxWidth: '1200px',
-        margin: '0 auto',
         width: '100%',
         ...props.sx
       }}

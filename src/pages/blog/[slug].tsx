@@ -7,7 +7,7 @@ import 'highlight.js/styles/github-dark.css';
 import { getAllPosts, getPostBySlug } from "~/lib/getContentIndex";
 import markdownToHtml from "~/lib/markdownToHtml";
 import XIcon from '@mui/icons-material/X';
-import { Box, InnerContainer, Typography, Paper, Button } from '~/components/common'; // Button をインポート
+import { Box, InnerContainer, Typography, DarkPaper, Button } from '~/components/common'; // Button をインポート
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
@@ -73,9 +73,9 @@ const BlogPage: NextPage<Props> = ({ post }) => {
                         startIcon={<ArrowBackIcon />}
                         sx={{
                             marginTop: '1rem',
+                            marginBottom: '2rem',
                             color: 'rgba(255, 255, 255, 0.7)',
                             borderColor: 'rgba(255, 255, 255, 0.3)',
-                            marginBottom: '1rem',
                             textTransform: 'none',
                             '&:hover': {
                                 borderColor: 'rgba(255, 255, 255, 0.7)',
@@ -87,13 +87,7 @@ const BlogPage: NextPage<Props> = ({ post }) => {
                     </Button>
                 </Link>
 
-                <Paper elevation={0} sx={{
-                    background: 'transparent',
-                    color: 'rgba(255, 255, 255, 0.9)',
-                    backdropFilter: 'blur(10px)',
-                    padding: '2rem',
-                    borderRadius: '0.5rem'
-                }}>
+                <DarkPaper>
                     <Typography variant="h1" sx={{ color: '#fff', fontSize: '2.5rem', fontWeight: 700, textAlign: 'center', marginBottom: '1rem' }}>
                         {post.title}
                     </Typography>
@@ -105,7 +99,7 @@ const BlogPage: NextPage<Props> = ({ post }) => {
                     <Box className="markdown">
                         <div dangerouslySetInnerHTML={{ __html: post.content }} />
                     </Box>
-                </Paper>
+                </DarkPaper>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>
                     <Link
                         href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title + '\n')}&url=${encodeURIComponent(`https://rhiroe.github.io${router.asPath}`)}`}
