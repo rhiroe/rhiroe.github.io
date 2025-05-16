@@ -7,6 +7,7 @@ import 'highlight.js/styles/github-dark.css';
 import styles from "~/styles/Blog.module.css";
 import { getAllPosts, getPostBySlug } from "~/lib/getContentIndex";
 import markdownToHtml from "~/lib/markdownToHtml";
+import XIcon from '@mui/icons-material/X'
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -68,6 +69,36 @@ const BlogPage: NextPage<Props> = ({ post }) => {
                             </div>
                         </div>
                     </article>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: '#999' }}>
+                        <a
+                            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://rhiroe.github.io${router.asPath}`)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                padding: '0.5rem 1rem',
+                                backgroundColor: '#1f2937',
+                                color: 'white',
+                                borderRadius: '0.75rem',
+                                textDecoration: 'none',
+                                transition: 'all 0.2s ease',
+                                cursor: 'pointer'
+                            }}
+                            onMouseOver={(e) => {
+                                e.currentTarget.style.backgroundColor = '#374151';
+                                e.currentTarget.style.transform = 'translateY(-2px)';
+                            }}
+                            onMouseOut={(e) => {
+                                e.currentTarget.style.backgroundColor = '#1f2937';
+                                e.currentTarget.style.transform = 'translateY(0)';
+                            }}
+                        >
+                            <XIcon />
+                            <span>Share</span>
+                        </a>
+                    </div>
                 </div>
             </main>
         </div>
@@ -75,3 +106,4 @@ const BlogPage: NextPage<Props> = ({ post }) => {
 };
 
 export default BlogPage;
+
