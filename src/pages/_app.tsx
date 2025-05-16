@@ -103,7 +103,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               </IconButton>
               <IconButton
                 aria-label="twitter"
-                href="https://twitter.com/messages/compose?recipient_id=509745934"
+                href="https://x.com/buta_botti"
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
