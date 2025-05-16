@@ -1,11 +1,16 @@
 import '~/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { Container, Box, Typography, IconButton } from '@mui/material'
-import EmailIcon from '@mui/icons-material/Email'
+import Link from 'next/link';
+import { useRouter } from 'next/router'; // useRouter をインポート
+import { Container, Box, Typography, IconButton, Button } from '@mui/material'
+import EmailIcon from '@mui/icons-material/Email'; // EmailIcon をインポート
 import GitHubIcon from '@mui/icons-material/GitHub'
 import XIcon from '@mui/icons-material/X'
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter(); // useRouter を使用
+  const isHomePage = router.pathname === '/';
+
   return (
     <Box
       sx={{
@@ -20,7 +25,8 @@ function MyApp({ Component, pageProps }: AppProps) {
                  overflow: 'hidden',
                  display: 'flex',
                  alignItems: 'center',
-                 flex: 1 }}>
+                 flex: 1
+                 }}>
         <Container maxWidth="md">
           <Component {...pageProps} />
         </Container>
@@ -43,6 +49,25 @@ function MyApp({ Component, pageProps }: AppProps) {
               gap: 2,
             }}
           >
+            {!isHomePage && ( // トップページでない場合のみ表示
+              <Link href="/" passHref>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    textDecoration: 'none',
+                    fontSize: '0.8rem',
+                    '&:hover': {
+                      color: 'rgba(255, 255, 255, 0.8)',
+                      textDecoration: 'underline',
+                    },
+                    marginBottom: 1, // ソーシャルアイコンとの間にマージンを追加
+                  }}
+                >
+                  トップへ戻る
+                </Typography>
+              </Link>
+            )}
             <Box sx={{ display: 'flex', gap: 2 }}>
               <IconButton
                 aria-label="email"
