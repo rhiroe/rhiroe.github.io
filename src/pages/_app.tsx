@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app'
 import { Container, Box, Typography, IconButton } from '@mui/material'
 import EmailIcon from '@mui/icons-material/Email'
 import GitHubIcon from '@mui/icons-material/GitHub'
-import TwitterIcon from '@mui/icons-material/Twitter'
+import XIcon from '@mui/icons-material/X'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -85,7 +85,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   },
                 }}
               >
-                <TwitterIcon />
+                <XIcon />
               </IconButton>
             </Box>
             <Typography
