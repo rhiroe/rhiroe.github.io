@@ -81,7 +81,7 @@ const BlogPage: NextPage<Props> = ({ post }) => {
                     </article>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: '#999' }}>
                         <a
-                            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://rhiroe.github.io${router.asPath}`)}`}
+                            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title + '\n')}&url=${encodeURIComponent(`https://rhiroe.github.io${router.asPath}`)}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             style={{
