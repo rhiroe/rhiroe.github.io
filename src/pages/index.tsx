@@ -1,78 +1,8 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
-import { Box, Container, Typography } from '@mui/material'
+import { Box, Container, Typography, Grid, Card, CardContent } from '~/components/common' // Card を Card に変更
 import { useEffect, useState } from 'react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import { Octokit } from '@octokit/rest'
-
-const Card = ({ href, title, description, index }: { href: string; title: string; description: string; index: number }) => {
-  const [isHovered, setIsHovered] = useState(false)
-
-  return (
-    <Box
-      component="div"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      sx={{
-        opacity: 0,
-        animation: 'fadeSlideIn 0.6s ease-out forwards',
-        animationDelay: `${index * 0.15}s`,
-        '@keyframes fadeSlideIn': {
-          from: {
-            opacity: 0,
-            transform: 'translateY(20px)',
-          },
-          to: {
-            opacity: 1,
-            transform: 'translateY(0)',
-          },
-        },
-      }}
-    >
-      <Link href={href} style={{ textDecoration: 'none' }}>
-        <Box
-          sx={{
-            padding: '1.5rem',
-            background: isHovered ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.05)',
-            borderRadius: '12px',
-            transition: 'all 0.3s ease',
-            cursor: 'pointer',
-            mb: 2,
-            border: '1px solid',
-            borderColor: isHovered ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.1)',
-            '&:hover': {
-              transform: 'translateY(-4px)',
-            },
-          }}
-        >
-          <Typography
-            variant="h3"
-            component="h2"
-            sx={{
-              color: '#fff',
-              fontSize: '1.75rem',
-              fontWeight: 600,
-              letterSpacing: '-0.02em',
-              mb: 1,
-            }}
-          >
-            {title}
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              color: 'rgba(255, 255, 255, 0.7)',
-              fontSize: '1rem',
-            }}
-          >
-            {description}
-          </Typography>
-        </Box>
-      </Link>
-    </Box>
-  )
-}
 
 const Home: NextPage = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -97,90 +27,69 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Box
-        sx={{
-          minHeight: '100vh',
-          background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
-          overflow: 'hidden',
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <Container maxWidth="md" sx={{ position: 'relative', py: 8 }}>
-          <Box
-            sx={{
-              textAlign: 'center',
-              mb: 8,
-            }}
+      <Container>
+        <Box sx={{ textAlign: 'center', mb: 8 }}>
+          <Typography variant="h1" className="gradient-title">
+            Ryosuke Hiroe
+          </Typography>
+          <Typography
+            variant="h2"
+            sx={{  color: 'rgba(255, 255, 255, 0.7)',
+                   fontSize: '1.25rem',
+                   fontWeight: '400',
+                   letterSpacing: '0.02em',
+                   opacity: '0',
+                   animation: 'fadeIn 1s ease-out forwards 0.3s'  }}
           >
-            <Typography
-              variant="h1"
-              sx={{
-                background: 'linear-gradient(45deg, #fff, #a8b2d1)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                color: 'transparent',
-                fontSize: { xs: '2rem', md: '3.5rem' },
-                fontWeight: 700,
-                letterSpacing: '-0.03em',
-                mb: 2,
-                opacity: 0,
-                animation: 'fadeIn 1s ease-out forwards, gradientText 6s linear infinite',
-                '@keyframes gradientText': {
-                  '0%': {
-                    filter: 'hue-rotate(0deg)',
-                  },
-                  '100%': {
-                    filter: 'hue-rotate(360deg)',
-                  },
-                },
-                '@keyframes fadeIn': {
-                  from: { opacity: 0, transform: 'translateY(-20px)' },
-                  to: { opacity: 1, transform: 'translateY(0)' },
-                },
-              }}
-            >
-              Ryosuke Hiroe
-            </Typography>
-            <Typography
-              variant="h2"
-              sx={{
-                color: 'rgba(255, 255, 255, 0.7)',
-                fontSize: { xs: '1rem', md: '1.25rem' },
-                fontWeight: 400,
-                letterSpacing: '0.02em',
-                opacity: 0,
-                animation: 'fadeIn 1s ease-out forwards 0.3s',
-              }}
-            >
-              ソフトウェアエンジニア
-            </Typography>
-          </Box>
+            ソフトウェアエンジニア
+          </Typography>
+        </Box>
 
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' },
-              gap: 3,
-              position: 'relative',
-              zIndex: 1,
-            }}
-          >
-            <Card
-              href="/blog"
-              title="Blog"
-              description="プログラミングの話とか"
-              index={0}
-            />
-            <Card
-              href="/profile"
-              title="Profile"
-              description="職務経歴とか"
-              index={1}
-            />
-          </Box>
-        </Container>
-      </Box>
+        <Grid container spacing={2}>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <Card>
+              <Link href="/blog">
+                <CardContent>
+                  <Typography
+                    variant="h4"
+                    component="h4"
+                    className="card-title"
+                  >
+                    Blog
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    className="card-description"
+                  >
+                    プログラミングの話とか
+                  </Typography>
+                </CardContent>
+              </Link>
+            </Card>
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <Card>
+              <Link href="/profile">
+                <CardContent>
+                  <Typography
+                    variant="h4"
+                    component="h4"
+                    className="card-title"
+                  >
+                    Profile
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    className="card-description"
+                  >
+                    職務経歴とか
+                  </Typography>
+                </CardContent>
+              </Link>
+            </Card>
+          </Grid>
+        </Grid>
+      </Container>
     </Box>
   )
 }

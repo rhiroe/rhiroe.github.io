@@ -7,13 +7,13 @@ import PageTitle from "~/components/common/pageTitle";
 import {
     Box,
     Button,
-    Container,
-    Stack,
-    Typography,
     Card,
     CardContent,
-    Chip
-} from '@mui/material';
+    InnerContainer,
+    Chip,
+    Typography,
+    Grid
+} from '~/components/common';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -25,7 +25,7 @@ export const getStaticProps = async () => {
     };
 };
 
-const POSTS_PER_PAGE = 10;
+const POSTS_PER_PAGE = 5;
 
 const BlogsPage: NextPage<Props> = ({ allPosts }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -41,74 +41,30 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
     };
 
     return (
-        <Box
-            sx={{
-                minHeight: '100vh',
-                background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
-                pt: 4,
-                pb: 8
-            }}
-        >
+        <>
             <Head>
                 <title>rhiroeのブログ</title>
                 <meta name="description" content="rhiroeのブログ" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Container maxWidth="lg">
-                <Typography
-                    variant="h1"
-                    sx={{
-                        fontSize: { xs: '2rem', md: '2.5rem' },
-                        fontWeight: 700,
-                        color: '#fff',
-                        mb: 4,
-                        textAlign: 'center'
-                    }}
-                >
-                    Blog
-                </Typography>
-                <Box
-                    sx={{
-                        display: 'grid',
-                        gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' },
-                        gap: 3
-                    }}
-                >
-                    {paginatedPosts.map((post) => (
-                        <Box key={post.slug}>
-                            <Link href={`blog/${post.slug}`} style={{ textDecoration: 'none' }}>
-                                <Card
-                                    sx={{
-                                        height: '100%',
-                                        background: 'rgba(255, 255, 255, 0.05)',
-                                        backdropFilter: 'blur(10px)',
-                                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                                        transition: 'all 0.3s ease',
-                                        '&:hover': {
-                                            transform: 'translateY(-4px)',
-                                            background: 'rgba(255, 255, 255, 0.1)',
-                                            borderColor: 'rgba(255, 255, 255, 0.2)'
-                                        }
-                                    }}
-                                >
+            <InnerContainer sx={{ padding: '2rem' }}>
+                <Grid container spacing={2}>
+                    {paginatedPosts.map((post, index) => (
+                        <Grid size={{ xs: 12 }} key={post.slug}>
+                            <Card>
+                                <Link href={`blog/${post.slug}`}>
                                     <CardContent>
                                         <Typography
-                                            variant="h2"
-                                            sx={{
-                                                fontSize: '1.5rem',
-                                                fontWeight: 600,
-                                                color: '#fff',
-                                                mb: 2
-                                            }}
+                                            variant="h5" // h3 から h5 に変更
+                                            component="h2"
+                                            className="card-title"
                                         >
                                             {post.title}
                                         </Typography>
                                         <Typography
-                                            sx={{
-                                                color: 'rgba(255, 255, 255, 0.7)',
-                                                mb: 2
-                                            }}
+                                            variant="body1"
+                                            className="card-description"
                                         >
                                             {post.excerpt}
                                         </Typography>
@@ -131,7 +87,7 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
                                                             size="small"
                                                             sx={{
                                                                 backgroundColor: 'rgba(77, 163, 255, 0.1)',
-                                                                color: '#4da3ff',
+                                                                color: '#aaaaaa',
                                                                 borderRadius: '16px'
                                                             }}
                                                         />
@@ -140,28 +96,17 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
                                             )}
                                         </Box>
                                     </CardContent>
-                                </Card>
-                            </Link>
-                        </Box>
+                                </Link>
+                            </Card>
+                        </Grid>
                     ))}
-                </Box>
-                <Stack
-                    direction="row"
-                    spacing={1}
-                    justifyContent="center"
-                    mt={4}
-                >
+                </Grid>
+                <Box className="pagination">
                     <Button
                         variant="outlined"
                         onClick={() => handlePageChange(currentPage - 1)}
                         disabled={currentPage === 1}
-                        sx={{
-                            color: 'white',
-                            borderColor: 'rgba(255, 255, 255, 0.3)',
-                            '&:hover': {
-                                borderColor: 'rgba(255, 255, 255, 0.5)'
-                            }
-                        }}
+                        className="pagination-button"
                     >
                         {'<'}
                     </Button>
@@ -176,15 +121,7 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
                                     key={index}
                                     variant={page === currentPage ? "contained" : "outlined"}
                                     onClick={() => handlePageChange(page)}
-                                    sx={{
-                                        color: 'white',
-                                        borderColor: page === currentPage ? 'transparent' : 'rgba(255, 255, 255, 0.3)',
-                                        backgroundColor: page === currentPage ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
-                                        '&:hover': {
-                                            borderColor: 'rgba(255, 255, 255, 0.5)',
-                                            backgroundColor: page === currentPage ? 'rgba(255, 255, 255, 0.15)' : 'transparent'
-                                        }
-                                    }}
+                                    className={`pagination-button ${page === currentPage ? 'active' : ''}`}
                                 >
                                     {page}
                                 </Button>
@@ -195,29 +132,14 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
                                     key={index}
                                     variant="outlined"
                                     onClick={() => handlePageChange(page)}
-                                    sx={{
-                                        color: 'white',
-                                        borderColor: page === currentPage ? 'transparent' : 'rgba(255, 255, 255, 0.3)',
-                                        backgroundColor: page === currentPage ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
-                                        '&:hover': {
-                                            borderColor: 'rgba(255, 255, 255, 0.5)',
-                                            backgroundColor: page === currentPage ? 'rgba(255, 255, 255, 0.15)' : 'transparent'
-                                        }
-                                    }}
+                                    className="pagination-button"
                                 >
                                     {page}
                                 </Button>
                             );
                         } else if (page === currentPage - 2 || page === currentPage + 2) {
                             return (
-                                <Typography
-                                    key={index}
-                                    sx={{
-                                        color: 'rgba(255, 255, 255, 0.5)',
-                                        display: 'flex',
-                                        alignItems: 'center'
-                                    }}
-                                >
+                                <Typography key={index} className="pagination-ellipsis">
                                     ...
                                 </Typography>
                             );
@@ -228,19 +150,13 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
                         variant="outlined"
                         onClick={() => handlePageChange(currentPage + 1)}
                         disabled={currentPage === totalPages}
-                        sx={{
-                            color: 'white',
-                            borderColor: 'rgba(255, 255, 255, 0.3)',
-                            '&:hover': {
-                                borderColor: 'rgba(255, 255, 255, 0.5)'
-                            }
-                        }}
+                        className="pagination-button"
                     >
                         {'>'}
                     </Button>
-                </Stack>
-            </Container>
-        </Box>
+                </Box>
+            </InnerContainer>
+        </>
     );
 };
 

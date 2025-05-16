@@ -15,7 +15,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
       }}
     >
-      <Box sx={{ flex: 1 }}>
+      <Box sx={{ minHeight: '100vh',
+                 background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
+                 overflow: 'hidden',
+                 display: 'flex',
+                 alignItems: 'center',
+                 flex: 1 }}>
         <Container maxWidth="md">
           <Component {...pageProps} />
         </Container>
