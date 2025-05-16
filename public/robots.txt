@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /
+Allow: /blog/
+
+# Sitemap
+Sitemap: https://rhiroe.github.io/sitemap.xml
