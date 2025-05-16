@@ -2,7 +2,6 @@ import type { InferGetStaticPropsType, NextPage } from "next";
 import Head from "next/head";
 import Link from 'next/link'
 import { useState } from "react";
-import styles from "~/styles/Blog.module.css";
 import { getAllPosts } from "~/lib/getContentIndex";
 import PageTitle from "~/components/common/pageTitle";
 
@@ -32,22 +31,22 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
     };
 
     return (
-        <div className={styles.container}>
+        <div className="container">
             <Head>
                 <title>rhiroeのブログ</title>
                 <meta name="description" content="rhiroeのブログ" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main className={styles.main}>
-                <div className={styles.grid}>
+            <main className="main">
+                <div className="grid">
                     {paginatedPosts.map((post) => (
-                        <Link href={`blog/${post.slug}`} key={post.slug} className={styles.card}>
+                        <Link href={`blog/${post.slug}`} key={post.slug} className="card">
                             <article>
-                                <h2 className={styles.postTitle}>{post.title}</h2>
-                                <p className={styles.excerpt}>{post.excerpt}</p>
-                                <div className={styles.postMeta}>
-                                    <time className={styles.date}>
+                                <h2>{post.title}</h2>
+                                <p>{post.excerpt}</p>
+                                <div>
+                                    <time style={{ color: '#999', fontSize: '0.75rem', fontWeight: 500 }}>
                                         {
                                             new Date(post.date)
                                                 .toLocaleDateString('ja-JP', { year: 'numeric', month: 'numeric', day: 'numeric' })
@@ -55,9 +54,17 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
                                         }
                                     </time>
                                     {post.tags && (
-                                        <div className={styles.tags}>
+                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
                                             {post.tags.map((tag: string) => (
-                                                <span key={tag} className={styles.tag}>
+                                                <span key={tag} style={{
+                                                    backgroundColor: '#1e3a5f',
+                                                    color: '#4da3ff',
+                                                    padding: '0.25rem 0.65rem',
+                                                    borderRadius: '999px',
+                                                    fontSize: '0.75rem',
+                                                    fontWeight: 500,
+                                                    transition: 'all 0.3s ease'
+                                                }}>
                                                     {tag}
                                                 </span>
                                             ))}
@@ -68,13 +75,13 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
                         </Link>
                     ))}
                 </div>
-                <div className={styles.pagination}>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', marginTop: '2rem' }}>
                     <button
                         onClick={() => handlePageChange(currentPage - 1)}
-                        className={`${styles.pageButton} ${currentPage === 1 ? styles.disabled : ''}`}
+                        className={`pageButton ${currentPage === 1 ? 'disabled' : ''}`}
                         disabled={currentPage === 1}
                     >
-                        <span className={styles.arrow}>{'<'}</span>
+                        <span>{'<'}</span>
                     </button>
                     {Array.from({ length: totalPages }, (_, index) => {
                         const page = index + 1;
@@ -86,7 +93,7 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
                                 <button
                                     key={index}
                                     onClick={() => handlePageChange(page)}
-                                    className={`${styles.pageButton} ${page === currentPage ? styles.activePage : ''}`}
+                                    className={`pageButton ${page === currentPage ? 'activePage' : ''}`}
                                 >
                                     {page}
                                 </button>
@@ -96,14 +103,23 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
                                 <button
                                     key={index}
                                     onClick={() => handlePageChange(page)}
-                                    className={`${styles.pageButton} ${page === currentPage ? styles.activePage : ''}`}
+                                    className={`pageButton ${page === currentPage ? 'activePage' : ''}`}
+                                    style={{
+                                        background: '#333',
+                                        color: '#fff',
+                                        border: '1px solid #4da3ff',
+                                        borderRadius: '4px',
+                                        padding: '0.5rem 1rem',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.3s ease'
+                                    }}
                                 >
                                     {page}
                                 </button>
                             );
                         } else if (page === currentPage - 2 || page === currentPage + 2) {
                             return (
-                                <span key={index} className={styles.ellipsis}>
+                                <span key={index} style={{ color: 'white' }}>
                                     ...
                                 </span>
                             );
@@ -112,10 +128,10 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
                     })}
                     <button
                         onClick={() => handlePageChange(currentPage + 1)}
-                        className={`${styles.pageButton} ${currentPage === totalPages ? styles.disabled : ''}`}
+                        className={`pageButton ${currentPage === totalPages ? 'disabled' : ''}`}
                         disabled={currentPage === totalPages}
                     >
-                        <span className={styles.arrow}>{'>'}</span>
+                        <span>{'>'}</span>
                     </button>
                 </div>
             </main>

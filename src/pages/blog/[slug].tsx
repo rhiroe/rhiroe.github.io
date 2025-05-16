@@ -4,7 +4,6 @@ import ErrorPage from "next/error";
 import Head from "next/head";
 import Link from "next/link";
 import 'highlight.js/styles/github-dark.css';
-import styles from "~/styles/Blog.module.css";
 import { getAllPosts, getPostBySlug } from "~/lib/getContentIndex";
 import markdownToHtml from "~/lib/markdownToHtml";
 import XIcon from '@mui/icons-material/X'
@@ -49,7 +48,7 @@ const BlogPage: NextPage<Props> = ({ post }) => {
         return <ErrorPage statusCode={404} />;
     }
     return (
-        <div className={styles.container}>
+        <div className="container">
             <Head>
                 <title>{post.title}</title>
                 <meta name="description" content={post.excerpt} />
@@ -65,15 +64,35 @@ const BlogPage: NextPage<Props> = ({ post }) => {
                 <meta name="twitter:card" content="summary" />
                 <meta name="twitter:site" content="@rhiroe" />
             </Head>
-            <main className={styles.main}>
-                <div className={styles.container}>
+            <main className="main">
+                <div className="container">
                     <article>
-                        <Link href="/blog" className={styles.backLink}>
+                        <Link href="/blog" style={{
+                            display: 'block',
+                            color: '#4da3ff',
+                            textDecoration: 'none',
+                            fontSize: '1.1rem',
+                            marginBottom: '2rem',
+                            transition: 'color 0.3s ease',
+                            maxWidth: '1200px',
+                            width: '100%',
+                            margin: '0 auto 2rem'
+                        }}>
                             &larr; 一覧
                         </Link>
-                        <h1 className={styles.title}>{post.title}</h1>
+                        <h1 style={{
+                            color: '#ffffff',
+                            fontSize: '2.5rem',
+                            fontWeight: 700,
+                            lineHeight: 1.3,
+                            letterSpacing: '-0.02em',
+                            textAlign: 'center',
+                            maxWidth: '1200px',
+                            width: '100%',
+                            margin: '0 auto 2rem'
+                        }}>{post.title}</h1>
                         <p style={{ textAlign: 'right', color: '#999' }}>{post.date}</p>
-                        <div className={styles.grid}>
+                        <div className="grid">
                             <div>
                                 <div dangerouslySetInnerHTML={{ __html: post.content }} />
                             </div>

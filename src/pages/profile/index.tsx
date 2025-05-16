@@ -1,6 +1,5 @@
 import { NextPage, InferGetStaticPropsType } from "next";
 import Head from "next/head";
-import styles from "~/styles/Blog.module.css";
 import markdownToHtml from "~/lib/markdownToHtml";
 import fs from 'fs';
 import path from 'path';
@@ -21,7 +20,7 @@ export const getStaticProps = async () => {
 
 const ProfilePage: NextPage<Props> = ({ content }) => {
     return (
-        <div className={styles.container}>
+        <div className="container">
             <Head>
                 <title>プロフィール - rhiroe.github.io</title>
                 <meta name="description" content="廣江 亮佑のプロフィール" />
@@ -38,10 +37,10 @@ const ProfilePage: NextPage<Props> = ({ content }) => {
                 <meta name="twitter:site" content="@rhiroe" />
             </Head>
 
-            <main className={styles.main}>
-                <div className={styles.container}>
+            <main className="main">
+                <div className="container">
                     <article>
-                        <div className={styles.grid}>
+                        <div className="grid">
                             <div>
                                 <div dangerouslySetInnerHTML={{ __html: content }} />
                             </div>

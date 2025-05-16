@@ -4,6 +4,8 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background: #1a1a1a;
+  color: #ffffff;
 }
 
 a {
@@ -28,9 +30,84 @@ table td {
   padding: 0.5rem;
 }
 
+/* コンテナとメインレイアウト */
+.container {
+  padding: 0 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.main {
+  min-height: 100vh;
+  padding: 4rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* グリッドレイアウト */
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 800px;
+}
+
+/* カードスタイル */
+.card {
+  background: #2a2a2a;
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #333;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.3);
+  border-color: #4da3ff;
+}
+
+/* リンクスタイル */
+a {
+  color: #4da3ff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #74b7ff;
+}
+
+/* コードブロック */
+:not(pre) > code {
+  background-color: #2a2a2a;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.9em;
+  color: #e0e0e0;
+}
+
+pre {
+  background: #2a2a2a;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  width: 100%;
+}
+
+/* フッター */
 .footer {
   padding: 1rem 0;
-  border-top: 1px solid #eaeaea;
+  border-top: 1px solid #333;
   text-align: center;
 }
 
@@ -38,8 +115,19 @@ table td {
   margin: 0.5rem 0;
 }
 
-:not(pre) > code {
-  background-color: #f3f3f3;
-  padding: 0.1rem 0.2rem;
-  border-radius: 5px
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .main {
+    padding: 2rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 0.5rem;
+  }
 }
