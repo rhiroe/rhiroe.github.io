@@ -4,6 +4,16 @@ import Link from 'next/link'
 import { useState } from "react";
 import { getAllPosts } from "~/lib/getContentIndex";
 import PageTitle from "~/components/common/pageTitle";
+import {
+    Box,
+    Button,
+    Container,
+    Stack,
+    Typography,
+    Card,
+    CardContent,
+    Chip
+} from '@mui/material';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -31,58 +41,130 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
     };
 
     return (
-        <div className="container">
+        <Box
+            sx={{
+                minHeight: '100vh',
+                background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
+                pt: 4,
+                pb: 8
+            }}
+        >
             <Head>
                 <title>rhiroeのブログ</title>
                 <meta name="description" content="rhiroeのブログ" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main className="main">
-                <div className="grid">
+            <Container maxWidth="lg">
+                <Typography
+                    variant="h1"
+                    sx={{
+                        fontSize: { xs: '2rem', md: '2.5rem' },
+                        fontWeight: 700,
+                        color: '#fff',
+                        mb: 4,
+                        textAlign: 'center'
+                    }}
+                >
+                    Blog
+                </Typography>
+                <Box
+                    sx={{
+                        display: 'grid',
+                        gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' },
+                        gap: 3
+                    }}
+                >
                     {paginatedPosts.map((post) => (
-                        <Link href={`blog/${post.slug}`} key={post.slug} className="card">
-                            <article>
-                                <h2>{post.title}</h2>
-                                <p>{post.excerpt}</p>
-                                <div>
-                                    <time style={{ color: '#999', fontSize: '0.75rem', fontWeight: 500 }}>
-                                        {
-                                            new Date(post.date)
-                                                .toLocaleDateString('ja-JP', { year: 'numeric', month: 'numeric', day: 'numeric' })
-                                                .replace(/\-/g, '/')
+                        <Box key={post.slug}>
+                            <Link href={`blog/${post.slug}`} style={{ textDecoration: 'none' }}>
+                                <Card
+                                    sx={{
+                                        height: '100%',
+                                        background: 'rgba(255, 255, 255, 0.05)',
+                                        backdropFilter: 'blur(10px)',
+                                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                                        transition: 'all 0.3s ease',
+                                        '&:hover': {
+                                            transform: 'translateY(-4px)',
+                                            background: 'rgba(255, 255, 255, 0.1)',
+                                            borderColor: 'rgba(255, 255, 255, 0.2)'
                                         }
-                                    </time>
-                                    {post.tags && (
-                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
-                                            {post.tags.map((tag: string) => (
-                                                <span key={tag} style={{
-                                                    backgroundColor: '#1e3a5f',
-                                                    color: '#4da3ff',
-                                                    padding: '0.25rem 0.65rem',
-                                                    borderRadius: '999px',
-                                                    fontSize: '0.75rem',
-                                                    fontWeight: 500,
-                                                    transition: 'all 0.3s ease'
-                                                }}>
-                                                    {tag}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            </article>
-                        </Link>
+                                    }}
+                                >
+                                    <CardContent>
+                                        <Typography
+                                            variant="h2"
+                                            sx={{
+                                                fontSize: '1.5rem',
+                                                fontWeight: 600,
+                                                color: '#fff',
+                                                mb: 2
+                                            }}
+                                        >
+                                            {post.title}
+                                        </Typography>
+                                        <Typography
+                                            sx={{
+                                                color: 'rgba(255, 255, 255, 0.7)',
+                                                mb: 2
+                                            }}
+                                        >
+                                            {post.excerpt}
+                                        </Typography>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                                            <Typography
+                                                component="time"
+                                                sx={{
+                                                    color: 'rgba(255, 255, 255, 0.5)',
+                                                    fontSize: '0.875rem'
+                                                }}
+                                            >
+                                                {new Date(post.date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'numeric', day: 'numeric' }).replace(/\-/g, '/')}
+                                            </Typography>
+                                            {post.tags && (
+                                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                                                    {post.tags.map((tag: string) => (
+                                                        <Chip
+                                                            key={tag}
+                                                            label={tag}
+                                                            size="small"
+                                                            sx={{
+                                                                backgroundColor: 'rgba(77, 163, 255, 0.1)',
+                                                                color: '#4da3ff',
+                                                                borderRadius: '16px'
+                                                            }}
+                                                        />
+                                                    ))}
+                                                </Box>
+                                            )}
+                                        </Box>
+                                    </CardContent>
+                                </Card>
+                            </Link>
+                        </Box>
                     ))}
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', marginTop: '2rem' }}>
-                    <button
+                </Box>
+                <Stack
+                    direction="row"
+                    spacing={1}
+                    justifyContent="center"
+                    mt={4}
+                >
+                    <Button
+                        variant="outlined"
                         onClick={() => handlePageChange(currentPage - 1)}
-                        className={`pageButton ${currentPage === 1 ? 'disabled' : ''}`}
                         disabled={currentPage === 1}
+                        sx={{
+                            color: 'white',
+                            borderColor: 'rgba(255, 255, 255, 0.3)',
+                            '&:hover': {
+                                borderColor: 'rgba(255, 255, 255, 0.5)'
+                            }
+                        }}
                     >
-                        <span>{'<'}</span>
-                    </button>
+                        {'<'}
+                    </Button>
                     {Array.from({ length: totalPages }, (_, index) => {
                         const page = index + 1;
                         if (
@@ -90,52 +172,75 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
                             && page <= (currentPage === 1 ? currentPage + 2 : currentPage + 1)
                         ) {
                             return (
-                                <button
+                                <Button
                                     key={index}
+                                    variant={page === currentPage ? "contained" : "outlined"}
                                     onClick={() => handlePageChange(page)}
-                                    className={`pageButton ${page === currentPage ? 'activePage' : ''}`}
-                                >
-                                    {page}
-                                </button>
-                            );
-                        } else if (page === 1 || page === totalPages) {
-                            return (
-                                <button
-                                    key={index}
-                                    onClick={() => handlePageChange(page)}
-                                    className={`pageButton ${page === currentPage ? 'activePage' : ''}`}
-                                    style={{
-                                        background: '#333',
-                                        color: '#fff',
-                                        border: '1px solid #4da3ff',
-                                        borderRadius: '4px',
-                                        padding: '0.5rem 1rem',
-                                        cursor: 'pointer',
-                                        transition: 'all 0.3s ease'
+                                    sx={{
+                                        color: 'white',
+                                        borderColor: page === currentPage ? 'transparent' : 'rgba(255, 255, 255, 0.3)',
+                                        backgroundColor: page === currentPage ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+                                        '&:hover': {
+                                            borderColor: 'rgba(255, 255, 255, 0.5)',
+                                            backgroundColor: page === currentPage ? 'rgba(255, 255, 255, 0.15)' : 'transparent'
+                                        }
                                     }}
                                 >
                                     {page}
-                                </button>
+                                </Button>
+                            );
+                        } else if (page === 1 || page === totalPages) {
+                            return (
+                                <Button
+                                    key={index}
+                                    variant="outlined"
+                                    onClick={() => handlePageChange(page)}
+                                    sx={{
+                                        color: 'white',
+                                        borderColor: page === currentPage ? 'transparent' : 'rgba(255, 255, 255, 0.3)',
+                                        backgroundColor: page === currentPage ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+                                        '&:hover': {
+                                            borderColor: 'rgba(255, 255, 255, 0.5)',
+                                            backgroundColor: page === currentPage ? 'rgba(255, 255, 255, 0.15)' : 'transparent'
+                                        }
+                                    }}
+                                >
+                                    {page}
+                                </Button>
                             );
                         } else if (page === currentPage - 2 || page === currentPage + 2) {
                             return (
-                                <span key={index} style={{ color: 'white' }}>
+                                <Typography
+                                    key={index}
+                                    sx={{
+                                        color: 'rgba(255, 255, 255, 0.5)',
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                    }}
+                                >
                                     ...
-                                </span>
+                                </Typography>
                             );
                         }
                         return null;
                     })}
-                    <button
+                    <Button
+                        variant="outlined"
                         onClick={() => handlePageChange(currentPage + 1)}
-                        className={`pageButton ${currentPage === totalPages ? 'disabled' : ''}`}
                         disabled={currentPage === totalPages}
+                        sx={{
+                            color: 'white',
+                            borderColor: 'rgba(255, 255, 255, 0.3)',
+                            '&:hover': {
+                                borderColor: 'rgba(255, 255, 255, 0.5)'
+                            }
+                        }}
                     >
-                        <span>{'>'}</span>
-                    </button>
-                </div>
-            </main>
-        </div>
+                        {'>'}
+                    </Button>
+                </Stack>
+            </Container>
+        </Box>
     );
 };
 
