@@ -1,14 +1,14 @@
 import '~/styles/globals.css'
 import type { AppProps } from 'next/app'
 import Link from 'next/link';
-import { useRouter } from 'next/router'; // useRouter をインポート
+import { useRouter } from 'next/router';
 import { Container, Box, Typography, IconButton, Button } from '@mui/material'
-import EmailIcon from '@mui/icons-material/Email'; // EmailIcon をインポート
+import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub'
 import XIcon from '@mui/icons-material/X'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const router = useRouter(); // useRouter を使用
+  const router = useRouter();
   const isHomePage = router.pathname === '/';
 
   return (
@@ -49,7 +49,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               gap: 2,
             }}
           >
-            {!isHomePage && ( // トップページでない場合のみ表示
+            {!isHomePage && (
               <Link href="/" passHref>
                 <Typography
                   variant="body2"
@@ -61,7 +61,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                       color: 'rgba(255, 255, 255, 0.8)',
                       textDecoration: 'underline',
                     },
-                    marginBottom: 1, // ソーシャルアイコンとの間にマージンを追加
+                    marginBottom: 1,
                   }}
                 >
                   トップへ戻る

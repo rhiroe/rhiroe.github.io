@@ -118,10 +118,10 @@ const BlogPage: NextPage<Props> = ({ post }) => {
                                 padding: '8px 16px',
                                 textTransform: 'none',
                                 fontWeight: 'bold',
-                                border: '1px solid rgba(255, 255, 255, 0.5)', // 白い線で囲む
+                                border: '1px solid rgba(255, 255, 255, 0.5)',
                                 '&:hover': {
                                     backgroundColor: '#1a1a1a',
-                                    borderColor: 'rgba(255, 255, 255, 0.8)', // ホバー時に線の色を少し濃く
+                                    borderColor: 'rgba(255, 255, 255, 0.8)',
                                 },
                             }}
                         >
