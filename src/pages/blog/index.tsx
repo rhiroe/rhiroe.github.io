@@ -1,6 +1,6 @@
 import type { InferGetStaticPropsType, NextPage } from "next";
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getAllPosts } from "~/lib/getContentIndex";
 import { InnerContainer } from '~/components/common';
 import { BlogList } from "~/components/blog/BlogList";
@@ -28,8 +28,30 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
     const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
 
     const handlePageChange = (page: number) => {
-        setCurrentPage(page);
+        if (page !== currentPage) {
+            setCurrentPage(page);
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
     };
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'ArrowLeft' && currentPage > 1) {
+                handlePageChange(currentPage - 1);
+            } else if (event.key === 'ArrowRight' && currentPage < totalPages) {
+                handlePageChange(currentPage + 1);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [currentPage, totalPages]);
 
     return (
         <>
