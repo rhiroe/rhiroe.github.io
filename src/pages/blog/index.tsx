@@ -1,5 +1,6 @@
 import type { InferGetStaticPropsType, NextPage } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { getAllPosts } from "~/lib/getContentIndex";
 import { InnerContainer } from '~/components/common';
@@ -19,7 +20,13 @@ export const getStaticProps = async () => {
 const POSTS_PER_PAGE = 5;
 
 const BlogsPage: NextPage<Props> = ({ allPosts }) => {
-    const [currentPage, setCurrentPage] = useState(1);
+    const router = useRouter();
+    const [currentPage, setCurrentPage] = useState<number>(1);
+
+    useEffect(() => {
+        const page = Number(router.query.page) || 1;
+        setCurrentPage(page);
+    }, [router.query.page]);
 
     const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
     const endIndex = startIndex + POSTS_PER_PAGE;
@@ -29,7 +36,10 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
 
     const handlePageChange = (page: number) => {
         if (page !== currentPage) {
-            setCurrentPage(page);
+            router.push({
+                pathname: router.pathname,
+                query: { ...router.query, page }
+            }, undefined, { shallow: true });
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
