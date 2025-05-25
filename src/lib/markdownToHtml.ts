@@ -4,6 +4,7 @@ import remarkGfm from 'remark-gfm';
 import remarkRehype from 'remark-rehype';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeStringify from 'rehype-stringify';
+import remarkMermaid from './remarkMermaid';
 
 /**
  * Markdown を解析して HTML にして返す
@@ -14,6 +15,7 @@ const markdownToHtml = async (markdown: string) => {
     const result = await remark()
         .use(remarkParse)
         .use(remarkGfm)
+        .use(remarkMermaid)
         .use(remarkRehype)
         .use(rehypeHighlight)
         .use(rehypeStringify)
