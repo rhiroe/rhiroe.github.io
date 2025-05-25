@@ -12,7 +12,7 @@ export const InnerContainer: FC<Props> = ({ children, ...props }) => {
       {...props}
       sx={{
         width: '100%',
-        backgroundColor: '#1a1a1a',
+        bgcolor: 'background.paper',
         ...props.sx
       }}
     >

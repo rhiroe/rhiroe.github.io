@@ -2,26 +2,41 @@ import '~/styles/globals.css'
 import type { AppProps } from 'next/app'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Container, Box, Typography, IconButton, Button } from '@mui/material'
+import { Container, Box, Typography, IconButton, Button, ThemeProvider, createTheme, CssBaseline } from '@mui/material'
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub'
 import XIcon from '@mui/icons-material/X'
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    background: {
+      default: '#1a1a2e',
+      paper: '#16213e',
+    },
+    primary: {
+      main: '#4da3ff',
+    },
+  },
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const isHomePage = router.pathname === '/';
 
   return (
-    <Box
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <Box
       sx={{
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
+        background: `linear-gradient(135deg, ${darkTheme.palette.background.default} 0%, ${darkTheme.palette.background.paper} 100%)`,
       }}
     >
       <Box sx={{ minHeight: '100vh',
-                 background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
+                 background: `linear-gradient(135deg, ${darkTheme.palette.background.default} 0%, ${darkTheme.palette.background.paper} 100%)`,
                  overflow: 'hidden',
                  display: 'flex',
                  alignItems: 'center',
@@ -54,11 +69,11 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <Typography
                   variant="body2"
                   sx={{
-                    color: 'rgba(255, 255, 255, 0.5)',
+                    color: 'text.secondary',
                     textDecoration: 'none',
                     fontSize: '0.8rem',
                     '&:hover': {
-                      color: 'rgba(255, 255, 255, 0.8)',
+                      color: 'text.primary',
                       textDecoration: 'underline',
                     },
                     marginBottom: 1,
@@ -75,10 +90,10 @@ function MyApp({ Component, pageProps }: AppProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
-                  color: 'rgba(255, 255, 255, 0.7)',
+                  color: 'text.secondary',
                   transition: 'all 0.3s ease',
                   '&:hover': {
-                    color: '#fff',
+                    color: 'text.primary',
                     transform: 'translateY(-2px)',
                   },
                 }}
@@ -91,10 +106,10 @@ function MyApp({ Component, pageProps }: AppProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
-                  color: 'rgba(255, 255, 255, 0.7)',
+                  color: 'text.secondary',
                   transition: 'all 0.3s ease',
                   '&:hover': {
-                    color: '#fff',
+                    color: 'text.primary',
                     transform: 'translateY(-2px)',
                   },
                 }}
@@ -107,10 +122,10 @@ function MyApp({ Component, pageProps }: AppProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
-                  color: 'rgba(255, 255, 255, 0.7)',
+                  color: 'text.secondary',
                   transition: 'all 0.3s ease',
                   '&:hover': {
-                    color: '#fff',
+                    color: 'text.primary',
                     transform: 'translateY(-2px)',
                   },
                 }}
@@ -121,7 +136,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Typography
               variant="body2"
               sx={{
-                color: 'rgba(255, 255, 255, 0.5)',
+                color: 'text.secondary',
                 fontSize: '0.875rem',
                 fontWeight: 400,
               }}
@@ -131,7 +146,8 @@ function MyApp({ Component, pageProps }: AppProps) {
           </Box>
         </Container>
       </Box>
-    </Box>
+      </Box>
+    </ThemeProvider>
   )
 }
 

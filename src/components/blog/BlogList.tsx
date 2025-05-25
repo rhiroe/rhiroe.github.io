@@ -45,7 +45,7 @@ export const BlogList = ({ posts }: BlogListProps) => {
                                     <Typography
                                         component="time"
                                         sx={{
-                                            color: 'rgba(255, 255, 255, 0.5)',
+                                            color: 'text.secondary',
                                             fontSize: '0.875rem'
                                         }}
                                     >
@@ -59,8 +59,8 @@ export const BlogList = ({ posts }: BlogListProps) => {
                                                     label={tag}
                                                     size="small"
                                                     sx={{
-                                                        backgroundColor: 'rgba(77, 163, 255, 0.1)',
-                                                        color: '#aaaaaa',
+                                                        bgcolor: 'primary.dark',
+                                                        color: 'text.secondary',
                                                         borderRadius: '16px'
                                                     }}
                                                 />

@@ -17,12 +17,12 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }: Pagination
                 sx={{
                     minWidth: '32px',
                     height: '32px',
-                    border: '1px solid rgba(255, 255, 255, 0.3)',
-                    color: 'white',
+                    borderColor: 'divider',
+                    color: 'text.primary',
                     transition: 'all 0.3s ease',
                     '&:hover:not(:disabled)': {
-                        borderColor: 'rgba(255, 255, 255, 0.5)',
-                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                        borderColor: 'primary.main',
+                        bgcolor: 'action.hover',
                     },
                     '&:disabled': {
                         opacity: 0.5,
@@ -46,13 +46,13 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }: Pagination
                             onClick={() => onPageChange(page)}
                             sx={{
                                 minWidth: '32px',
-                                border: `1px solid ${page === currentPage ? 'transparent' : 'rgba(255, 255, 255, 0.3)'}`,
-                                color: 'white',
+                                borderColor: page === currentPage ? 'transparent' : 'divider',
+                                color: 'text.primary',
                                 transition: 'all 0.3s ease',
-                                backgroundColor: page === currentPage ? 'rgba(77, 163, 255, 0.2)' : 'transparent',
+                                bgcolor: page === currentPage ? 'primary.dark' : 'transparent',
                                 '&:hover:not(:disabled)': {
-                                    borderColor: page === currentPage ? 'transparent' : 'rgba(255, 255, 255, 0.5)',
-                                    backgroundColor: page === currentPage ? 'rgba(77, 163, 255, 0.3)' : 'rgba(255, 255, 255, 0.1)',
+                                    borderColor: page === currentPage ? 'transparent' : 'primary.main',
+                                    bgcolor: page === currentPage ? 'primary.main' : 'action.hover',
                                 },
                                 '&:disabled': {
                                     opacity: 0.5,
@@ -72,12 +72,12 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }: Pagination
                             onClick={() => onPageChange(page)}
                             sx={{
                                 minWidth: '32px',
-                                border: '1px solid rgba(255, 255, 255, 0.3)',
-                                color: 'white',
+                                borderColor: 'divider',
+                                color: 'text.primary',
                                 transition: 'all 0.3s ease',
                                 '&:hover:not(:disabled)': {
-                                    borderColor: 'rgba(255, 255, 255, 0.5)',
-                                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                    borderColor: 'primary.main',
+                                    bgcolor: 'action.hover',
                                 },
                                 '&:disabled': {
                                     opacity: 0.5,
@@ -94,7 +94,7 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }: Pagination
                             key={index}
                             sx={{
                                 padding: '0 4px',
-                                color: 'rgba(255, 255, 255, 0.5)',
+                                color: 'text.secondary',
                                 display: 'flex',
                                 alignItems: 'center',
                                 height: '32px'
@@ -114,12 +114,12 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }: Pagination
                 sx={{
                     minWidth: '32px',
                     height: '32px',
-                    border: '1px solid rgba(255, 255, 255, 0.3)',
-                    color: 'white',
+                    borderColor: 'divider',
+                    color: 'text.primary',
                     transition: 'all 0.3s ease',
                     '&:hover:not(:disabled)': {
-                        borderColor: 'rgba(255, 255, 255, 0.5)',
-                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                        borderColor: 'primary.main',
+                        bgcolor: 'action.hover',
                     },
                     '&:disabled': {
                         opacity: 0.5,

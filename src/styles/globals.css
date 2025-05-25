@@ -1,20 +1,12 @@
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  color: #ffffff;
   word-wrap: break-word;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
 }
 
 /* メインレイアウト */
@@ -30,7 +22,6 @@ a {
 
 .markdown {
   h1, h2, h3, h4, h5, h6 {
-    color: #fff;
     margin-top: 2rem;
     margin-bottom: 1rem;
   }
@@ -38,15 +29,6 @@ a {
   p {
     margin-bottom: 1rem;
     line-height: 1.7;
-  }
-
-  a {
-    color: #4da3ff;
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: underline;
   }
 
   table {
@@ -57,20 +39,19 @@ a {
 
   table th,
   table td {
-    border: 1px solid #777777;
+    border: 1px solid rgba(255, 255, 255, 0.12);
     padding: 0.5rem;
   }
 
   :not(pre) > code {
-    background-color: #2a2a2a;
+    background-color: rgba(0, 0, 0, 0.2);
     padding: 0.2em 0.4em;
     border-radius: 3px;
     font-size: 1rem;
-    color: #e0e0e0;
   }
 
   pre {
-    background: #2a2a2a;
+    background: rgba(0, 0, 0, 0.2);
     padding: 0.5rem;
     border-radius: 8px;
     overflow-x: auto;
@@ -79,8 +60,7 @@ a {
     font-size: 1rem;
 
     code {
-      display: block ;
-      background: #000;
+      display: block;
       padding: 0.2em 0.4em;
       border-radius: 0.3em;
       font-size: 0.9rem;
@@ -90,7 +70,7 @@ a {
 
 /* アニメーション付きのグラデーションテキスト */
 .gradient-title {
-  background: linear-gradient(45deg, #fff, #a8b2d1);
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.9), rgba(168, 178, 209, 0.9));
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -99,16 +79,7 @@ a {
   letter-spacing: -0.03em;
   margin-bottom: 0.5rem;
   opacity: 0;
-  animation: fadeIn 1s ease-out forwards, gradientText 6s linear infinite;
-}
-
-@keyframes gradientText {
-  0% {
-    filter: hue-rotate(0deg);
-  }
-  100% {
-    filter: hue-rotate(360deg);
-  }
+  animation: fadeIn 1s ease-out forwards;
 }
 
 @keyframes fadeIn {
@@ -129,15 +100,4 @@ a {
   gap: 1.5rem;
   position: relative;
   z-index: 1;
-}
-
-@keyframes fadeSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
