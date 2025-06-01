@@ -66,6 +66,10 @@ body {
       font-size: 0.9rem;
     }
   }
+
+  a {
+    color: #aaaaaa;
+  }
 }
 
 /* アニメーション付きのグラデーションテキスト */
