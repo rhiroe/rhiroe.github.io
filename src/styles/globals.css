@@ -70,6 +70,15 @@ body {
   a {
     color: #aaaaaa;
   }
+
+  picture {
+    img {
+      background-color: #ffffff;
+      @media (prefers-color-scheme: dark) {
+        background-color: #000000;
+      }
+    }
+  }
 }
 
 /* アニメーション付きのグラデーションテキスト */

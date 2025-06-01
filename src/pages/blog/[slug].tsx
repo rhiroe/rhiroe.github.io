@@ -99,19 +99,19 @@ const BlogPage: NextPage<Props> = ({ post }) => {
                     <Box className="markdown">
                         <div
                             dangerouslySetInnerHTML={{ __html: post.content }}
-                            ref={(el) => {
-                                if (el) {
-                                    const pictures = el.getElementsByTagName('picture');
-                                    Array.from(pictures).forEach(picture => {
-                                        const sources = picture.getElementsByTagName('source');
-                                        Array.from(sources).forEach(source => {
-                                            if (source.getAttribute('media')?.includes('prefers-color-scheme: light')) {
-                                                source.setAttribute('media', '(prefers-color-scheme: dark)');
-                                            }
-                                        });
-                                    });
-                                }
-                            }}
+                            // ref={(el) => {
+                            //     if (el) {
+                            //         const pictures = el.getElementsByTagName('picture');
+                            //         Array.from(pictures).forEach(picture => {
+                            //             const sources = picture.getElementsByTagName('source');
+                            //             Array.from(sources).forEach(source => {
+                            //                 if (source.getAttribute('media')?.includes('prefers-color-scheme: light')) {
+                            //                     source.setAttribute('media', '(prefers-color-scheme: dark)');
+                            //                 }
+                            //             });
+                            //         });
+                            //     }
+                            // }}
                         />
                     </Box>
                 </DarkPaper>
