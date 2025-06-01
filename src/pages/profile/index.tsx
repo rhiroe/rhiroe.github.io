@@ -8,7 +8,7 @@ import { Box, InnerContainer, DarkPaper, Typography } from '~/components/common'
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
-    const resumePath = path.join(process.cwd(), 'public', 'resume.md');
+    const resumePath = path.join(process.cwd(), 'public/profile', 'resume.md');
     const content = fs.readFileSync(resumePath, 'utf8');
     const htmlContent = await markdownToHtml(content);
 
