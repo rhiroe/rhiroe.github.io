@@ -176,6 +176,7 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }: Pagination
                 gap: { xs: 0.5, sm: 1 },
                 mt: 4,
                 mb: 3,
+                pt: 1, // ホバーアニメーション用の上部スペースを確保
                 flexWrap: 'nowrap', // 改行を防ぐ
                 overflowX: 'auto', // 必要に応じて横スクロール
                 px: 1,
