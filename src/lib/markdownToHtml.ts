@@ -2,7 +2,7 @@ import { remark } from "remark";
 import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
 import remarkRehype from 'remark-rehype';
-import rehypeMermaid from 'rehype-mermaid';
+import remarkBreaks from 'remark-breaks';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeStringify from 'rehype-stringify';
 
@@ -15,12 +15,8 @@ const markdownToHtml = async (markdown: string) => {
     const result = await remark()
         .use(remarkParse)
         .use(remarkGfm)
+        .use(remarkBreaks)
         .use(remarkRehype)
-        .use(rehypeMermaid, {
-            strategy: 'img-svg',
-            dark: true,
-            colorScheme: 'dark'
-        })
         .use(rehypeHighlight)
         .use(rehypeStringify)
         .process(markdown);

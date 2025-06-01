@@ -3,12 +3,12 @@ import { useRouter } from "next/router";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import Link from "next/link";
-import 'highlight.js/styles/github-dark.css';
 import { getAllPosts, getPostBySlug } from "~/lib/getContentIndex";
 import markdownToHtml from "~/lib/markdownToHtml";
 import XIcon from '@mui/icons-material/X';
-import { Box, InnerContainer, Typography, DarkPaper, Button } from '~/components/common'; // Button をインポート
+import { Box, InnerContainer, Typography, GlassPaper, Button } from '~/components/common'; // Button をインポート
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { MermaidViewer } from '~/components/blog/MermaidViewer';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -74,12 +74,14 @@ const BlogPage: NextPage<Props> = ({ post }) => {
                         sx={{
                             marginTop: '1rem',
                             marginBottom: '2rem',
-                            color: 'rgba(255, 255, 255, 0.7)',
-                            borderColor: 'rgba(255, 255, 255, 0.3)',
+                            color: 'text.primary',
+                            borderColor: 'primary.main',
                             textTransform: 'none',
+                            fontWeight: 500,
                             '&:hover': {
-                                borderColor: 'rgba(255, 255, 255, 0.7)',
-                                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                                borderColor: 'primary.light',
+                                backgroundColor: 'action.hover',
+                                transform: 'translateY(-1px)',
                             },
                         }}
                     >
@@ -87,34 +89,40 @@ const BlogPage: NextPage<Props> = ({ post }) => {
                     </Button>
                 </Link>
 
-                <DarkPaper>
-                    <Typography variant="h1" sx={{ color: '#fff', fontSize: '2.5rem', fontWeight: 700, textAlign: 'center', marginBottom: '1rem' }}>
+                <GlassPaper
+                    sx={{
+                        padding: { xs: '1rem', sm: '1.5rem', md: '2rem' },
+                        borderRadius: '1rem',
+                    }}
+                >
+                    <Typography 
+                        variant="h2" 
+                        component="h1"
+                        sx={{ 
+                            textAlign: 'center', 
+                            marginBottom: '1rem',
+                            fontSize: { xs: '1.75rem', sm: '2rem', md: '2.25rem' },
+                            fontWeight: 700,
+                            lineHeight: 1.2,
+                        }}
+                    >
                         {post.title}
                     </Typography>
 
-                    <Typography sx={{ color: 'rgba(255, 255, 255, 0.5)', textAlign: 'right', marginBottom: '2rem' }}>
+                    <Typography 
+                        sx={{ 
+                            color: 'text.secondary', 
+                            textAlign: 'right', 
+                            marginBottom: '2rem',
+                        }}
+                    >
                         {new Date(post.date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'numeric', day: 'numeric' })}
                     </Typography>
 
                     <Box className="markdown">
-                        <div
-                            dangerouslySetInnerHTML={{ __html: post.content }}
-                            // ref={(el) => {
-                            //     if (el) {
-                            //         const pictures = el.getElementsByTagName('picture');
-                            //         Array.from(pictures).forEach(picture => {
-                            //             const sources = picture.getElementsByTagName('source');
-                            //             Array.from(sources).forEach(source => {
-                            //                 if (source.getAttribute('media')?.includes('prefers-color-scheme: light')) {
-                            //                     source.setAttribute('media', '(prefers-color-scheme: dark)');
-                            //                 }
-                            //             });
-                            //         });
-                            //     }
-                            // }}
-                        />
+                        <MermaidViewer content={post.content} />
                     </Box>
-                </DarkPaper>
+                </GlassPaper>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>
                     <Link
                         href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title + '\n')}&url=${encodeURIComponent(`https://rhiroe.github.io${router.asPath}`)}`}
@@ -127,16 +135,22 @@ const BlogPage: NextPage<Props> = ({ post }) => {
                             startIcon={<XIcon />}
                             sx={{
                                 marginBottom: '1rem',
-                                backgroundColor: '#000',
-                                color: '#fff',
-                                borderRadius: '20px',
-                                padding: '8px 16px',
+                                backgroundColor: 'primary.main',
+                                color: 'primary.contrastText',
+                                borderRadius: '24px',
+                                padding: '10px 20px',
                                 textTransform: 'none',
-                                fontWeight: 'bold',
-                                border: '1px solid rgba(255, 255, 255, 0.5)',
+                                fontWeight: 600,
+                                border: (theme) => `1px solid ${theme.palette.primary.light}`,
+                                boxShadow: (theme) => theme.palette.mode === 'light'
+                                    ? '0 4px 12px rgba(102, 126, 234, 0.25)'
+                                    : '0 4px 12px rgba(144, 205, 244, 0.25)',
                                 '&:hover': {
-                                    backgroundColor: '#1a1a1a',
-                                    borderColor: 'rgba(255, 255, 255, 0.8)',
+                                    backgroundColor: 'primary.dark',
+                                    transform: 'translateY(-2px)',
+                                    boxShadow: (theme) => theme.palette.mode === 'light'
+                                        ? '0 6px 16px rgba(102, 126, 234, 0.35)'
+                                        : '0 6px 16px rgba(144, 205, 244, 0.35)',
                                 },
                             }}
                         >

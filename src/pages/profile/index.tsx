@@ -3,7 +3,7 @@ import Head from "next/head";
 import markdownToHtml from "~/lib/markdownToHtml";
 import fs from 'fs';
 import path from 'path';
-import { Box, InnerContainer, DarkPaper, Typography } from '~/components/common';
+import { Box, InnerContainer, GlassPaper, Typography } from '~/components/common';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -39,21 +39,27 @@ const ProfilePage: NextPage<Props> = ({ content }) => {
             </Head>
 
             <InnerContainer>
-                <DarkPaper elevation={0} sx={{
-                    background: 'transparent',
-                    color: 'rgba(255, 255, 255, 0.9)',
-                    backdropFilter: 'blur(10px)',
-                    padding: '2rem',
-                    borderRadius: '0.5rem'
-                }}>
-                    <Typography variant="h1" sx={{ color: '#fff', fontSize: '2.5rem', fontWeight: 700, textAlign: 'center', marginBottom: '1rem' }}>
+                <GlassPaper 
+                    elevation={0}
+                    sx={{
+                        padding: { xs: '1rem', sm: '1.5rem', md: '2rem' },
+                        borderRadius: '1rem',
+                    }}
+                >
+                    <Typography 
+                        variant="h1" 
+                        sx={{ 
+                            textAlign: 'center', 
+                            marginBottom: '2rem',
+                        }}
+                    >
                         Profile
                     </Typography>
 
                     <Box className="markdown">
                         <div dangerouslySetInnerHTML={{ __html: content }} />
                     </Box>
-                </DarkPaper>
+                </GlassPaper>
             </InnerContainer>
         </>
     );

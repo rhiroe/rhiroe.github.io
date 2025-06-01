@@ -11,8 +11,8 @@ export const InnerContainer: FC<Props> = ({ children, ...props }) => {
       maxWidth="lg"
       {...props}
       sx={{
-        width: '100%',
-        bgcolor: 'common.black',
+        // スマホでの余白を最小化
+        px: { xs: 1.5, sm: 3, md: 4 },
         ...props.sx
       }}
     >

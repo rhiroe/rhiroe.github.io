@@ -10,22 +10,7 @@ export const Card: FC<MuiCardProps> = ({ children, ...props }) => {
       onMouseLeave={() => setIsHovered(false)}
       {...props}
       sx={{
-        bgcolor: 'background.paper',
-        backdropFilter: 'blur(10px)',
-        borderRadius: '16px',
-        border: '1px solid',
-        borderColor: 'divider',
-        transition: 'transform 0.25s ease-out, box-shadow 0.25s ease-out !important',
-        '& a': {
-          textDecoration: 'none',
-          color: 'inherit',
-          display: 'block'
-        },
-        ...props.sx,
-        "&:hover": {
-          transform: 'translateY(-4px) scale(1.01) !important',
-          boxShadow: 4
-        }
+        ...props.sx
       }}
     >
       {children}

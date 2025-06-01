@@ -2,58 +2,112 @@ import '~/styles/globals.css'
 import type { AppProps } from 'next/app'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Container, Box, Typography, IconButton, Button, ThemeProvider, createTheme, CssBaseline } from '@mui/material'
+import { Container, Box, Typography, IconButton, Button } from '@mui/material'
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub'
 import XIcon from '@mui/icons-material/X'
 import HomeIcon from '@mui/icons-material/Home';
-
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-    background: {
-      default: '#1a1a2e',
-      paper: '#16213e',
-    },
-    primary: {
-      main: '#4da3ff',
-    },
-  },
-});
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { ThemeProvider, useThemeContext } from '../theme/ThemeContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <ThemeProvider>
+      <AppLayout>
+        <Component {...pageProps} />
+      </AppLayout>
+    </ThemeProvider>
+  );
+}
+
+// テーマ切り替えボタンを含むレイアウトコンポーネント
+function AppLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const isHomePage = router.pathname === '/';
-
+  const { mode, toggleColorMode } = useThemeContext();
+  
   return (
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <Box
+    <Box
       sx={{
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        background: `linear-gradient(135deg, ${darkTheme.palette.background.default} 0%, ${darkTheme.palette.background.paper} 100%)`,
+        background: (theme) => theme.palette.mode === 'light'
+          ? 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%)'
+          : 'linear-gradient(135deg, #1a1d23 0%, #2d3039 50%, #3a3d47 100%)',
       }}
     >
-      <Box sx={{ minHeight: '100vh',
-                 background: `linear-gradient(135deg, ${darkTheme.palette.background.default} 0%, ${darkTheme.palette.background.paper} 100%)`,
-                 overflow: 'hidden',
-                 display: 'flex',
-                 alignItems: 'center',
-                 flex: 1
-                 }}>
-        <Container maxWidth="md">
-          <Component {...pageProps} />
+      {/* テーマ切り替えボタン */}
+      <Box
+        component="header"
+        sx={{
+          position: 'fixed',
+          top: 24,
+          right: 24,
+          zIndex: 1300,
+        }}
+      >
+        <IconButton 
+          onClick={toggleColorMode} 
+          aria-label="テーマの切り替え"
+          sx={{
+            width: 56,
+            height: 56,
+            bgcolor: 'background.paper',
+            boxShadow: (theme) => theme.palette.mode === 'light'
+              ? '0 4px 16px rgba(45, 55, 72, 0.08)'
+              : '0 4px 16px rgba(0, 0, 0, 0.4)',
+            backdropFilter: 'blur(20px)',
+            border: (theme) => `1px solid ${theme.palette.mode === 'light' 
+              ? 'rgba(203, 213, 224, 0.4)' 
+              : 'rgba(74, 85, 104, 0.4)'}`,
+            color: 'text.secondary',
+            borderRadius: 2,
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            '&:hover': {
+              transform: 'translateY(-2px)',
+              boxShadow: (theme) => theme.palette.mode === 'light'
+                ? '0 8px 24px rgba(45, 55, 72, 0.12)'
+                : '0 8px 24px rgba(0, 0, 0, 0.5)',
+              color: 'primary.main',
+              bgcolor: 'action.hover',
+            }
+          }}
+        >
+          {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+        </IconButton>
+      </Box>
+      
+      {/* メインコンテンツ */}
+      <Box sx={{ 
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        flex: 1,
+        py: { xs: 4, sm: 6, md: 8 }
+      }}>
+        <Container 
+          maxWidth="md"
+          sx={{
+            px: { xs: 1, sm: 2, md: 3 }
+          }}
+        >
+          {children}
         </Container>
       </Box>
+      
+      {/* フッター */}
       <Box
         component="footer"
         sx={{
           width: '100%',
-          py: 4,
-          backgroundColor: 'rgba(0, 0, 0, 0.2)',
-          backdropFilter: 'blur(10px)',
+          py: 6,
+          mt: 'auto',
+          background: 'action.hover',
+          backdropFilter: 'blur(20px)',
+          borderTop: 1,
+          borderColor: 'divider',
         }}
       >
         <Container maxWidth="md">
@@ -62,7 +116,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: 2,
+              gap: 3,
             }}
           >
             {!isHomePage && (
@@ -71,25 +125,24 @@ function MyApp({ Component, pageProps }: AppProps) {
                   sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 0.2,
-                    mb: 1,
+                    gap: 1,
+                    p: 2,
+                    borderRadius: 2,
                     textDecoration: 'none',
                     color: 'text.secondary',
-                    transition: 'color 0.3s',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     '&:hover': {
-                      color: 'text.primary',
-                      textDecoration: 'underline',
+                      color: 'primary.main',
+                      backgroundColor: 'action.hover',
+                      transform: 'translateY(-2px)',
                     },
                   }}
                 >
-                  <HomeIcon sx={{ verticalAlign: 'middle', fontSize: 20 }} />
+                  <HomeIcon />
                   <Typography
                     variant="body2"
                     sx={{
-                      color: 'inherit',
-                      fontSize: '0.8rem',
-                      fontWeight: 400,
-                      mb: 0,
+                      fontWeight: 500,
                     }}
                   >
                     ホームに戻る
@@ -104,11 +157,11 @@ function MyApp({ Component, pageProps }: AppProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
+                  width: 48,
+                  height: 48,
                   color: 'text.secondary',
-                  transition: 'all 0.3s ease',
                   '&:hover': {
-                    color: 'text.primary',
-                    transform: 'translateY(-2px)',
+                    color: 'primary.main',
                   },
                 }}
               >
@@ -120,11 +173,11 @@ function MyApp({ Component, pageProps }: AppProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
+                  width: 48,
+                  height: 48,
                   color: 'text.secondary',
-                  transition: 'all 0.3s ease',
                   '&:hover': {
-                    color: 'text.primary',
-                    transform: 'translateY(-2px)',
+                    color: 'primary.main',
                   },
                 }}
               >
@@ -136,11 +189,11 @@ function MyApp({ Component, pageProps }: AppProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
+                  width: 48,
+                  height: 48,
                   color: 'text.secondary',
-                  transition: 'all 0.3s ease',
                   '&:hover': {
-                    color: 'text.primary',
-                    transform: 'translateY(-2px)',
+                    color: 'primary.main',
                   },
                 }}
               >
@@ -148,21 +201,19 @@ function MyApp({ Component, pageProps }: AppProps) {
               </IconButton>
             </Box>
             <Typography
-              variant="body2"
+              variant="caption"
               sx={{
                 color: 'text.secondary',
-                fontSize: '0.875rem',
-                fontWeight: 400,
+                textAlign: 'center',
               }}
             >
-              © 2022 - {new Date().getFullYear()} rhiroe
+              © 2022 - {new Date().getFullYear()} rhiroe. All rights reserved.
             </Typography>
           </Box>
         </Container>
       </Box>
-      </Box>
-    </ThemeProvider>
-  )
+    </Box>
+  );
 }
 
-export default MyApp
+export default MyApp;

@@ -2,22 +2,8 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import { Box, Container, Typography, Grid, Card, CardContent } from '~/components/common'
-import { useEffect, useState } from 'react'
 
 const Home: NextPage = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth) * 100,
-        y: (e.clientY / window.innerHeight) * 100,
-      })
-    }
-
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [])
 
   return (
     <Box component="div">
@@ -27,69 +13,146 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container>
+      <Box 
+        sx={{ 
+          textAlign: 'center',
+          maxWidth: 'md',
+          mx: 'auto',
+          px: { xs: 1.5, sm: 2, md: 3 },
+        }}
+      >
         <Box sx={{ textAlign: 'center', mb: 8 }}>
-          <Typography variant="h1" className="gradient-title">
+          <Typography 
+            variant="h1"
+            sx={{
+              color: 'text.primary',
+              fontSize: { xs: '2.5rem', md: '3.5rem' },
+              fontWeight: 800,
+              letterSpacing: '-0.02em',
+              mb: 2,
+              opacity: 0,
+              animation: 'fadeIn 1s ease-out forwards',
+              position: 'relative',
+              '&::after': {
+                content: '""',
+                position: 'absolute',
+                bottom: '-8px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '60px',
+                height: '3px',
+                background: (theme) => theme.palette.mode === 'light'
+                  ? theme.palette.grey[800]
+                  : theme.palette.grey[300],
+                borderRadius: '2px',
+              },
+            }}
+          >
             rhiroe
           </Typography>
           <Typography
             variant="h2"
-            sx={{  color: 'rgba(255, 255, 255, 0.7)',
-                   fontSize: '1.25rem',
-                   fontWeight: '400',
-                   letterSpacing: '0.02em',
-                   opacity: '0',
-                   animation: 'fadeIn 1s ease-out forwards 0.3s'  }}
+            sx={{
+              color: 'text.secondary',
+              fontSize: '1.25rem',
+              fontWeight: 400,
+              letterSpacing: '0.02em',
+              opacity: 0,
+              animation: 'fadeIn 1s ease-out forwards 0.3s',
+              mt: 3,
+            }}
           >
             ソフトウェアエンジニア
           </Typography>
         </Box>
 
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
           <Grid size={{ xs: 12, sm: 6 }}>
-            <Card>
-              <Link href="/blog">
-                <CardContent>
+            <Card
+              sx={{
+                transition: 'all 0.2s ease',
+                cursor: 'pointer',
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                  boxShadow: (theme) => theme.palette.mode === 'light'
+                    ? '0 8px 25px rgba(0, 0, 0, 0.15)'
+                    : '0 8px 25px rgba(0, 0, 0, 0.6)',
+                },
+                opacity: 0,
+                animation: 'fadeIn 1s ease-out forwards 0.6s',
+              }}
+            >
+              <Link href="/blog" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <CardContent sx={{ p: 4 }}>
                   <Typography
                     variant="h4"
                     component="h4"
-                    className="card-title"
+                    sx={{
+                      color: 'text.primary',
+                      fontWeight: 600,
+                      mb: 2,
+                      fontSize: '1.5rem',
+                    }}
                   >
-                    Blog
+                    📝 Blog
                   </Typography>
                   <Typography
-                    variant="body2"
-                    className="card-description"
+                    variant="body1"
+                    sx={{
+                      color: 'text.secondary',
+                      lineHeight: 1.6,
+                    }}
                   >
-                    チラシの裏
+                    技術的な学びや日々の気づきを記録しています
                   </Typography>
                 </CardContent>
               </Link>
             </Card>
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }}>
-            <Card>
-              <Link href="/profile">
-                <CardContent>
+            <Card
+              sx={{
+                transition: 'all 0.2s ease',
+                cursor: 'pointer',
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                  boxShadow: (theme) => theme.palette.mode === 'light'
+                    ? '0 8px 25px rgba(0, 0, 0, 0.15)'
+                    : '0 8px 25px rgba(0, 0, 0, 0.6)',
+                },
+                opacity: 0,
+                animation: 'fadeIn 1s ease-out forwards 0.9s',
+              }}
+            >
+              <Link href="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <CardContent sx={{ p: 4 }}>
                   <Typography
                     variant="h4"
                     component="h4"
-                    className="card-title"
+                    sx={{
+                      color: 'text.primary',
+                      fontWeight: 600,
+                      mb: 2,
+                      fontSize: '1.5rem',
+                    }}
                   >
-                    Profile
+                    👤 Profile
                   </Typography>
                   <Typography
-                    variant="body2"
-                    className="card-description"
+                    variant="body1"
+                    sx={{
+                      color: 'text.secondary',
+                      lineHeight: 1.6,
+                    }}
                   >
-                    職務経歴とか
+                    経歴やスキル、これまでの取り組みについて
                   </Typography>
                 </CardContent>
               </Link>
             </Card>
           </Grid>
         </Grid>
-      </Container>
+      </Box>
     </Box>
   )
 }

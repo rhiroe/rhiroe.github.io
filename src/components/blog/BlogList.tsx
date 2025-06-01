@@ -44,10 +44,8 @@ export const BlogList = ({ posts }: BlogListProps) => {
                                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                                     <Typography
                                         component="time"
-                                        sx={{
-                                            color: 'text.secondary',
-                                            fontSize: '0.875rem'
-                                        }}
+                                        variant="caption"
+                                        color="text.secondary"
                                     >
                                         {new Date(post.date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'numeric', day: 'numeric' }).replace(/\-/g, '/')}
                                     </Typography>
@@ -57,12 +55,8 @@ export const BlogList = ({ posts }: BlogListProps) => {
                                                 <Chip
                                                     key={tag}
                                                     label={tag}
+                                                    color="primary"
                                                     size="small"
-                                                    sx={{
-                                                        bgcolor: 'primary.dark',
-                                                        color: 'text.secondary',
-                                                        borderRadius: '16px'
-                                                    }}
                                                 />
                                             ))}
                                         </Box>
