@@ -229,8 +229,8 @@ const getComponents = (mode: PaletteMode): Components<Omit<Theme, 'components'>>
     styleOverrides: {
       root: {
         // スマホでは左右余白を最小限に
-        paddingLeft: 12,
-        paddingRight: 12,
+        paddingLeft: 8,
+        paddingRight: 8,
         '@media (min-width: 600px)': {
           paddingLeft: 24,
           paddingRight: 24,

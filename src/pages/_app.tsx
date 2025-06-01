@@ -38,7 +38,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
           : 'linear-gradient(135deg, #1a1d23 0%, #2d3039 50%, #3a3d47 100%)',
       }}
     >
-      {/* テーマ切り替えボタン */}
+      {/* テーマ切り替えボタン - デスクトップのみ */}
       <Box
         component="header"
         sx={{
@@ -46,6 +46,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
           top: 24,
           right: 24,
           zIndex: 1300,
+          display: { xs: 'none', md: 'block' }, // モバイルでは非表示
         }}
       >
         <IconButton 
@@ -90,7 +91,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
         <Container 
           maxWidth="md"
           sx={{
-            px: { xs: 1, sm: 2, md: 3 }
+            px: { xs: 2, sm: 3, md: 4 }
           }}
         >
           {children}
@@ -150,6 +151,37 @@ function AppLayout({ children }: { children: React.ReactNode }) {
                 </Box>
               </Link>
             )}
+            
+            {/* モバイル用テーマ切り替えボタン */}
+            <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+              <IconButton 
+                onClick={toggleColorMode} 
+                aria-label="テーマの切り替え"
+                sx={{
+                  width: 48,
+                  height: 48,
+                  bgcolor: 'background.paper',
+                  boxShadow: (theme) => theme.palette.mode === 'light'
+                    ? '0 2px 8px rgba(45, 55, 72, 0.08)'
+                    : '0 2px 8px rgba(0, 0, 0, 0.4)',
+                  border: (theme) => `1px solid ${theme.palette.mode === 'light' 
+                    ? 'rgba(203, 213, 224, 0.4)' 
+                    : 'rgba(74, 85, 104, 0.4)'}`,
+                  color: 'text.secondary',
+                  borderRadius: 2,
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  '&:hover': {
+                    boxShadow: (theme) => theme.palette.mode === 'light'
+                      ? '0 4px 12px rgba(45, 55, 72, 0.12)'
+                      : '0 4px 12px rgba(0, 0, 0, 0.5)',
+                    color: 'primary.main',
+                    bgcolor: 'action.hover',
+                  }
+                }}
+              >
+                {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+              </IconButton>
+            </Box>
             <Box sx={{ display: 'flex', gap: 2 }}>
               <IconButton
                 aria-label="email"
