@@ -6,6 +6,7 @@ import { Container, Box, Typography, IconButton, Button, ThemeProvider, createTh
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub'
 import XIcon from '@mui/icons-material/X'
+import HomeIcon from '@mui/icons-material/Home';
 
 const darkTheme = createTheme({
   palette: {
@@ -65,22 +66,35 @@ function MyApp({ Component, pageProps }: AppProps) {
             }}
           >
             {!isHomePage && (
-              <Link href="/" passHref>
-                <Typography
-                  variant="body2"
+              <Link href="/" style={{ textDecoration: 'none' }} passHref>
+                <Box
                   sx={{
-                    color: 'text.secondary',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 0.2,
+                    mb: 1,
                     textDecoration: 'none',
-                    fontSize: '0.8rem',
+                    color: 'text.secondary',
+                    transition: 'color 0.3s',
                     '&:hover': {
                       color: 'text.primary',
                       textDecoration: 'underline',
                     },
-                    marginBottom: 1,
                   }}
                 >
-                  トップへ戻る
-                </Typography>
+                  <HomeIcon sx={{ verticalAlign: 'middle', fontSize: 20 }} />
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: 'inherit',
+                      fontSize: '0.8rem',
+                      fontWeight: 400,
+                      mb: 0,
+                    }}
+                  >
+                    ホームに戻る
+                  </Typography>
+                </Box>
               </Link>
             )}
             <Box sx={{ display: 'flex', gap: 2 }}>
