@@ -44,7 +44,7 @@ body {
   }
 
   :not(pre) > code {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
     padding: 0.2em 0.4em;
     border-radius: 3px;
     font-size: 1rem;
