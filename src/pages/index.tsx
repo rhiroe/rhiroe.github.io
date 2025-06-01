@@ -22,7 +22,7 @@ const Home: NextPage = () => {
   return (
     <Box component="div">
       <Head>
-        <title>Ryosuke Hiroe</title>
+        <title>rhiroe</title>
         <meta name="description" content="My page." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -30,7 +30,7 @@ const Home: NextPage = () => {
       <Container>
         <Box sx={{ textAlign: 'center', mb: 8 }}>
           <Typography variant="h1" className="gradient-title">
-            Ryosuke Hiroe
+            rhiroe
           </Typography>
           <Typography
             variant="h2"
@@ -61,7 +61,7 @@ const Home: NextPage = () => {
                     variant="body2"
                     className="card-description"
                   >
-                    プログラミングの話とか
+                    チラシの裏
                   </Typography>
                 </CardContent>
               </Link>
