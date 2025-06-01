@@ -141,7 +141,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 fontWeight: 400,
               }}
             >
-              © 2024 rhiroe
+              © 2022 - {new Date().getFullYear()} rhiroe
             </Typography>
           </Box>
         </Container>
