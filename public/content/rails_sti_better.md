@@ -43,8 +43,8 @@ cat_categories |o--o{ animals: is
 
 ```rb
 class Animal < ApplicationRecord
-  belongs_to :dog_category
-  belongs_to :cat_category
+  belongs_to :dog_category, optional: true
+  belongs_to :cat_category, optional: true
 end
 
 class Dog < Animal
