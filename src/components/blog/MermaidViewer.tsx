@@ -137,9 +137,13 @@ export const MermaidViewer = ({ content }: MermaidProps) => {
               
               const preElement = codeBlock.parentElement;
               if (preElement) {
-                const existingContainer = preElement.parentNode?.querySelector('.mermaid-container');
-                if (existingContainer) {
-                  existingContainer.remove();
+                // Check if this specific pre element already has a mermaid container sibling
+                const nextSibling = preElement.nextSibling;
+                if (nextSibling && nextSibling.nodeType === Node.ELEMENT_NODE) {
+                  const siblingElement = nextSibling as Element;
+                  if (siblingElement.classList.contains('mermaid-container')) {
+                    siblingElement.remove();
+                  }
                 }
                 
                 const svgContainer = document.createElement('div');
@@ -174,7 +178,9 @@ export const MermaidViewer = ({ content }: MermaidProps) => {
                   }
                 }
                 
-                preElement.parentNode?.replaceChild(svgContainer, preElement);
+                // Hide the original pre element and insert the SVG container after it
+                preElement.style.display = 'none';
+                preElement.parentNode?.insertBefore(svgContainer, preElement.nextSibling);
               }
             } catch (error) {
               console.error('Mermaid rendering error:', error);
