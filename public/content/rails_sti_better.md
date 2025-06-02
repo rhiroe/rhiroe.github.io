@@ -84,19 +84,19 @@ animal_cat_categories {
 }
 
 dog_categories {
-  bigint ID PK
+  bigint id PK
   string name
 }
 
 cat_categories {
-  bigint ID PK
+  bigint id PK
   string name
 }
 
 animals ||--o| animal_dog_categories: has
 animals ||--o| animal_cat_categories: has
-dog_categories ||--o| animal_dog_categories: has
-cat_categories ||--o| animal_cat_categories: has
+animal_dog_categories |o--|| dog_categories: has
+animal_cat_categories |o--|| cat_categories: has
 ```
 
 ```rb
