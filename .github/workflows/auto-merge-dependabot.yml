@@ -1,0 +1,135 @@
+name: Auto-merge Dependabot PRs
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    
+    # Dependabotまたは自動更新ワークフローが作成したPRのみを対象
+    if: github.actor == 'dependabot[bot]' || contains(github.event.pull_request.head.ref, 'chore/update-')
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get PR metadata
+        id: pr-metadata
+        run: |
+          # PRの情報を取得
+          echo "PR created by: ${{ github.actor }}"
+          echo "PR title: ${{ github.event.pull_request.title }}"
+          echo "PR branch: ${{ github.event.pull_request.head.ref }}"
+          
+          # パッケージ名を抽出
+          if [[ "${{ github.event.pull_request.title }}" =~ chore\(deps\):\ update\ ([^\ ]+) ]]; then
+            package_name="${BASH_REMATCH[1]}"
+            echo "package_name=$package_name" >> $GITHUB_OUTPUT
+            echo "Detected package: $package_name"
+          fi
+          
+          # 更新タイプを判定（タイトルから、またはセマンティックバージョニングから）
+          if [[ "${{ github.event.pull_request.title }}" =~ (patch|minor|major) ]]; then
+            update_type="${BASH_REMATCH[1]}"
+          elif [[ "${{ github.event.pull_request.title }}" =~ from\ ([0-9]+\.[0-9]+\.[0-9]+)\ to\ ([0-9]+\.[0-9]+\.[0-9]+) ]]; then
+            old_version="${BASH_REMATCH[1]}"
+            new_version="${BASH_REMATCH[2]}"
+            
+            # セマンティックバージョニングで判定
+            IFS='.' read -ra OLD_VER <<< "$old_version"
+            IFS='.' read -ra NEW_VER <<< "$new_version"
+            
+            if [[ ${OLD_VER[0]} != ${NEW_VER[0]} ]]; then
+              update_type="major"
+            elif [[ ${OLD_VER[1]} != ${NEW_VER[1]} ]]; then
+              update_type="minor"
+            else
+              update_type="patch"
+            fi
+          else
+            update_type="unknown"
+          fi
+          
+          echo "update_type=$update_type" >> $GITHUB_OUTPUT
+          echo "Update type: $update_type"
+          
+          # 自動マージ対象かどうかを判定
+          if [[ "$update_type" == "patch" || "$update_type" == "minor" ]]; then
+            echo "auto_merge=true" >> $GITHUB_OUTPUT
+            echo "This is a $update_type update - eligible for auto-merge"
+          else
+            echo "auto_merge=false" >> $GITHUB_OUTPUT
+            echo "This is a $update_type update - requires manual review"
+          fi
+
+      - name: Wait for status checks
+        if: steps.pr-metadata.outputs.auto_merge == 'true'
+        uses: fountainhead/action-wait-for-check@v1.2.0
+        id: wait-for-checks
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: "ESLint"
+          ref: ${{ github.event.pull_request.head.sha }}
+          timeoutSeconds: 600
+        continue-on-error: true
+
+      - name: Wait for test checks
+        if: steps.pr-metadata.outputs.auto_merge == 'true'
+        uses: fountainhead/action-wait-for-check@v1.2.0
+        id: wait-for-tests
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: "Test"
+          ref: ${{ github.event.pull_request.head.sha }}
+          timeoutSeconds: 600
+        continue-on-error: true
+
+      - name: Enable auto-merge for safe updates
+        if: |
+          steps.pr-metadata.outputs.auto_merge == 'true' && 
+          (steps.wait-for-checks.outputs.conclusion == 'success' || steps.wait-for-checks.outcome == 'skipped') &&
+          (steps.wait-for-tests.outputs.conclusion == 'success' || steps.wait-for-tests.outcome == 'skipped')
+        run: |
+          echo "All checks passed or skipped. Enabling auto-merge for ${{ steps.pr-metadata.outputs.package_name }} (${{ steps.pr-metadata.outputs.update_type }} update)..."
+          gh pr merge ${{ github.event.pull_request.number }} --auto --squash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add comment for major updates
+        if: steps.pr-metadata.outputs.auto_merge == 'false'
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} --body "🚨 **${{ steps.pr-metadata.outputs.update_type }} version update detected for ${{ steps.pr-metadata.outputs.package_name }}** 
+          
+          This PR contains a ${{ steps.pr-metadata.outputs.update_type }} version update that requires manual review before merging.
+          
+          ### 📋 Review Checklist
+          - [ ] Check the package changelog for breaking changes
+          - [ ] Verify compatibility with current codebase
+          - [ ] Run tests locally if needed
+          - [ ] Review any new features or APIs
+          
+          Once reviewed, you can manually merge this PR."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add approval comment for auto-merge
+        if: |
+          steps.pr-metadata.outputs.auto_merge == 'true' && 
+          (steps.wait-for-checks.outputs.conclusion == 'success' || steps.wait-for-checks.outcome == 'skipped') &&
+          (steps.wait-for-tests.outputs.conclusion == 'success' || steps.wait-for-tests.outcome == 'skipped')
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} --body "✅ **Auto-merge enabled for ${{ steps.pr-metadata.outputs.package_name }}**
+          
+          This ${{ steps.pr-metadata.outputs.update_type }} update has been automatically approved for merging:
+          
+          - ✅ Update type: ${{ steps.pr-metadata.outputs.update_type }} (safe for auto-merge)
+          - ✅ All required checks passed
+          - 🤖 Auto-merge is now enabled
+          
+          The PR will be automatically merged once all status checks complete."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

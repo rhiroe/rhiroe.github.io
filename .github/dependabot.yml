@@ -6,7 +6,51 @@
 
 version: 2
 updates:
- - package-ecosystem: "devcontainers"
-   directory: "/"
-   schedule:
-     interval: weekly
+  # Dev containers
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    schedule:
+      interval: weekly
+
+  # pnpm の package.json の依存関係を監視
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Tokyo"
+    open-pull-requests-limit: 20  # 個別PRのため上限を増やす
+    
+    # PRのメタデータ設定
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    
+    # 更新の設定
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+    
+    # 自動マージ用のラベル
+    labels:
+      - "dependencies"
+      - "dependabot"
+    
+    # グループ化を無効にして個別のPRを作成
+    # groups設定をコメントアウトまたは削除することで、各依存関係が個別のPRになります
+
+  # GitHub Actions の依存関係も監視
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Tokyo"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "github-actions"
+      - "dependabot"
