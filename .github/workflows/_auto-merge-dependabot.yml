@@ -2,7 +2,7 @@ name: Auto-merge Dependabot PRs
 
 # 必要最小限の権限設定
 permissions:
-  contents: read        # リポジトリ内容の読み取り
+  contents: write       # リポジトリ内容の書き込み（マージに必要）
   pull-requests: write  # PRのマージ
 
 on:
