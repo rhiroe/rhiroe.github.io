@@ -1,7 +1,7 @@
 import type { InferGetStaticPropsType, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getAllPosts } from "~/lib/getContentIndex";
 import { InnerContainer } from '~/components/common';
 import { BlogList } from "~/components/blog/BlogList";
@@ -34,7 +34,7 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
 
     const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
 
-    const handlePageChange = (page: number) => {
+    const handlePageChange = useCallback((page: number) => {
         if (page !== currentPage) {
             router.push({
                 pathname: router.pathname,
@@ -45,7 +45,7 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
                 behavior: 'smooth'
             });
         }
-    };
+    }, [currentPage, router]);
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -61,7 +61,7 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [currentPage, totalPages]);
+    }, [currentPage, totalPages, handlePageChange]);
 
     return (
         <>
