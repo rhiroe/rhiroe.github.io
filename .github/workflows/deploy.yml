@@ -38,9 +38,9 @@ jobs:
         run: pnpm exec playwright install
 
       - name: Build
-        run: pnpm build
         env:
-          NEXT_PUBLIC_GITHUB_TOKEN: ${{ secrets.NEXT_PUBLIC_GITHUB_TOKEN }}
+          EXPORT: true
+        run: pnpm build
 
       - name: Upload
         uses: actions/upload-pages-artifact@v3
