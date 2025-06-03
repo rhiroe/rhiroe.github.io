@@ -23,7 +23,7 @@
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
     "@mui/styled-engine-sc": "^7.1.0",
-    "@octokit/rest": "^21.1.1",
+    "@octokit/rest": "^22.0.0",
     "feed": "^5.1.0",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.11.1",
