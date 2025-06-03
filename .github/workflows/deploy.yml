@@ -1,10 +1,8 @@
 name: Deploy to GitHub Pages
 
-# 権限設定をワークフローレベルで明確化
+# 権限設定を最小限に（CIジョブには読み取り権限のみ）
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: read        # リポジトリ内容の読み取り
 
 on:
   push:
@@ -29,6 +27,9 @@ jobs:
       - Test
 
     runs-on: ubuntu-latest
+    
+    permissions:
+      pages: write          # Pages アーティファクトのアップロードに必要
 
     steps:
       - name: Checkout
@@ -64,8 +65,9 @@ jobs:
     needs: Build
 
     permissions:
-      pages: write
-      id-token: write
+      contents: read        # リポジトリ内容の読み取り（継承されないため明示的に設定）
+      pages: write          # GitHub Pages へのデプロイに必要
+      id-token: write       # OIDC認証に必要
 
     environment:
       name: github-pages

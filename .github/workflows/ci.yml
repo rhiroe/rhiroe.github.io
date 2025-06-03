@@ -1,9 +1,8 @@
 name: CI
 
-# 必要最小限の権限設定
+# 必要最小限の権限設定（CIジョブには読み取り権限のみ）
 permissions:
   contents: read        # リポジトリ内容の読み取り
-  pull-requests: write  # 自動マージ用（Dependabot PR）
 
 on:
   pull_request:
@@ -86,3 +85,6 @@ jobs:
     needs: [ci-success]
     uses: ./.github/workflows/_auto-merge-dependabot.yml
     if: always() && needs.ci-success.result == 'success'
+    permissions:
+      contents: write       # マージに必要
+      pull-requests: write  # PRの操作に必要
