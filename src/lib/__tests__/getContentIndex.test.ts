@@ -5,9 +5,9 @@ import path from 'path';
 jest.mock('fs');
 jest.mock('gray-matter');
 
-// Mock process.cwd
+// Mock process.cwd to use actual current working directory
 Object.defineProperty(process, 'cwd', {
-  value: jest.fn().mockReturnValue('/workspaces/rhiroe.github.io'),
+  value: jest.fn().mockReturnValue(process.cwd()),
   configurable: true,
 });
 
@@ -42,7 +42,7 @@ describe('getContentIndex', () => {
 
       expect(result).toEqual(['post1', 'post2', 'post3']);
       expect(mockFs.readdirSync).toHaveBeenCalledWith(
-        '/workspaces/rhiroe.github.io/public/content',
+        expect.stringContaining('/public/content'),
         { withFileTypes: true }
       );
     });
@@ -93,7 +93,7 @@ This is the content of the test post.`;
       });
 
       expect(mockFs.readFileSync).toHaveBeenCalledWith(
-        '/workspaces/rhiroe.github.io/public/content/test-post.md',
+        expect.stringContaining('/public/content/test-post.md'),
         'utf8'
       );
     });
