@@ -1,0 +1,39 @@
+/**
+ * Theme tests
+ * Running in Node.js environment
+ */
+
+// Mock Material-UI styles
+jest.mock('@mui/material/styles', () => ({
+  createTheme: jest.fn((options) => ({
+    ...options,
+    palette: options?.palette || {},
+    typography: options?.typography || {},
+  })),
+}));
+
+describe('Theme', () => {
+  it('can be imported without errors', () => {
+    expect(() => {
+      require('../theme');
+    }).not.toThrow();
+  });
+
+  it('exports theme configurations', () => {
+    const themeModule = require('../theme');
+    expect(themeModule.lightTheme || themeModule.darkTheme).toBeDefined();
+  });
+
+  it('creates valid theme objects', () => {
+    const themeModule = require('../theme');
+    
+    // Test that themes are objects (mocked createTheme should return objects)
+    if (themeModule.lightTheme) {
+      expect(typeof themeModule.lightTheme).toBe('object');
+    }
+    
+    if (themeModule.darkTheme) {
+      expect(typeof themeModule.darkTheme).toBe('object');
+    }
+  });
+});

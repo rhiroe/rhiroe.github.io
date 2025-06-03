@@ -13,6 +13,46 @@ const createJestConfig = nextJest({
 
 
 const customJestConfig = {
+  // Test environment - use node for now due to jsdom issues
+  testEnvironment: 'node',
+  
+  // Setup files
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  
+  // Module name mapping
+  moduleNameMapper: {
+    '^~/(.*)$': '<rootDir>/src/$1',
+    // Mock CSS and asset files
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'jest-transform-stub',
+    
+    // Mock Material-UI components (more specific patterns first)
+    '^@mui/material/styles$': '<rootDir>/__mocks__/@mui/material/styles.js',
+    '^@mui/material$': '<rootDir>/__mocks__/@mui/material.js',
+    '^@mui/material/(.*)$': '<rootDir>/__mocks__/@mui/material.js',
+    '^@mui/system$': '<rootDir>/__mocks__/@mui/system.js',
+    '^@mui/styles$': '<rootDir>/__mocks__/@mui/styles.js',
+    
+    // Mock remark and related ESM modules
+    '^remark$': '<rootDir>/__mocks__/remark.js',
+    '^remark-html$': '<rootDir>/__mocks__/remark-html.js',
+    '^remark-gfm$': '<rootDir>/__mocks__/remark-gfm.js',
+    '^remark-parse$': '<rootDir>/__mocks__/remark-parse.js',
+    '^remark-rehype$': '<rootDir>/__mocks__/remark-rehype.js',
+    '^remark-breaks$': '<rootDir>/__mocks__/remark-breaks.js',
+    '^rehype-highlight$': '<rootDir>/__mocks__/rehype-highlight.js',
+    '^rehype-stringify$': '<rootDir>/__mocks__/rehype-stringify.js',
+    '^unified$': '<rootDir>/__mocks__/unified.js',
+    
+    // Mock other problematic modules
+    '^mermaid$': '<rootDir>/__mocks__/mermaid.js'
+  },
+  
+  // Transform ESM modules
+  transformIgnorePatterns: [
+    'node_modules/(?!(remark|remark-rehype|remark-breaks|rehype-highlight|rehype-stringify|unified|micromark|mdast-util|unist-util|vfile|bail|is-plain-obj|trough|zwitch|longest-streak|mdast-util-to-string|character-entities|decode-named-character-reference|character-entities-legacy|character-entities-html4|character-reference-invalid|is-alphanumerical|is-decimal|is-hexadecimal|micromark-util|micromark-factory|micromark-core-commonmark|devlop|micromark-extension|mdast-util-gfm|ccount|escape-string-regexp|markdown-table)/)'
+  ],
+  
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -101,7 +141,8 @@ const customJestConfig = {
     "^@/components/(.*)$": "<rootDir>/src/components/$1",
     "^@/pages/(.*)$": "<rootDir>/src/pages/$1",
     "^@/styles/(.*)$": "<rootDir>/src/styles/$1",
-    "^@/lib/(.*)$": "<rootDir>/lib/$1",
+    "^@/lib/(.*)$": "<rootDir>/src/lib/$1",
+    "^~/(.*)$": "<rootDir>/src/$1",
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader

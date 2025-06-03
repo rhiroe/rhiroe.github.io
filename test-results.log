@@ -1,0 +1,45 @@
+
+> rhiroe.github.io@0.1.0 test
+> jest --coverage --passWithNoTests
+
+PASS src/components/common/__tests__/Button.test.tsx
+PASS src/lib/__tests__/markdownToHtml.test.ts
+PASS src/components/common/__tests__/Typography.test.tsx
+PASS src/theme/__tests__/theme.test.ts
+PASS src/components/blog/__tests__/Pagination.test.tsx
+PASS src/pages/__tests__/index.test.tsx
+PASS src/components/__tests__/index.text.ts
+PASS src/lib/__tests__/getContentIndex.test.ts
+PASS src/__tests__/integration.test.tsx
+PASS src/theme/__tests__/theme-new.test.ts
+---------------------|---------|----------|---------|---------|-------------------
+File                 | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+---------------------|---------|----------|---------|---------|-------------------
+All files            |   60.43 |    99.35 |      35 |   60.43 |                   
+ components/blog     |    4.18 |      100 |       0 |    4.18 |                   
+  Pagination.tsx     |    4.18 |      100 |       0 |    4.18 | 10-215            
+ components/common   |   49.36 |      100 |       0 |   49.36 |                   
+  Box.tsx            |      80 |      100 |       0 |      80 | 9-10              
+  Button.tsx         |      80 |      100 |       0 |      80 | 9-10              
+  Card.tsx           |   18.75 |      100 |       0 |   18.75 | 5-19,22-32        
+  Chip.tsx           |      75 |      100 |       0 |      75 | 7-8               
+  Container.tsx      |    42.1 |      100 |       0 |    42.1 | 9-19              
+  Grid.tsx           |      75 |      100 |       0 |      75 | 7-8               
+  InnerContainer.tsx |   36.36 |      100 |       0 |   36.36 | 9-22              
+  Paper.tsx          |   34.48 |      100 |       0 |   34.48 | 9-10,13-29        
+  Typography.tsx     |      80 |      100 |       0 |      80 | 9-10              
+  index.ts           |     100 |      100 |     100 |     100 |                   
+ lib                 |     100 |    95.23 |     100 |     100 |                   
+  getContentIndex.ts |     100 |       95 |     100 |     100 | 46                
+  markdownToHtml.ts  |     100 |      100 |     100 |     100 |                   
+ pages               |       5 |      100 |       0 |       5 |                   
+  index.tsx          |       5 |      100 |       0 |       5 | 7-158             
+ theme               |     100 |      100 |     100 |     100 |                   
+  theme.ts           |     100 |      100 |     100 |     100 |                   
+---------------------|---------|----------|---------|---------|-------------------
+
+Test Suites: 10 passed, 10 total
+Tests:       38 passed, 38 total
+Snapshots:   0 total
+Time:        8.231 s
+Ran all test suites.
