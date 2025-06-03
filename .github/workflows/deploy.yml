@@ -1,9 +1,20 @@
 name: Deploy to GitHub Pages
 
+# 権限設定をワークフローレベルで明確化
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 on:
   push:
     branches:
       - main
+
+# 同時実行制御
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   ESLint:
@@ -46,6 +57,8 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: out
+          name: github-pages
+          retention-days: 1
 
   Deploy:
     needs: Build

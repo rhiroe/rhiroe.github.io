@@ -1,5 +1,10 @@
 name: CI
 
+# 必要最小限の権限設定
+permissions:
+  contents: read        # リポジトリ内容の読み取り
+  pull-requests: write  # 自動マージ用（Dependabot PR）
+
 on:
   pull_request:
     types: [opened, synchronize, reopened]
