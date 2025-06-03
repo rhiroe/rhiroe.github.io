@@ -3,9 +3,11 @@ name: CI
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-  push:
-    branches-ignore:
-      - main
+  # PRに対してはpull_requestイベントのみを使用し、重複実行を防ぐ
+  # mainブランチ以外への直接pushに対してのみCIを実行する場合は以下を有効化
+  # push:
+  #   branches-ignore:
+  #     - main
 
 jobs:
   ESLint:

@@ -7,10 +7,10 @@ on:
 
 jobs:
   ESLint:
-    uses: ./.github/workflows/eslint.yml
+    uses: ./.github/workflows/_eslint.yml
 
   Test:
-    uses: ./.github/workflows/test.yml
+    uses: ./.github/workflows/_test.yml
 
   Build:
     needs:
