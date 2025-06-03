@@ -4,116 +4,15 @@ on:
   workflow_call:
 
 jobs:
-  check-metadata:
-    runs-on: ubuntu-latest
-    
-    # Dependabotまたは自動更新ワークフローが作成したPRのみを対象
-    if: github.actor == 'dependabot[bot]' || contains(github.event.pull_request.head.ref, 'chore/update-')
-    
-    outputs:
-      auto_merge: ${{ steps.pr-metadata.outputs.auto_merge }}
-      package_name: ${{ steps.pr-metadata.outputs.package_name }}
-      update_type: ${{ steps.pr-metadata.outputs.update_type }}
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Get PR metadata
-        id: pr-metadata
-        run: |
-          # PRの情報を取得
-          echo "PR created by: ${{ github.actor }}"
-          echo "PR title: ${{ github.event.pull_request.title }}"
-          echo "PR branch: ${{ github.event.pull_request.head.ref }}"
-          
-          # パッケージ名を抽出
-          if [[ "${{ github.event.pull_request.title }}" =~ chore\(deps\):\ update\ ([^\ ]+) ]]; then
-            package_name="${BASH_REMATCH[1]}"
-            echo "package_name=$package_name" >> $GITHUB_OUTPUT
-            echo "Detected package: $package_name"
-          fi
-          
-          # 更新タイプを判定（タイトルから、またはセマンティックバージョニングから）
-          if [[ "${{ github.event.pull_request.title }}" =~ (patch|minor|major) ]]; then
-            update_type="${BASH_REMATCH[1]}"
-          elif [[ "${{ github.event.pull_request.title }}" =~ from\ ([0-9]+\.[0-9]+\.[0-9]+)\ to\ ([0-9]+\.[0-9]+\.[0-9]+) ]]; then
-            old_version="${BASH_REMATCH[1]}"
-            new_version="${BASH_REMATCH[2]}"
-            
-            # セマンティックバージョニングで判定
-            IFS='.' read -ra OLD_VER <<< "$old_version"
-            IFS='.' read -ra NEW_VER <<< "$new_version"
-            
-            if [[ ${OLD_VER[0]} != ${NEW_VER[0]} ]]; then
-              update_type="major"
-            elif [[ ${OLD_VER[1]} != ${NEW_VER[1]} ]]; then
-              update_type="minor"
-            else
-              update_type="patch"
-            fi
-          else
-            update_type="unknown"
-          fi
-          
-          echo "update_type=$update_type" >> $GITHUB_OUTPUT
-          echo "Update type: $update_type"
-          
-          # 自動マージ対象かどうかを判定
-          if [[ "$update_type" == "patch" || "$update_type" == "minor" ]]; then
-            echo "auto_merge=true" >> $GITHUB_OUTPUT
-            echo "This is a $update_type update - eligible for auto-merge"
-          else
-            echo "auto_merge=false" >> $GITHUB_OUTPUT
-            echo "This is a $update_type update - requires manual review"
-          fi
-
   auto-merge:
     runs-on: ubuntu-latest
-    needs: [check-metadata]
-    if: needs.check-metadata.outputs.auto_merge == 'true'
+    
+    # Dependabotが作成したPRのみを対象
+    if: github.actor == 'dependabot[bot]'
     
     steps:
-      - name: Enable auto-merge for safe updates
+      - name: Enable auto-merge for Dependabot PRs
         run: |
-          echo "Enabling auto-merge for ${{ needs.check-metadata.outputs.package_name }} (${{ needs.check-metadata.outputs.update_type }} update)..."
-          gh pr merge ${{ github.event.pull_request.number }} --auto --squash
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Add approval comment for auto-merge
-        run: |
-          gh pr comment ${{ github.event.pull_request.number }} --body "✅ **Auto-merge enabled for ${{ needs.check-metadata.outputs.package_name }}**
-          
-          This ${{ needs.check-metadata.outputs.update_type }} update has been automatically approved for merging:
-          
-          - ✅ Update type: ${{ needs.check-metadata.outputs.update_type }} (safe for auto-merge)
-          - 🤖 Auto-merge is now enabled
-          
-          The PR will be automatically merged once all required status checks complete successfully."
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  add-comment-for-major:
-    runs-on: ubuntu-latest
-    needs: [check-metadata]
-    if: needs.check-metadata.outputs.auto_merge == 'false'
-    
-    steps:
-      - name: Add comment for major updates
-        run: |
-          gh pr comment ${{ github.event.pull_request.number }} --body "🚨 **${{ needs.check-metadata.outputs.update_type }} version update detected for ${{ needs.check-metadata.outputs.package_name }}** 
-          
-          This PR contains a ${{ needs.check-metadata.outputs.update_type }} version update that requires manual review before merging.
-          
-          ### 📋 Review Checklist
-          - [ ] Check the package changelog for breaking changes
-          - [ ] Verify compatibility with current codebase
-          - [ ] Run tests locally if needed
-          - [ ] Review any new features or APIs
-          
-          Once reviewed, you can manually merge this PR."
+          gh pr merge ${{ github.event.pull_request.number }} --auto --squash --repo ${{ github.repository }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
