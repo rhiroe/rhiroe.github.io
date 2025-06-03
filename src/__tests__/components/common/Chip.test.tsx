@@ -1,21 +1,29 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Chip } from '../../../components/common/Chip';
 
+// Mock Material-UI icons components for testing
+const MockAccountCircleIcon = () => <div data-testid="account-circle-icon">AccountCircle</div>;
+MockAccountCircleIcon.displayName = 'MockAccountCircleIcon';
+
+const MockCancelIcon = () => <div data-testid="cancel-icon">Cancel</div>;
+MockCancelIcon.displayName = 'MockCancelIcon';
+
 // Mock Material-UI icons
 jest.mock('@mui/icons-material/AccountCircle', () => {
-  return function MockAccountCircleIcon() {
+  function MockAccountCircleIcon() {
     return <div data-testid="account-circle-icon">AccountCircle</div>;
-  };
+  }
+  MockAccountCircleIcon.displayName = 'MockAccountCircleIcon';
+  return MockAccountCircleIcon;
 });
 
 jest.mock('@mui/icons-material/Cancel', () => {
-  return function MockCancelIcon() {
+  function MockCancelIcon() {
     return <div data-testid="cancel-icon">Cancel</div>;
-  };
+  }
+  MockCancelIcon.displayName = 'MockCancelIcon';
+  return MockCancelIcon;
 });
-
-const MockAccountCircleIcon = () => <div data-testid="account-circle-icon">AccountCircle</div>;
-const MockCancelIcon = () => <div data-testid="cancel-icon">Cancel</div>;
 
 describe('Chip', () => {
   it('renders with label correctly', () => {

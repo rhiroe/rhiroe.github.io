@@ -36,6 +36,7 @@ const MockThemeProvider = ({
     </div>
   );
 };
+MockThemeProvider.displayName = 'MockThemeProvider';
 
 describe('MermaidViewer', () => {
   const sampleMermaidContent = `
