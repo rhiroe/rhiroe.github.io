@@ -69,6 +69,10 @@ const BlogsPage: NextPage<Props> = ({ allPosts }) => {
                 <title>rhiroeのブログ</title>
                 <meta name="description" content="rhiroeのブログ" />
                 <link rel="icon" href="/favicon.ico" />
+                
+                {/* RSS・Atomフィードリンク */}
+                <link rel="alternate" type="application/rss+xml" title="rhiroe.github.io RSS Feed" href="/feeds/rss.xml" />
+                <link rel="alternate" type="application/atom+xml" title="rhiroe.github.io Atom Feed" href="/feeds/atom.xml" />
             </Head>
 
             <InnerContainer sx={{ padding: '2rem' }}>

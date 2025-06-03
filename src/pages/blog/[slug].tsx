@@ -56,6 +56,10 @@ const BlogPage: NextPage<Props> = ({ post }) => {
                 <meta name="description" content={post.excerpt} />
                 <link rel="icon" href="/favicon.ico" />
                 
+                {/* RSS・Atomフィードリンク */}
+                <link rel="alternate" type="application/rss+xml" title="rhiroe.github.io RSS Feed" href="/feeds/rss.xml" />
+                <link rel="alternate" type="application/atom+xml" title="rhiroe.github.io Atom Feed" href="/feeds/atom.xml" />
+                
                 {/* OGP Tags */}
                 <meta property="og:title" content={post.title} />
                 <meta property="og:description" content={post.excerpt} />
