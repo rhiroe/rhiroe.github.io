@@ -9,10 +9,10 @@ on:
 
 jobs:
   ESLint:
-    uses: ./.github/workflows/eslint.yml
+    uses: ./.github/workflows/_eslint.yml
 
   Test:
-    uses: ./.github/workflows/test.yml
+    uses: ./.github/workflows/_test.yml
 
   Build:
     needs:
@@ -83,3 +83,9 @@ jobs:
           echo "- ESLint: ${{ needs.ESLint.result }}"
           echo "- Tests: ${{ needs.Test.result }}"
           echo "- Build: ${{ needs.Build.result }}"
+
+  # Dependabot PR の自動マージ
+  auto-merge:
+    needs: [ci-success]
+    uses: ./.github/workflows/_auto-merge-dependabot.yml
+    if: always() && needs.ci-success.result == 'success'

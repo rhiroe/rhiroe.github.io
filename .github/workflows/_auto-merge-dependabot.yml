@@ -1,15 +1,19 @@
 name: Auto-merge Dependabot PRs
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  workflow_call:
 
 jobs:
-  auto-merge:
+  check-metadata:
     runs-on: ubuntu-latest
     
     # Dependabotまたは自動更新ワークフローが作成したPRのみを対象
     if: github.actor == 'dependabot[bot]' || contains(github.event.pull_request.head.ref, 'chore/update-')
+    
+    outputs:
+      auto_merge: ${{ steps.pr-metadata.outputs.auto_merge }}
+      package_name: ${{ steps.pr-metadata.outputs.package_name }}
+      update_type: ${{ steps.pr-metadata.outputs.update_type }}
     
     steps:
       - name: Checkout
@@ -66,45 +70,43 @@ jobs:
             echo "This is a $update_type update - requires manual review"
           fi
 
-      - name: Wait for status checks
-        if: steps.pr-metadata.outputs.auto_merge == 'true'
-        uses: fountainhead/action-wait-for-check@v1.2.0
-        id: wait-for-checks
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: "ESLint"
-          ref: ${{ github.event.pull_request.head.sha }}
-          timeoutSeconds: 600
-        continue-on-error: true
-
-      - name: Wait for test checks
-        if: steps.pr-metadata.outputs.auto_merge == 'true'
-        uses: fountainhead/action-wait-for-check@v1.2.0
-        id: wait-for-tests
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: "Test"
-          ref: ${{ github.event.pull_request.head.sha }}
-          timeoutSeconds: 600
-        continue-on-error: true
-
+  auto-merge:
+    runs-on: ubuntu-latest
+    needs: [check-metadata]
+    if: needs.check-metadata.outputs.auto_merge == 'true'
+    
+    steps:
       - name: Enable auto-merge for safe updates
-        if: |
-          steps.pr-metadata.outputs.auto_merge == 'true' && 
-          (steps.wait-for-checks.outputs.conclusion == 'success' || steps.wait-for-checks.outcome == 'skipped') &&
-          (steps.wait-for-tests.outputs.conclusion == 'success' || steps.wait-for-tests.outcome == 'skipped')
         run: |
-          echo "All checks passed or skipped. Enabling auto-merge for ${{ steps.pr-metadata.outputs.package_name }} (${{ steps.pr-metadata.outputs.update_type }} update)..."
+          echo "Enabling auto-merge for ${{ needs.check-metadata.outputs.package_name }} (${{ needs.check-metadata.outputs.update_type }} update)..."
           gh pr merge ${{ github.event.pull_request.number }} --auto --squash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Add comment for major updates
-        if: steps.pr-metadata.outputs.auto_merge == 'false'
+      - name: Add approval comment for auto-merge
         run: |
-          gh pr comment ${{ github.event.pull_request.number }} --body "🚨 **${{ steps.pr-metadata.outputs.update_type }} version update detected for ${{ steps.pr-metadata.outputs.package_name }}** 
+          gh pr comment ${{ github.event.pull_request.number }} --body "✅ **Auto-merge enabled for ${{ needs.check-metadata.outputs.package_name }}**
           
-          This PR contains a ${{ steps.pr-metadata.outputs.update_type }} version update that requires manual review before merging.
+          This ${{ needs.check-metadata.outputs.update_type }} update has been automatically approved for merging:
+          
+          - ✅ Update type: ${{ needs.check-metadata.outputs.update_type }} (safe for auto-merge)
+          - 🤖 Auto-merge is now enabled
+          
+          The PR will be automatically merged once all required status checks complete successfully."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  add-comment-for-major:
+    runs-on: ubuntu-latest
+    needs: [check-metadata]
+    if: needs.check-metadata.outputs.auto_merge == 'false'
+    
+    steps:
+      - name: Add comment for major updates
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} --body "🚨 **${{ needs.check-metadata.outputs.update_type }} version update detected for ${{ needs.check-metadata.outputs.package_name }}** 
+          
+          This PR contains a ${{ needs.check-metadata.outputs.update_type }} version update that requires manual review before merging.
           
           ### 📋 Review Checklist
           - [ ] Check the package changelog for breaking changes
@@ -113,23 +115,5 @@ jobs:
           - [ ] Review any new features or APIs
           
           Once reviewed, you can manually merge this PR."
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Add approval comment for auto-merge
-        if: |
-          steps.pr-metadata.outputs.auto_merge == 'true' && 
-          (steps.wait-for-checks.outputs.conclusion == 'success' || steps.wait-for-checks.outcome == 'skipped') &&
-          (steps.wait-for-tests.outputs.conclusion == 'success' || steps.wait-for-tests.outcome == 'skipped')
-        run: |
-          gh pr comment ${{ github.event.pull_request.number }} --body "✅ **Auto-merge enabled for ${{ steps.pr-metadata.outputs.package_name }}**
-          
-          This ${{ steps.pr-metadata.outputs.update_type }} update has been automatically approved for merging:
-          
-          - ✅ Update type: ${{ steps.pr-metadata.outputs.update_type }} (safe for auto-merge)
-          - ✅ All required checks passed
-          - 🤖 Auto-merge is now enabled
-          
-          The PR will be automatically merged once all status checks complete."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
