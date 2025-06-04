@@ -16,9 +16,9 @@ const markdownToHtml = async (markdown: string) => {
         .use(remarkParse)
         .use(remarkGfm)
         .use(remarkBreaks)
-        .use(remarkRehype)
+        .use(remarkRehype, { allowDangerousHtml: true })
         .use(rehypeHighlight)
-        .use(rehypeStringify)
+        .use(rehypeStringify, { allowDangerousHtml: true })
         .process(markdown);
     return result.toString();
 };
