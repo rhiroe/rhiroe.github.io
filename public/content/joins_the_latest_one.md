@@ -115,3 +115,33 @@ INNER JOIN(
 ## 興味
 
 created_at, event_id にindexが張られている場合、上記の方法が最もシンプルかつパフォーマンスが出るらしい(*AI調べ)。他にも`PARTITION`を使って`ROW_NUMBER() = 1`の行をjoinする方法もあるみたいだが、どっちの方が効率が良いのか気になる。
+
+## 追記
+
+Window関数を使った方がテーブルのスキャンが1度で済むので速いらしい。
+
+```sql
+SELECT
+  *,
+  ROW_NUMBER() OVER (
+    PARTITION BY event_id
+    ORDER BY created_at DESC, id DESC
+  ) as row_num
+FROM progress_logs
+```
+event_idごとにソートして行数を追加でSELECTしておき、これを結合する。
+
+```sql
+SELECT * FROM events
+INNER JOIN(
+  SELECT
+    *,
+    ROW_NUMBER() OVER (
+      PARTITION BY event_id
+      ORDER BY created_at DESC, id DESC
+    ) as row_num
+  FROM progress_logs
+) progress_logs
+  ON progress_logs.event_id = events.id
+  AND progress_logs.row_num = 1
+```
