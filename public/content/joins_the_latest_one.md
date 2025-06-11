@@ -145,3 +145,5 @@ INNER JOIN(
   ON progress_logs.event_id = events.id
   AND progress_logs.row_num = 1
 ```
+
+レコード数が多い場合は一時テーブル領域への負荷がかかるため注意。
