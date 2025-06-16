@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && next-sitemap && npx tsx scripts/generate-feeds.ts",
-    "build:github": "NODE_ENV=production GITHUB_ACTIONS=true next build && next-sitemap && npx tsx scripts/generate-feeds.ts",
+    "build:github": "NODE_ENV=production GITHUB_ACTIONS=true next build && next-sitemap --config next-sitemap.config.js && npx tsx scripts/generate-feeds.ts",
     "build:next": "next build",
     "start": "next start",
     "lint": "next lint",

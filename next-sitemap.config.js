@@ -91,5 +91,6 @@ module.exports = {
   exclude: ['/api/*'],
   // 設定オプション
   generateIndexSitemap: false,
-  outDir: './public',
+  // GitHub Pages用の静的エクスポート時はoutディレクトリに出力
+  outDir: process.env.EXPORT === 'true' ? './out' : './public',
 };
