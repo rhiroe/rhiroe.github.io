@@ -33,3 +33,7 @@ npm-debug.log*
 
 # typescript
 *.tsbuildinfo
+
+# generated files (next-sitemap)
+/public/robots.txt
+/public/sitemap.xml
