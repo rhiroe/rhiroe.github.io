@@ -102,7 +102,23 @@ module.exports = {
       },
     ];
 
-    return [...staticPages, ...blogPages, ...getPaginationPages(blogPosts.length, 5)];
+    // RSSフィードとAtomフィードを追加
+    const feedPages = [
+      {
+        loc: '/feeds/rss.xml',
+        changefreq: 'daily',
+        priority: 0.6,
+        lastmod: new Date().toISOString(),
+      },
+      {
+        loc: '/feeds/atom.xml',
+        changefreq: 'daily',
+        priority: 0.6,
+        lastmod: new Date().toISOString(),
+      },
+    ];
+
+    return [...staticPages, ...feedPages, ...blogPages, ...getPaginationPages(blogPosts.length, 5)];
   },
   // 除外するパス
   exclude: ['/api/*'],
