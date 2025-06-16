@@ -37,6 +37,23 @@ const getBlogPosts = () => {
     });
 };
 
+// ページング用のURLを生成する関数
+const getPaginationPages = (totalPosts, postsPerPage = 5) => {
+  const totalPages = Math.ceil(totalPosts / postsPerPage);
+  const pages = [];
+  
+  for (let page = 2; page <= totalPages; page++) {
+    pages.push({
+      loc: `/blog?page=${page}`,
+      changefreq: 'daily',
+      priority: 0.8,
+      lastmod: new Date().toISOString(),
+    });
+  }
+  
+  return pages;
+};
+
 module.exports = {
   siteUrl: process.env.SITE_URL || 'https://rhiroe.github.io',
   generateRobotsTxt: true,
@@ -85,7 +102,7 @@ module.exports = {
       },
     ];
 
-    return [...staticPages, ...blogPages];
+    return [...staticPages, ...blogPages, ...getPaginationPages(blogPosts.length, 5)];
   },
   // 除外するパス
   exclude: ['/api/*'],
