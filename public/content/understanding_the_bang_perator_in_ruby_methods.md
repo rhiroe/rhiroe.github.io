@@ -12,9 +12,9 @@ Rubyではよくメソッドの末尾に"!"のついたメソッドがある。
 
 このようになんとなく「レシーバに変更を加える」「例外をなべる場合がある」「DBに変更を加える」などに該当するようなメソッドに対して`!`をつけるという認識の方も多いのではないだろうか。
 
-自分のそのような認識で、なんとなく「気をつけろよ」的なお気持ちで`!`をつけていたが、社内のSlackで色々教えてもらったのでここでまとめたい。
+自分もそのような認識で、なんとなく「気をつけろよ」的なお気持ちで`!`をつけていたが、社内のSlackで色々教えてもらったのでここでまとめたい。
 
-# Rubyおけるメソッド名の`!`
+# Rubyおけるメソッド名の"!"
 
 実は[Rubyのドキュメント](https://docs.ruby-lang.org/ja/latest/doc/symref.html#ex)が存在する。
 
@@ -24,14 +24,13 @@ Rubyではよくメソッドの末尾に"!"のついたメソッドがある。
 
 つまり同名のメソッドがなければ比較対象がないため、メソッド名に`!`をつける必要はないと読める。
 
-[Airbnbのスタイルガイド](https://github.com/airbnb/ruby/blob/1939a2fb61db4e1f5cf7738e34d0c756f17f5afe/README.md)や[DHHのツイート]
-(https://x.com/dhh/status/684126832887726080)で引用されている[記事(のアーカイブ)]でも同様のことが書かれている。
+[Airbnbのスタイルガイド](https://github.com/airbnb/ruby/blob/1939a2fb61db4e1f5cf7738e34d0c756f17f5afe/README.md)や[DHHのツイート](https://x.com/dhh/status/684126832887726080)で引用されている記事(のアーカイブ)でも同様のことが書かれている。
 
 https://davidablack.net/dablog.html#2007/8/15/bang-methods-or-danger-will-rubyist
 
 # 多くの誤解
 
-先ほどの記事ではこう言及されています。
+先ほどの記事ではこう言及されている。
 
 > The ! in method names that end with ! means, “This method is dangerous”—or, more precisely, this method is the “dangerous” version of an otherwise equivalent method, with the same name minus the !. “Danger” is relative; the ! doesn’t mean anything at all unless the method name it’s in corresponds to a similar but bang-less method name.
 
