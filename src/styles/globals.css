@@ -109,7 +109,7 @@ a:hover {
     color: var(--mui-palette-primary-main);
     text-decoration: none;
     font-weight: 500;
-    border-bottom: 1px solid transparent;
+    border-bottom: 1px solid var(--mui-palette-primary-main);
     transition: all 0.2s ease;
   }
 
