@@ -34,7 +34,7 @@
     "playwright": "^1.52.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "recharts": "^2.15.3",
+    "recharts": "^3.0.2",
     "rehype-highlight": "^7.0.2",
     "rehype-stringify": "^10.0.1",
     "remark": "^15.0.1",
