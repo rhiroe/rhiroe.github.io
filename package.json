@@ -55,7 +55,7 @@
     "eslint-config-next": "15.4.2",
     "jest": "^30.0.3",
     "jest-environment-jsdom": "30.0.5",
-    "ts-jest": "^29.3.2",
+    "ts-jest": "^29.4.1",
     "tsx": "^4.19.4",
     "typescript": "5.8.3"
   }
