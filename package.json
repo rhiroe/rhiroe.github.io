@@ -33,7 +33,7 @@
     "next-sitemap": "^4.2.3",
     "playwright": "^1.54.2",
     "react": "19.1.1",
-    "react-dom": "19.1.0",
+    "react-dom": "19.1.1",
     "recharts": "^3.0.2",
     "rehype-highlight": "^7.0.2",
     "rehype-stringify": "^10.0.1",
