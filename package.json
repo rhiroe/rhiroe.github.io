@@ -23,7 +23,7 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
-    "@mui/styled-engine-sc": "^7.1.0",
+    "@mui/styled-engine-sc": "^7.3.5",
     "@octokit/rest": "^22.0.1",
     "feed": "^5.1.0",
     "gray-matter": "^4.0.3",
