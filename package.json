@@ -22,7 +22,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.1.0",
-    "@mui/material": "^7.3.5",
+    "@mui/material": "^7.3.6",
     "@mui/styled-engine-sc": "^7.1.0",
     "@octokit/rest": "^22.0.1",
     "feed": "^5.1.0",
