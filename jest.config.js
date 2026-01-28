@@ -201,4 +201,4 @@ const customJestConfig = {
   // watchman: true,
 };
 
-module.exports = customJestConfig;
+export default customJestConfig;
