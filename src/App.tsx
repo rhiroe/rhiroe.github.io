@@ -1,41 +1,34 @@
-import '~/styles/globals.css'
-import type { AppProps } from 'next/app'
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { Container, Box, Typography, IconButton, Button } from '@mui/material'
-import EmailIcon from '@mui/icons-material/Email';
+import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
+import { HelmetProvider } from 'react-helmet-async'
+import { Container, Box, Typography, IconButton } from '@mui/material'
+import EmailIcon from '@mui/icons-material/Email'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import XIcon from '@mui/icons-material/X'
-import HomeIcon from '@mui/icons-material/Home';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { ThemeProvider, useThemeContext } from '../theme/ThemeContext';
+import HomeIcon from '@mui/icons-material/Home'
+import Brightness4Icon from '@mui/icons-material/Brightness4'
+import Brightness7Icon from '@mui/icons-material/Brightness7'
+import { ThemeProvider, useThemeContext } from './theme/ThemeContext'
+import Home from './pages/Home'
+import BlogIndex from './pages/BlogIndex'
+import BlogPost from './pages/BlogPost'
+import PresentationsIndex from './pages/PresentationsIndex'
+import Profile from './pages/Profile'
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <ThemeProvider>
-      <AppLayout>
-        <Component {...pageProps} />
-      </AppLayout>
-    </ThemeProvider>
-  );
-}
-
-// テーマ切り替えボタンを含むレイアウトコンポーネント
 function AppLayout({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
-  const isHomePage = router.pathname === '/';
-  const { mode, toggleColorMode } = useThemeContext();
-  
+  const location = useLocation()
+  const isHomePage = location.pathname === '/'
+  const { mode, toggleColorMode } = useThemeContext()
+
   return (
     <Box
       sx={{
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        background: (theme) => theme.palette.mode === 'light'
-          ? 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%)'
-          : 'linear-gradient(135deg, #1a1d23 0%, #2d3039 50%, #3a3d47 100%)',
+        background: (theme) =>
+          theme.palette.mode === 'light'
+            ? 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%)'
+            : 'linear-gradient(135deg, #1a1d23 0%, #2d3039 50%, #3a3d47 100%)',
       }}
     >
       {/* テーマ切り替えボタン - デスクトップのみ */}
@@ -46,58 +39,65 @@ function AppLayout({ children }: { children: React.ReactNode }) {
           top: 24,
           right: 24,
           zIndex: 1300,
-          display: { xs: 'none', md: 'block' }, // モバイルでは非表示
+          display: { xs: 'none', md: 'block' },
         }}
       >
-        <IconButton 
-          onClick={toggleColorMode} 
+        <IconButton
+          onClick={toggleColorMode}
           aria-label="テーマの切り替え"
           sx={{
             width: 56,
             height: 56,
             bgcolor: 'background.paper',
-            boxShadow: (theme) => theme.palette.mode === 'light'
-              ? '0 4px 16px rgba(45, 55, 72, 0.08)'
-              : '0 4px 16px rgba(0, 0, 0, 0.4)',
+            boxShadow: (theme) =>
+              theme.palette.mode === 'light'
+                ? '0 4px 16px rgba(45, 55, 72, 0.08)'
+                : '0 4px 16px rgba(0, 0, 0, 0.4)',
             backdropFilter: 'blur(20px)',
-            border: (theme) => `1px solid ${theme.palette.mode === 'light' 
-              ? 'rgba(203, 213, 224, 0.4)' 
-              : 'rgba(74, 85, 104, 0.4)'}`,
+            border: (theme) =>
+              `1px solid ${
+                theme.palette.mode === 'light'
+                  ? 'rgba(203, 213, 224, 0.4)'
+                  : 'rgba(74, 85, 104, 0.4)'
+              }`,
             color: 'text.secondary',
             borderRadius: 2,
             transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             '&:hover': {
               transform: 'translateY(-2px)',
-              boxShadow: (theme) => theme.palette.mode === 'light'
-                ? '0 8px 24px rgba(45, 55, 72, 0.12)'
-                : '0 8px 24px rgba(0, 0, 0, 0.5)',
+              boxShadow: (theme) =>
+                theme.palette.mode === 'light'
+                  ? '0 8px 24px rgba(45, 55, 72, 0.12)'
+                  : '0 8px 24px rgba(0, 0, 0, 0.5)',
               color: 'primary.main',
               bgcolor: 'action.hover',
-            }
+            },
           }}
         >
           {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
         </IconButton>
       </Box>
-      
+
       {/* メインコンテンツ */}
-      <Box sx={{ 
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        flex: 1,
-        py: { xs: 4, sm: 6, md: 8 }
-      }}>
-        <Container 
+      <Box
+        sx={{
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          flex: 1,
+          py: { xs: 4, sm: 6, md: 8 },
+        }}
+      >
+        <Container
           maxWidth="md"
           sx={{
-            px: { xs: 2, sm: 3, md: 4 }
+            px: { xs: 2, sm: 3, md: 4 },
           }}
         >
           {children}
         </Container>
       </Box>
-      
+
       {/* フッター */}
       <Box
         component="footer"
@@ -121,7 +121,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
             }}
           >
             {!isHomePage && (
-              <Link href="/" style={{ textDecoration: 'none' }} passHref>
+              <Link to="/" style={{ textDecoration: 'none' }}>
                 <Box
                   sx={{
                     display: 'flex',
@@ -151,32 +151,37 @@ function AppLayout({ children }: { children: React.ReactNode }) {
                 </Box>
               </Link>
             )}
-            
+
             {/* モバイル用テーマ切り替えボタン */}
             <Box sx={{ display: { xs: 'block', md: 'none' } }}>
-              <IconButton 
-                onClick={toggleColorMode} 
+              <IconButton
+                onClick={toggleColorMode}
                 aria-label="テーマの切り替え"
                 sx={{
                   width: 48,
                   height: 48,
                   bgcolor: 'background.paper',
-                  boxShadow: (theme) => theme.palette.mode === 'light'
-                    ? '0 2px 8px rgba(45, 55, 72, 0.08)'
-                    : '0 2px 8px rgba(0, 0, 0, 0.4)',
-                  border: (theme) => `1px solid ${theme.palette.mode === 'light' 
-                    ? 'rgba(203, 213, 224, 0.4)' 
-                    : 'rgba(74, 85, 104, 0.4)'}`,
+                  boxShadow: (theme) =>
+                    theme.palette.mode === 'light'
+                      ? '0 2px 8px rgba(45, 55, 72, 0.08)'
+                      : '0 2px 8px rgba(0, 0, 0, 0.4)',
+                  border: (theme) =>
+                    `1px solid ${
+                      theme.palette.mode === 'light'
+                        ? 'rgba(203, 213, 224, 0.4)'
+                        : 'rgba(74, 85, 104, 0.4)'
+                    }`,
                   color: 'text.secondary',
                   borderRadius: 2,
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   '&:hover': {
-                    boxShadow: (theme) => theme.palette.mode === 'light'
-                      ? '0 4px 12px rgba(45, 55, 72, 0.12)'
-                      : '0 4px 12px rgba(0, 0, 0, 0.5)',
+                    boxShadow: (theme) =>
+                      theme.palette.mode === 'light'
+                        ? '0 4px 12px rgba(45, 55, 72, 0.12)'
+                        : '0 4px 12px rgba(0, 0, 0, 0.5)',
                     color: 'primary.main',
                     bgcolor: 'action.hover',
-                  }
+                  },
                 }}
               >
                 {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
@@ -245,7 +250,33 @@ function AppLayout({ children }: { children: React.ReactNode }) {
         </Container>
       </Box>
     </Box>
-  );
+  )
 }
 
-export default MyApp;
+function AppContent() {
+  return (
+    <AppLayout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/blog" element={<BlogIndex />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route path="/presentations" element={<PresentationsIndex />} />
+        <Route path="/profile" element={<Profile />} />
+      </Routes>
+    </AppLayout>
+  )
+}
+
+function App() {
+  return (
+    <HelmetProvider>
+      <BrowserRouter>
+        <ThemeProvider>
+          <AppContent />
+        </ThemeProvider>
+      </BrowserRouter>
+    </HelmetProvider>
+  )
+}
+
+export default App

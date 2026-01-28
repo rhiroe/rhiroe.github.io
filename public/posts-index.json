@@ -1,0 +1,258 @@
+[
+  {
+    "slug": "env_testing",
+    "title": "RSpecで環境変数をテストする - with_envヘルパーのすすめ",
+    "date": "2026/1/29",
+    "excerpt": "",
+    "tags": [
+      "Rails",
+      "RSpec"
+    ]
+  },
+  {
+    "slug": "what_to_put_in_rails_lib",
+    "title": "Railsのlibに何を置くか",
+    "date": "2026/1/28",
+    "excerpt": "",
+    "tags": [
+      "Rails"
+    ]
+  },
+  {
+    "slug": "drawing_to_stdout_in_ruby",
+    "title": "Rubyで標準出力に描画する",
+    "date": "2025/8/15",
+    "excerpt": "",
+    "tags": [
+      "Ruby"
+    ]
+  },
+  {
+    "slug": "when_should_we_use_active_record_concern",
+    "title": "ActiveSupport::Concernの使い所を知る",
+    "date": "2025/6/4",
+    "excerpt": "",
+    "tags": [
+      "Rails"
+    ]
+  },
+  {
+    "slug": "understanding_the_bang_perator_in_ruby_methods",
+    "title": "メソッド名の\"!\"について",
+    "date": "2025/6/19",
+    "excerpt": "",
+    "tags": [
+      "Ruby",
+      "Rails"
+    ]
+  },
+  {
+    "slug": "joins_the_latest_one",
+    "title": "親ごとに最新の子レコード1件をJOINする",
+    "date": "2025/6/1",
+    "excerpt": "",
+    "tags": [
+      "SQL"
+    ]
+  },
+  {
+    "slug": "notes_on_getting_stuck_while_writing_brs",
+    "title": "BRSコメント書いててちょっとハマったところ覚書",
+    "date": "2025/5/26",
+    "excerpt": "",
+    "tags": [
+      "RBS"
+    ]
+  },
+  {
+    "slug": "rails_sti_better",
+    "title": "RailsのSTIでよく踏むアンチパターン",
+    "date": "2025/5/26",
+    "excerpt": "",
+    "tags": [
+      "Rails"
+    ]
+  },
+  {
+    "slug": "ruby_and_node_image",
+    "title": "RubyとNodeの両方が入ったDockerイメージの作り方",
+    "date": "2025/5/20",
+    "excerpt": "Ruby3.4 + Node20 & pnpm",
+    "tags": [
+      "Docker"
+    ]
+  },
+  {
+    "slug": "detect_n_plus_one_queries_in_tests_with_rails_8",
+    "title": "Rails8でN+1をテストで検知する",
+    "date": "2025/5/16",
+    "excerpt": "",
+    "tags": [
+      "Rails"
+    ]
+  },
+  {
+    "slug": "delete_all_branches_without_default_and_current_branches",
+    "title": "現在のブランチとデフォルトブランチ以外を全て削除するスクリプト",
+    "date": "2025/5/12",
+    "excerpt": "",
+    "tags": [
+      "Git"
+    ]
+  },
+  {
+    "slug": "created_devcontainer_features",
+    "title": "DevContainer Featuresを作成し、開発環境の構築を一部容易にする",
+    "date": "2024/12/13",
+    "excerpt": "",
+    "tags": [
+      "VS Code",
+      "DevContainer"
+    ]
+  },
+  {
+    "slug": "docker_dev_envionment",
+    "title": "Dockerで自分専用のコンテナ環境を作成する",
+    "date": "2024-2-8",
+    "excerpt": "",
+    "tags": [
+      "Docker"
+    ]
+  },
+  {
+    "slug": "docker_volume_mount_permissions",
+    "title": "Dockerのvolume mountしたディレクトリの中の所有者をコンテナの実行ユーザーに変更する",
+    "date": "2024-10-8",
+    "excerpt": "",
+    "tags": [
+      "Docker"
+    ]
+  },
+  {
+    "slug": "implement_circle_skip",
+    "title": "CircleCIで[circle skip]を可能にするconfigの書き方",
+    "date": "2022/9/30",
+    "excerpt": "",
+    "tags": [
+      "CircleCI"
+    ]
+  },
+  {
+    "slug": "deploy_nextjs_app_to_github_pages",
+    "title": "Next.jsのアプリケーションをGitHubPagesにデプロイする",
+    "date": "2022/8/3",
+    "excerpt": "気軽にNext.jsのアプリを作って公開する",
+    "tags": [
+      "Nextjs"
+    ]
+  },
+  {
+    "slug": "type_script_type",
+    "title": "TypeScriptの型覚書",
+    "date": "2022/8/3",
+    "excerpt": "TypeScriptの型について勉強する",
+    "tags": [
+      "TypeScript"
+    ]
+  },
+  {
+    "slug": "ruby-interface",
+    "title": "RubyでJavaのインターフェースっぽいことをする",
+    "date": "2022/3/7",
+    "excerpt": "",
+    "tags": [
+      "Ruby"
+    ]
+  },
+  {
+    "slug": "ciskip_if_ignore_path",
+    "title": "特定のファイルのみの変更でCircleCIを省略する",
+    "date": "2022/10/6",
+    "excerpt": "",
+    "tags": [
+      "CircleCI"
+    ]
+  },
+  {
+    "slug": "ruby-vup-27",
+    "title": "Rubyのインストールにはまった",
+    "date": "2022/1/18",
+    "excerpt": "",
+    "tags": [
+      "Ruby"
+    ]
+  },
+  {
+    "slug": "ruby_morphological_analysis",
+    "title": "「Ruby」に一番近い単語はなにか",
+    "date": "2021/12/20",
+    "excerpt": "",
+    "tags": [
+      "Ruby"
+    ]
+  },
+  {
+    "slug": "rails_update_61",
+    "title": "【Rails6.1】ActiveRecord::Relationメソッドでの安全でない生SQLの利用（非推奨）を削除への対応",
+    "date": "2021/12/10",
+    "excerpt": "",
+    "tags": [
+      "Rails"
+    ]
+  },
+  {
+    "slug": "learn_js",
+    "title": "RubyistがJavascriptの基礎学習をしてみる",
+    "date": "2020/3/31",
+    "excerpt": "",
+    "tags": [
+      "Javascript"
+    ]
+  },
+  {
+    "slug": "ruby_memo",
+    "title": "Rubyで遊ぶ",
+    "date": "2020/11/25",
+    "excerpt": "",
+    "tags": [
+      "Ruby"
+    ]
+  },
+  {
+    "slug": "circleci_config",
+    "title": "Rails + PostgreSQL なアプリの RSpec + Rubocop な CircileCI を回す",
+    "date": "2019/8/23",
+    "excerpt": "",
+    "tags": [
+      "Rails",
+      "CircleCI"
+    ]
+  },
+  {
+    "slug": "encrypted_credentials",
+    "title": "EncryptedCredentials をもっと使ってあげて！",
+    "date": "2019/6/20",
+    "excerpt": "",
+    "tags": [
+      "Rails"
+    ]
+  },
+  {
+    "slug": "active_model_attributes",
+    "title": "ActiveModel::Attributesを使ってみたら非常に便利だった。",
+    "date": "2019/6/19",
+    "excerpt": "",
+    "tags": [
+      "Rails"
+    ]
+  },
+  {
+    "slug": "accept_multi-line_paste_in_bash",
+    "title": "Bashで複数行ペーストを受け付け、勝手に実行されないようにする",
+    "date": "2019/10/3",
+    "excerpt": "",
+    "tags": [
+      "Bash"
+    ]
+  }
+]

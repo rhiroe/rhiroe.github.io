@@ -3,15 +3,6 @@
  * https://jestjs.io/docs/configuration
  */
 
-const nextJest = require("next/jest");
-
-const createJestConfig = nextJest({
-  dir: "./",
-});
-
-// createJestConfigを定義することによって、本ファイルで定義された設定がNext.jsの設定に反映されます
-
-
 const customJestConfig = {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
@@ -98,10 +89,11 @@ const customJestConfig = {
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    "^@/components/(.*)$": "<rootDir>/src/components/$1",
-    "^@/pages/(.*)$": "<rootDir>/src/pages/$1",
-    "^@/styles/(.*)$": "<rootDir>/src/styles/$1",
-    "^@/lib/(.*)$": "<rootDir>/lib/$1",
+    "^~/components/(.*)$": "<rootDir>/src/components/$1",
+    "^~/pages/(.*)$": "<rootDir>/src/pages/$1",
+    "^~/styles/(.*)$": "<rootDir>/src/styles/$1",
+    "^~/lib/(.*)$": "<rootDir>/src/lib/$1",
+    "^~/theme/(.*)$": "<rootDir>/src/theme/$1",
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
@@ -173,9 +165,11 @@ const customJestConfig = {
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  // testPathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  testPathIgnorePatterns: [
+    "/node_modules/",
+    "/out/",
+    "/dist/"
+  ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],
@@ -207,4 +201,4 @@ const customJestConfig = {
   // watchman: true,
 };
 
-module.exports = createJestConfig(customJestConfig);
+module.exports = customJestConfig;

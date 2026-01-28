@@ -1,4 +1,9 @@
-import '@testing-library/jest-dom';
+require('@testing-library/jest-dom');
+
+// TextEncoder/TextDecoder polyfill for React Router
+const { TextEncoder, TextDecoder } = require('util');
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
 
 // MUI テスト用の設定
 Object.defineProperty(window, 'matchMedia', {

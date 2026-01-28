@@ -10,9 +10,9 @@
 # testing
 /coverage
 
-# next.js
-/.next/
+# vite build output
 /out/
+/dist/
 
 # production
 /build

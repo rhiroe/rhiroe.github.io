@@ -215,10 +215,26 @@ const insertSvgContainer = (
 };
 
 // 単一のMermaidブロックをレンダリングする処理を分離
+// Mermaidの型定義
+interface MermaidAPI {
+  reset: () => void;
+}
+
+interface MermaidInstance {
+  mermaidAPI: MermaidAPI;
+  initialize: (config: {
+    startOnLoad: boolean;
+    theme: string;
+    securityLevel: string;
+    themeVariables: ThemeVariables;
+  }) => void;
+  render: (id: string, definition: string) => Promise<{ svg: string }>;
+}
+
 const renderSingleMermaidBlock = async (
   codeBlock: Element,
   index: number,
-  mermaid: any,
+  mermaid: MermaidInstance,
   isDark: boolean
 ): Promise<void> => {
   const graphDefinition = codeBlock.textContent;
@@ -239,10 +255,10 @@ const renderSingleMermaidBlock = async (
 };
 
 // Mermaidの初期化処理を分離
-const initializeMermaid = async (mermaid: any, themeVariables: ThemeVariables): Promise<void> => {
+const initializeMermaid = async (mermaid: MermaidInstance, themeVariables: ThemeVariables): Promise<void> => {
   try {
     mermaid.mermaidAPI.reset();
-  } catch (e) {
+  } catch {
     // ignore reset errors
   }
 
@@ -273,11 +289,11 @@ export const MermaidViewer = ({ content }: MermaidProps) => {
       const mermaid = await import('mermaid');
       const isDark = mode === 'dark';
 
-      await initializeMermaid(mermaid.default, themeVariables);
+      await initializeMermaid(mermaid.default as MermaidInstance, themeVariables);
 
       // 各Mermaidブロックを順次処理
       for (let i = 0; i < codeBlocks.length; i++) {
-        await renderSingleMermaidBlock(codeBlocks[i], i, mermaid.default, isDark);
+        await renderSingleMermaidBlock(codeBlocks[i], i, mermaid.default as MermaidInstance, isDark);
       }
     };
 

@@ -1,20 +1,17 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Link from 'next/link'
-import { Box, Container, Typography, Grid, Card, CardContent } from '~/components/common'
+import { Helmet } from 'react-helmet-async'
+import { Link } from 'react-router-dom'
+import { Box, Typography, Grid, Card, CardContent } from '~/components/common'
 
-const Home: NextPage = () => {
-
+function Home() {
   return (
     <Box component="div">
-      <Head>
+      <Helmet>
         <title>rhiroe</title>
         <meta name="description" content="My page." />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      </Helmet>
 
-      <Box 
-        sx={{ 
+      <Box
+        sx={{
           textAlign: 'center',
           maxWidth: 'md',
           mx: 'auto',
@@ -22,7 +19,7 @@ const Home: NextPage = () => {
         }}
       >
         <Box sx={{ textAlign: 'center', mb: 8 }}>
-          <Typography 
+          <Typography
             variant="h1"
             sx={{
               color: 'text.primary',
@@ -41,9 +38,10 @@ const Home: NextPage = () => {
                 transform: 'translateX(-50%)',
                 width: '60px',
                 height: '3px',
-                background: (theme) => theme.palette.mode === 'light'
-                  ? theme.palette.grey[800]
-                  : theme.palette.grey[300],
+                background: (theme) =>
+                  theme.palette.mode === 'light'
+                    ? theme.palette.grey[800]
+                    : theme.palette.grey[300],
                 borderRadius: '2px',
               },
             }}
@@ -74,15 +72,16 @@ const Home: NextPage = () => {
                 cursor: 'pointer',
                 '&:hover': {
                   transform: 'translateY(-4px)',
-                  boxShadow: (theme) => theme.palette.mode === 'light'
-                    ? '0 8px 25px rgba(0, 0, 0, 0.15)'
-                    : '0 8px 25px rgba(0, 0, 0, 0.6)',
+                  boxShadow: (theme) =>
+                    theme.palette.mode === 'light'
+                      ? '0 8px 25px rgba(0, 0, 0, 0.15)'
+                      : '0 8px 25px rgba(0, 0, 0, 0.6)',
                 },
                 opacity: 0,
                 animation: 'fadeIn 1s ease-out forwards 0.6s',
               }}
             >
-              <Link href="/blog" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Link to="/blog" style={{ textDecoration: 'none', color: 'inherit' }}>
                 <CardContent sx={{ p: 4 }}>
                   <Typography
                     variant="h4"
@@ -116,15 +115,16 @@ const Home: NextPage = () => {
                 cursor: 'pointer',
                 '&:hover': {
                   transform: 'translateY(-4px)',
-                  boxShadow: (theme) => theme.palette.mode === 'light'
-                    ? '0 8px 25px rgba(0, 0, 0, 0.15)'
-                    : '0 8px 25px rgba(0, 0, 0, 0.6)',
+                  boxShadow: (theme) =>
+                    theme.palette.mode === 'light'
+                      ? '0 8px 25px rgba(0, 0, 0, 0.15)'
+                      : '0 8px 25px rgba(0, 0, 0, 0.6)',
                 },
                 opacity: 0,
                 animation: 'fadeIn 1s ease-out forwards 0.9s',
               }}
             >
-              <Link href="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
                 <CardContent sx={{ p: 4 }}>
                   <Typography
                     variant="h4"
@@ -158,15 +158,16 @@ const Home: NextPage = () => {
                 cursor: 'pointer',
                 '&:hover': {
                   transform: 'translateY(-4px)',
-                  boxShadow: (theme) => theme.palette.mode === 'light'
-                    ? '0 8px 25px rgba(0, 0, 0, 0.15)'
-                    : '0 8px 25px rgba(0, 0, 0, 0.6)',
+                  boxShadow: (theme) =>
+                    theme.palette.mode === 'light'
+                      ? '0 8px 25px rgba(0, 0, 0, 0.15)'
+                      : '0 8px 25px rgba(0, 0, 0, 0.6)',
                 },
                 opacity: 0,
                 animation: 'fadeIn 1s ease-out forwards 1.2s',
               }}
             >
-              <Link href="/presentations" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Link to="/presentations" style={{ textDecoration: 'none', color: 'inherit' }}>
                 <CardContent sx={{ p: 4 }}>
                   <Typography
                     variant="h4"
