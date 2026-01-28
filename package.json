@@ -25,7 +25,7 @@
     "@mui/material": "^7.3.5",
     "@mui/styled-engine-sc": "^7.3.6",
     "@octokit/rest": "^22.0.1",
-    "feed": "^5.1.0",
+    "feed": "^5.2.0",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.11.1",
     "mermaid": "^11.12.0",
