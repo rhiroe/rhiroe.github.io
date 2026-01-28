@@ -1,11 +1,12 @@
 # rhiroe.github.io
 
-個人ブログサイト・ポートフォリオサイトです。Next.js + TypeScript + Material-UIで構築しています。
+個人ブログサイト・ポートフォリオサイトです。Vite + React + TypeScript + Material-UIで構築しています。
 
 ## 🚀 Tech Stack
 
-- **Framework**: Next.js 15.3.2 (Static Site Generation)
-- **Language**: TypeScript 5.8.3
+- **Build Tool**: Vite 6.4.1
+- **Framework**: React 19.2.4 + React Router 7.13.0
+- **Language**: TypeScript 5.9.3
 - **UI Library**: Material-UI (MUI) 7.1.0
 - **Styling**: Emotion + Styled Components
 - **Package Manager**: pnpm 10.10.0
@@ -98,10 +99,11 @@ src/
 │   ├── blog/            # ブログ関連コンポーネント
 │   └── common/          # 共通コンポーネント
 ├── lib/                 # ユーティリティライブラリ
-├── pages/               # Next.jsページ
+├── pages/               # ページコンポーネント
 ├── styles/              # スタイルファイル
 ├── theme/               # MUIテーマ設定
-└── types/               # TypeScript型定義
+├── App.tsx              # ルートコンポーネント
+└── main.tsx             # エントリーポイント
 
 public/
 ├── content/             # ブログ記事（Markdown）
@@ -118,7 +120,7 @@ public/
 Copilot Agentは、以下のような思考プロセスでプロジェクト全体を構築しました：
 
 1. **🔍 要件分析**: 「個人ブログサイト」という要求から必要な機能を自動的に洗い出し
-2. **🎯 技術選定**: 最新のベストプラクティスに基づいてNext.js + TypeScript + MUIを選択
+2. **🎯 技術選定**: 最新のベストプラクティスに基づいてVite + React + TypeScript + MUIを選択
 3. **🏗️ アーキテクチャ設計**: 拡張性と保守性を考慮したディレクトリ構造とコンポーネント設計
 4. **⚡ 段階的実装**: 基盤→UI→機能→テスト→デプロイの順序で体系的に開発
 5. **🔧 継続的改善**: ユーザーフィードバックに基づく機能追加とリファクタリング

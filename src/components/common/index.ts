@@ -7,4 +7,3 @@ export { InnerContainer } from './InnerContainer';
 export { Paper, GlassPaper } from './Paper';
 export { Typography } from './Typography';
 export { Grid } from './Grid';
-export type { GridProps } from './Grid';

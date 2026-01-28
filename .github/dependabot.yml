@@ -46,12 +46,13 @@ updates:
           - "react-dom"
           - "@types/react"
           - "@types/react-dom"
+          - "react-router-dom"
       
-      # Next.js関連パッケージもグループ化
-      nextjs:
+      # Vite関連パッケージもグループ化
+      vite:
         patterns:
-          - "next"
-          - "eslint-config-next"
+          - "vite"
+          - "@vitejs/*"
       
       # MUI関連パッケージもグループ化（Emotionも含む）
       mui:

@@ -96,7 +96,7 @@ async function generateStaticFeeds() {
             favicon: `${siteUrl}/favicon.ico`,
             copyright: `All rights reserved ${new Date().getFullYear()}, ${author.name}`,
             updated: new Date(),
-            generator: 'Next.js',
+            generator: 'Vite + React',
             feedLinks: {
                 rss2: `${siteUrl}/feeds/rss.xml`,
                 atom: `${siteUrl}/feeds/atom.xml`,

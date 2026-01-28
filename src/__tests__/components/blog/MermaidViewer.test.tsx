@@ -1,6 +1,5 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { MermaidViewer } from '../../../components/blog/MermaidViewer';
-import { ThemeProvider } from '../../../theme/ThemeContext';
 
 // Mermaidライブラリをモック
 jest.mock('mermaid', () => ({
@@ -22,10 +21,6 @@ const MockThemeProvider = ({
   children: React.ReactNode; 
   mode?: 'light' | 'dark' 
 }) => {
-  const mockTheme = {
-    mode,
-    toggleMode: jest.fn(),
-  };
 
   return (
     <div data-testid="mock-theme-provider">

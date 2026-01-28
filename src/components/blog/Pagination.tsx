@@ -31,7 +31,7 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }: Pagination
     });
 
     // 前へ・次へボタンのスタイル
-    const getNavButtonStyle = (disabled: boolean) => ({
+    const getNavButtonStyle = () => ({
         minWidth: { xs: '32px', sm: '40px' },
         height: { xs: '32px', sm: '40px' },
         borderRadius: 2,
@@ -111,7 +111,7 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }: Pagination
         // モバイルでは現在のページ ±1 の範囲で表示
         const range = 1;
         let startPage = Math.max(2, currentPage - range);
-        let endPage = Math.min(totalPages - 1, currentPage + range);
+        const endPage = Math.min(totalPages - 1, currentPage + range);
         
         // 左側の省略記号が必要か
         if (startPage > 2) {
@@ -192,7 +192,7 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }: Pagination
                 size="small"
                 onClick={() => onPageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                sx={getNavButtonStyle(currentPage === 1)}
+                sx={getNavButtonStyle()}
             >
                 {'<'}
             </Button>
@@ -206,7 +206,7 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }: Pagination
                 size="small"
                 onClick={() => onPageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                sx={getNavButtonStyle(currentPage === totalPages)}
+                sx={getNavButtonStyle()}
             >
                 {'>'}
             </Button>

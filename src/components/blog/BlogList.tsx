@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import {
     Box,
     Card,
@@ -26,7 +26,7 @@ export const BlogList = ({ posts }: BlogListProps) => {
             {posts.map((post) => (
                 <Grid size={{ xs: 12 }} key={post.slug}>
                     <Card>
-                        <Link href={`blog/${post.slug}`}>
+                        <Link to={`/blog/${post.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                             <CardContent>
                                 <Typography
                                     variant="h5"
@@ -47,7 +47,7 @@ export const BlogList = ({ posts }: BlogListProps) => {
                                         variant="caption"
                                         color="text.secondary"
                                     >
-                                        {new Date(post.date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'numeric', day: 'numeric' }).replace(/\-/g, '/')}
+                                        {new Date(post.date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'numeric', day: 'numeric' }).replace(/-/g, '/')}
                                     </Typography>
                                     {post.tags && (
                                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
