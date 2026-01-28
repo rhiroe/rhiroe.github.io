@@ -202,7 +202,7 @@ describe('Chip', () => {
     );
     
     const chipElement = container.firstChild as HTMLElement;
-    expect(chipElement.tagName.toLowerCase()).toBe('div');
+    expect(chipElement.tagName.toLowerCase()).toBe('a');
   });
 
   it('handles keyboard events on clickable chip', () => {
