@@ -151,6 +151,48 @@ const Home: NextPage = () => {
               </Link>
             </Card>
           </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <Card
+              sx={{
+                transition: 'all 0.2s ease',
+                cursor: 'pointer',
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                  boxShadow: (theme) => theme.palette.mode === 'light'
+                    ? '0 8px 25px rgba(0, 0, 0, 0.15)'
+                    : '0 8px 25px rgba(0, 0, 0, 0.6)',
+                },
+                opacity: 0,
+                animation: 'fadeIn 1s ease-out forwards 1.2s',
+              }}
+            >
+              <Link href="/presentations" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <CardContent sx={{ p: 4 }}>
+                  <Typography
+                    variant="h4"
+                    component="h4"
+                    sx={{
+                      color: 'text.primary',
+                      fontWeight: 600,
+                      mb: 2,
+                      fontSize: '1.5rem',
+                    }}
+                  >
+                    🎤 Presentations
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      color: 'text.secondary',
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    これまでに発表したプレゼンテーション資料
+                  </Typography>
+                </CardContent>
+              </Link>
+            </Card>
+          </Grid>
         </Grid>
       </Box>
     </Box>
