@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RSpecで環境変数をテストする - with_envヘルパーのすすめ</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', 'Yu Gothic', 'Hiragino Sans', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #333;
+  overflow: hidden;
+}
+
+.slide-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.slide {
+  display: none;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  padding: 40px 60px;
+  max-width: 1200px;
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.slide.active {
+  display: flex;
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  font-size: 2.5em;
+  color: #667eea;
+  margin-bottom: 0.3em;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 2em;
+  color: #667eea;
+  margin-bottom: 0.5em;
+  border-bottom: 3px solid #667eea;
+  padding-bottom: 0.2em;
+}
+
+h3 {
+  font-size: 1.4em;
+  color: #764ba2;
+  margin-top: 0.5em;
+  margin-bottom: 0.3em;
+}
+
+p {
+  font-size: 1.1em;
+  line-height: 1.5;
+  margin-bottom: 0.6em;
+}
+
+ul, ol {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-left: 2em;
+  margin-bottom: 0.6em;
+}
+
+li {
+  margin-bottom: 0.3em;
+}
+
+code {
+  background: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.9em;
+  color: #e83e8c;
+}
+
+pre {
+  background: #2d2d2d;
+  color: #f8f8f2;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 0.5em 0;
+  font-size: 0.95em;
+  line-height: 1.4;
+}
+
+pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: 1em;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5em 0;
+  font-size: 0.95em;
+}
+
+th, td {
+  border: 2px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+th {
+  background: #667eea;
+  color: white;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.highlight {
+  background: #fff3cd;
+  padding: 12px;
+  border-left: 4px solid #ffc107;
+  margin: 0.5em 0;
+  border-radius: 5px;
+}
+
+.navigation {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-size: 1em;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 10px 20px;
+  border-radius: 25px;
+  backdrop-filter: blur(10px);
+}
+
+.subtitle {
+  font-size: 1.2em;
+  color: #666;
+  margin-top: 0.3em;
+}
+
+.attention {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.check {
+  color: #28a745;
+}
+
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 0.5em 0;
+}
+
+.comparison-item {
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.comparison-bad {
+  background: #ffe5e5;
+  border: 2px solid #ff6b6b;
+}
+
+.comparison-good {
+  background: #e5ffe5;
+  border: 2px solid #51cf66;
+}
+</style>
+</head>
+<body>
+
+<div class="slide-container">
+
+<!-- Slide 1: タイトル -->
+<div class="slide active">
+  <h1>RSpecで環境変数をテストする</h1>
+  <p class="subtitle">with_envヘルパーのすすめ</p>
+  <p style="font-size: 1.3em; color: #666; margin-top: 1em;">既存の<code>allow(ENV)</code>の問題を解決する新しい方法</p>
+</div>
+
+<!-- Slide 2: なぜ環境変数を使うのか -->
+<div class="slide">
+  <h2>なぜ環境変数を使うのか</h2>
+  <ul>
+    <li><strong>設定値へのアクセス権限を厳密に管理</strong>する必要がある</li>
+    <li>APIキー、DB接続情報など機密性の高い設定が多い</li>
+  </ul>
+  <h3>Rails credentialsの課題</h3>
+  <ul>
+    <li>master.keyを共有する必要がある</li>
+    <li>開発メンバー全員が本番の機密情報にアクセスできてしまう</li>
+  </ul>
+  <h3 class="check">✓ AWS Parameter Store + IAM</h3>
+  <ul>
+    <li>アクセス権限をIAMポリシーで細かく制御</li>
+    <li>「本番環境のみ」「開発環境のみ」といった制御が可能</li>
+  </ul>
+</div>
+
+<!-- Slide 3: 既存の方法 -->
+<div class="slide">
+  <h2>既存の方法：allow(ENV)によるスタブ</h2>
+  <p>RSpecの標準機能で環境変数をスタブ</p>
+  <pre><code>RSpec.describe SomeApiClient do
+  it 'uses API key from ENV' do
+    allow(ENV).to receive(:[]).and_call_original
+    allow(ENV).to receive(:[]).with('API_KEY').and_return('test_key')
+
+    client = SomeApiClient.new
+    expect(client.api_key).to eq 'test_key'
+  end
+end</code></pre>
+  <p><code>and_call_original</code>と組み合わせて使う必要がある</p>
+</div>
+
+<!-- Slide 4: 注意点1 -->
+<div class="slide">
+  <h2>注意点1: 実装の詳細に依存する</h2>
+  <p><code>ENV</code>にアクセスするメソッドは複数ある</p>
+  <pre><code>ENV['API_KEY']           # []
+ENV.fetch('API_KEY')     # fetch</code></pre>
+  <p class="attention" style="font-size: 1.2em;">⚠️ <code>[]</code>をスタブしても、コードが<code>fetch</code>を使っていると動かない</p>
+  <pre><code>allow(ENV).to receive(:[]).with('API_KEY').and_return('test_key')
+
+api_key = ENV.fetch('API_KEY')  # => nil</code></pre>
+  <p>実装を変更しただけでテストが壊れてしまう</p>
+</div>
+
+<!-- Slide 5: 注意点2 -->
+<div class="slide">
+  <h2>注意点2: and_call_originalが必要</h2>
+  <p><code>and_call_original</code>を書かないと...</p>
+  <pre><code>allow(ENV).to receive(:[]).with('API_KEY').and_return('test_key')
+
+ENV['DATABASE_URL']  # => nil</code></pre>
+  <p class="attention" style="font-size: 1.2em;">⚠️ スタブしていない他のキーが<code>nil</code>になり、予期しない場所でテストが落ちる</p>
+  <p><strong>正しい書き方：</strong></p>
+  <pre><code>allow(ENV).to receive(:[]).and_call_original
+allow(ENV).to receive(:[]).with('API_KEY').and_return('test_key')</code></pre>
+</div>
+
+<!-- Slide 6: 新しい方法 -->
+<div class="slide">
+  <h2>新たな方法：with_envヘルパー</h2>
+  <p class="check" style="font-size: 1.2em;">✓ 注意点を見落とすリスクを根本的に排除</p>
+  <pre><code>RSpec.describe SomeApiClient do
+  it 'uses API key from ENV' do
+    with_env('API_KEY' => 'test_key') do
+      client = SomeApiClient.new
+      expect(client.api_key).to eq 'test_key'
+    end
+  end
+end</code></pre>
+  <p>実際のENVオブジェクトを一時的に書き換える</p>
+</div>
+
+<!-- Slide 7: with_envヘルパーの実装 -->
+<div class="slide">
+  <h2>with_envヘルパーの実装</h2>
+  <pre><code>module EnvHelpers
+  def with_env(hash)
+    original = ENV.to_hash
+    hash.each { |k, v| ENV[k] = v }
+
+    begin
+      yield
+    ensure
+      ENV.replace(original)
+    end
+  end
+end</code></pre>
+  <p>シンプルな実装で、<code>ensure</code>ブロックにより確実にクリーンアップされる</p>
+</div>
+
+<!-- Slide 8: 比較表 -->
+<div class="slide">
+  <h2>既存の方法 vs 新しい方法</h2>
+  <table>
+    <tr>
+      <th></th>
+      <th>allow(ENV)</th>
+      <th>with_env</th>
+    </tr>
+    <tr>
+      <td><strong>実装の詳細への依存</strong></td>
+      <td class="attention">[]か fetch かを意識する必要がある</td>
+      <td class="check">意識する必要がない</td>
+    </tr>
+    <tr>
+      <td><strong>暗黙知の要求</strong></td>
+      <td class="attention">and_call_original を知っている必要がある</td>
+      <td class="check">特に必要ない</td>
+    </tr>
+    <tr>
+      <td><strong>複数メソッドへの対応</strong></td>
+      <td class="attention">[] と fetch を両方スタブする必要がある</td>
+      <td class="check">何もしなくても動く</td>
+    </tr>
+  </table>
+</div>
+
+<!-- Slide 9: カスタムコップ -->
+<div class="slide">
+  <h2>カスタムコップで統一を促す</h2>
+  <p>チーム全体で新しい方法を使うようにする</p>
+  <pre><code>class AvoidAllowEnv < RuboCop::Cop::RSpec::Base
+  MSG = '`allow(ENV)` の代わりに `with_env` を使用してください'
+
+  def_node_matcher :allow_env?, <<~PATTERN
+    (send nil? :allow (const nil? :ENV))
+  PATTERN
+
+  def on_send(node)
+    add_offense(node) if allow_env?(node)
+  end
+end</code></pre>
+  <p>既存のコードベースから<code>allow(ENV)</code>を発見して段階的に移行</p>
+</div>
+
+<!-- Slide 10: なぜ統一するのか -->
+<div class="slide">
+  <h2>なぜwith_envに統一するのか</h2>
+  <div class="comparison">
+    <div class="comparison-bad">
+      <h3>allow(ENV)の正しい使い方を強制</h3>
+      <ul>
+        <li>順序のチェックが必要</li>
+        <li>複数メソッドのチェックが必要</li>
+        <li>ASTの解析が複雑</li>
+      </ul>
+      <p class="attention">❌ 実装が困難</p>
+    </div>
+    <div class="comparison-good">
+      <h3>with_envに統一</h3>
+      <ul>
+        <li>リスクを根本的に排除</li>
+        <li>シンプルな検知</li>
+        <li>段階的な移行が可能</li>
+      </ul>
+      <p class="check">✓ 確実で効果的</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 11: まとめ -->
+<div class="slide">
+  <h2>まとめ</h2>
+  <ol style="font-size: 1.2em;">
+    <li><code>allow(ENV)</code>には注意点があり、見落とすとテストが不安定になる</li>
+    <li><code>with_env</code>ヘルパーという新しい方法を用意した</li>
+    <li>実装の詳細に依存せず、暗黙知も不要</li>
+    <li>カスタムコップで統一を促進</li>
+  </ol>
+  <div class="highlight" style="margin-top: 1.5em;">
+    <p style="font-size: 1.3em; text-align: center;">
+      <strong>環境変数のテストは地味だが重要</strong><br>
+      <code>with_env</code>でテストの安定性と保守性が向上
+    </p>
+  </div>
+</div>
+
+</div>
+
+<div class="navigation">
+  <span id="current-slide">1</span> / <span id="total-slides">11</span>
+  <span style="margin-left: 20px;">← → で移動</span>
+</div>
+
+<script>
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
+
+document.getElementById('total-slides').textContent = totalSlides;
+
+function showSlide(n) {
+  // 最初と最後で止まるようにする
+  if (n < 0 || n >= totalSlides) return;
+
+  slides[currentSlide].classList.remove('active');
+  currentSlide = n;
+  slides[currentSlide].classList.add('active');
+  document.getElementById('current-slide').textContent = currentSlide + 1;
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') showSlide(currentSlide - 1);
+  if (e.key === 'ArrowRight' || e.key === ' ') showSlide(currentSlide + 1);
+});
+
+// クリックでも次のスライドへ
+document.querySelector('.slide-container').addEventListener('click', () => {
+  showSlide(currentSlide + 1);
+});
+</script>
+
+</body>
+</html>
