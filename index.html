@@ -5,6 +5,17 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>rhiroe</title>
+    <script>
+      // GitHub Pages用のSPAリダイレクト復元処理
+      // 404.htmlから保存されたパス情報を復元
+      (function() {
+        var redirectPath = sessionStorage.getItem('redirectPath');
+        if (redirectPath) {
+          sessionStorage.removeItem('redirectPath');
+          history.replaceState(null, '', redirectPath);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
