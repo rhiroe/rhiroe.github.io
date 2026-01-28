@@ -37,8 +37,59 @@ updates:
       - "dependencies"
       - "dependabot"
     
-    # グループ化を無効にして個別のPRを作成
-    # groups設定をコメントアウトまたは削除することで、各依存関係が個別のPRになります
+    # グループ化設定
+    groups:
+      # React関連パッケージは常に一緒に更新
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      
+      # Next.js関連パッケージもグループ化
+      nextjs:
+        patterns:
+          - "next"
+          - "eslint-config-next"
+      
+      # MUI関連パッケージもグループ化（Emotionも含む）
+      mui:
+        patterns:
+          - "@mui/*"
+          - "@emotion/*"
+          - "styled-components"
+      
+      # Testing関連パッケージもグループ化
+      testing:
+        patterns:
+          - "@testing-library/*"
+          - "jest"
+          - "jest-environment-jsdom"
+          - "ts-jest"
+          - "@types/jest"
+      
+      # Remark/Rehypeエコシステム（Markdownパイプライン）
+      markdown-processing:
+        patterns:
+          - "remark"
+          - "remark-*"
+          - "rehype"
+          - "rehype-*"
+          - "gray-matter"
+      
+      # TypeScript関連
+      typescript:
+        patterns:
+          - "typescript"
+          - "@types/*"
+          - "tsx"
+      
+      # ESLint関連
+      eslint:
+        patterns:
+          - "eslint"
+          - "eslint-*"
 
   # GitHub Actions の依存関係も監視
   - package-ecosystem: "github-actions"
