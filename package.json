@@ -41,7 +41,7 @@
     "remark-gfm": "^4.0.1",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
-    "styled-components": "^6.1.18"
+    "styled-components": "^6.3.9"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",
