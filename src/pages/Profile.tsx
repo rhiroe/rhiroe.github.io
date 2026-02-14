@@ -10,7 +10,7 @@ function Profile() {
   useEffect(() => {
     const loadProfile = async () => {
       try {
-        const response = await fetch('/content/profile/resume.md')
+        const response = await fetch('/profile/resume.md')
         const markdown = await response.text()
         const html = await markdownToHtml(markdown)
         setContent(html)
