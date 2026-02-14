@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from '@dr.pogodin/react-helmet'
 import { useParams, Link as RouterLink, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getPostBySlug } from '~/lib/postsApi'

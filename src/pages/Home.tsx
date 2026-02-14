@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from '@dr.pogodin/react-helmet'
 import { Link } from 'react-router-dom'
 import { Box, Typography, Grid, Card, CardContent } from '~/components/common'
 

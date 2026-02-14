@@ -31,25 +31,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       
-      - name: corepack enable
-        run: corepack enable
 
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
           node-version: '20'
-          cache: "pnpm"
+          cache: "npm"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
       
       - name: Download browser
-        run: pnpm exec playwright install
+        run: npx playwright install
 
       - name: Build
         env:
           NODE_ENV: production
-        run: pnpm build
+        run: npm run build
 
   # ビルド成功を確認するための統合チェック
   ci-success:

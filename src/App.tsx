@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
-import { HelmetProvider } from 'react-helmet-async'
+import { HelmetProvider } from '@dr.pogodin/react-helmet'
 import { Container, Box, Typography, IconButton } from '@mui/material'
 import EmailIcon from '@mui/icons-material/Email'
 import GitHubIcon from '@mui/icons-material/GitHub'
