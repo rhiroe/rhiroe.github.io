@@ -27,8 +27,6 @@ function Home() {
               fontWeight: 800,
               letterSpacing: '-0.02em',
               mb: 2,
-              opacity: 0,
-              animation: 'fadeIn 1s ease-out forwards',
               position: 'relative',
               '&::after': {
                 content: '""',
@@ -55,8 +53,6 @@ function Home() {
               fontSize: '1.25rem',
               fontWeight: 400,
               letterSpacing: '0.02em',
-              opacity: 0,
-              animation: 'fadeIn 1s ease-out forwards 0.3s',
               mt: 3,
             }}
           >
@@ -68,17 +64,14 @@ function Home() {
           <Grid size={{ xs: 12, sm: 6 }}>
             <Card
               sx={{
-                transition: 'all 0.2s ease',
+                transition: 'box-shadow 0.2s',
                 cursor: 'pointer',
                 '&:hover': {
-                  transform: 'translateY(-4px)',
                   boxShadow: (theme) =>
                     theme.palette.mode === 'light'
                       ? '0 8px 25px rgba(0, 0, 0, 0.15)'
                       : '0 8px 25px rgba(0, 0, 0, 0.6)',
                 },
-                opacity: 0,
-                animation: 'fadeIn 1s ease-out forwards 0.6s',
               }}
             >
               <Link to="/blog" style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -111,17 +104,14 @@ function Home() {
           <Grid size={{ xs: 12, sm: 6 }}>
             <Card
               sx={{
-                transition: 'all 0.2s ease',
+                transition: 'box-shadow 0.2s',
                 cursor: 'pointer',
                 '&:hover': {
-                  transform: 'translateY(-4px)',
                   boxShadow: (theme) =>
                     theme.palette.mode === 'light'
                       ? '0 8px 25px rgba(0, 0, 0, 0.15)'
                       : '0 8px 25px rgba(0, 0, 0, 0.6)',
                 },
-                opacity: 0,
-                animation: 'fadeIn 1s ease-out forwards 0.9s',
               }}
             >
               <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -154,17 +144,14 @@ function Home() {
           <Grid size={{ xs: 12, sm: 6 }}>
             <Card
               sx={{
-                transition: 'all 0.2s ease',
+                transition: 'box-shadow 0.2s',
                 cursor: 'pointer',
                 '&:hover': {
-                  transform: 'translateY(-4px)',
                   boxShadow: (theme) =>
                     theme.palette.mode === 'light'
                       ? '0 8px 25px rgba(0, 0, 0, 0.15)'
                       : '0 8px 25px rgba(0, 0, 0, 0.6)',
                 },
-                opacity: 0,
-                animation: 'fadeIn 1s ease-out forwards 1.2s',
               }}
             >
               <Link to="/presentations" style={{ textDecoration: 'none', color: 'inherit' }}>
