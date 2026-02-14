@@ -5,6 +5,7 @@ export interface Presentation {
   id: string;
   title: string;
   path: string;
+  created?: string;
 }
 
 const presentationsDirectory: string = path.join(process.cwd(), "public/presentations");
@@ -25,20 +26,36 @@ export const getAllPresentations = (): Presentation[] => {
     .map((dirent) => {
       const fileName = dirent.name;
       const id = fileName.replace('.html', '');
-      
+      const filePath = path.join(presentationsDirectory, fileName);
       // ファイル名から日本語タイトルを生成（スネークケースを変換）
       const title = id
         .split('_')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
-      
+      // HTMLからcreatedメタデータを取得
+      let created = undefined;
+      try {
+        const html = fs.readFileSync(filePath, 'utf8');
+        const match = html.match(/<meta name="created" content="([^"]+)"/);
+        if (match) {
+          created = match[1];
+        }
+      } catch (e) {}
       return {
         id,
         title,
-        path: `/presentations/${fileName}`
+        path: `/presentations/${fileName}`,
+        created
       };
     })
-    .sort((a, b) => a.id.localeCompare(b.id)); // idでソート
+    .sort((a, b) => {
+      if (a.created && b.created) {
+        return b.created.localeCompare(a.created);
+      }
+      if (a.created) return -1;
+      if (b.created) return 1;
+      return a.id.localeCompare(b.id);
+    });
 }
 
 // Generate presentations index JSON file
