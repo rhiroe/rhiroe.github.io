@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from '@dr.pogodin/react-helmet'
 import { useEffect, useState } from 'react'
 import { Box, Container, Typography } from '~/components/common'
 import { getAllPresentations, type Presentation } from '~/lib/presentationsApi'

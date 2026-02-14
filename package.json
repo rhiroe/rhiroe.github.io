@@ -18,6 +18,7 @@
     "update-package": "npx tsx --tsconfig tsconfig.scripts.json scripts/update-deps.ts"
   },
   "dependencies": {
+    "@dr.pogodin/react-helmet": "^3.0.6",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.1.0",
@@ -31,7 +32,6 @@
     "playwright": "^1.56.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "react-helmet-async": "^2.0.5",
     "react-router-dom": "^7.1.4",
     "recharts": "^3.6.0",
     "rehype-highlight": "^7.0.2",

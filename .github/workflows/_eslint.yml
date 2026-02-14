@@ -15,16 +15,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       
-      - name: corepack enable
-        run: corepack enable
 
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
-          cache: "pnpm"
+          cache: "npm"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
 
       - name: Run eslint
-        run: pnpm lint
+        run: npm run lint

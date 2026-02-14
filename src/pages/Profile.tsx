@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet-async'
+import { Helmet } from '@dr.pogodin/react-helmet'
 import { useEffect, useState } from 'react'
 import markdownToHtml from '~/lib/markdownToHtml'
 import { Box, InnerContainer, GlassPaper, Typography } from '~/components/common'

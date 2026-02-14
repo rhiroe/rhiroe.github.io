@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { HelmetProvider } from 'react-helmet-async';
+import { HelmetProvider } from '@dr.pogodin/react-helmet';
 import { MemoryRouter } from 'react-router-dom';
 import Home from '../../pages/Home';
 
