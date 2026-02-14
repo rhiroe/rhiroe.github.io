@@ -37,3 +37,7 @@ npm-debug.log*
 # generated files (next-sitemap)
 /public/robots.txt
 /public/sitemap.xml
+
+# build artifacts (auto-generated)
+/public/posts-index.json
+/public/presentations-index.json
