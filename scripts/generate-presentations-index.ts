@@ -40,7 +40,9 @@ export const getAllPresentations = (): Presentation[] => {
         if (match) {
           created = match[1];
         }
-      } catch (e) {}
+      } catch {
+        // パースエラー時はcreatedを設定しない
+      }
       return {
         id,
         title,
