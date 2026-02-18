@@ -373,7 +373,7 @@ class Order::ItemExchange
     # ...
   end
 
-  def swap  # クラス名と意味が重複し、唯一のエントリポイントになりがち
+  def complete  # complete, call, execute, perform... 汎用的な名前は手続き的発想の証拠
     validate_return_window
     validate_stock
     ActiveRecord::Base.transaction do
@@ -384,7 +384,7 @@ end
 ```
 
 クラス名を動詞（`Exchange` = 交換する）にすると、「交換を実行するクラス」という
-手続き的な発想になり、`swap` や `execute` のような単一エントリポイントに収束します。
+手続き的な発想になり、`complete` や `call` のような汎用的な単一エントリポイントに収束します。
 
 **クラス名は名詞にしてください。** 名詞は「状態を持つもの」「振る舞いを持つもの」
 という発想を誘い、複数のメソッドを持つ豊かなオブジェクトにつながります。
