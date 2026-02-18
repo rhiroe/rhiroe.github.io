@@ -357,97 +357,123 @@ end
 
 ### 5.3 複数モデルにまたがるドメイン概念
 
-複数モデルの協調が必要なとき、「最も近いモデルに書く」だけでは不十分な場合があります。
-その協調自体が**独立したドメイン概念**であるなら、それを表現するドメインモデル（PORO）を設計すべきです。
+複数モデルの協調が必要なとき、まず考えるべきは「最も責務の近いモデルのメソッドにできないか」です。
+たとえば注文確定は `Order#checkout` で十分です。
 
-ただし、ここで注意が必要です。以下はトランザクションスクリプトです：
+しかし、**既存のどのモデルにも属さない独立したドメイン概念**が存在する場合は、
+それを表現するドメインモデル（PORO）を設計します。
+
+ここでクラスの命名に注意が必要です。
+**クラス名が動詞的だと、トランザクションスクリプトに陥りやすくなります。**
 
 ```ruby
-# トランザクションスクリプト: 独自の状態がなく、手続きを並べているだけ
-class Order::Checkout
-  def initialize(order)
-    @order = order
+# ダメなパターン: クラス名が動詞的 → 自然と「手続きを実行するクラス」になる
+class Order::ItemExchange
+  def initialize(order:, original_item:, replacement_item:)
+    # ...
   end
 
-  def complete
+  def swap  # クラス名と意味が重複し、唯一のエントリポイントになりがち
+    validate_return_window
     validate_stock
     ActiveRecord::Base.transaction do
-      deduct_stock
-      @order.coupon&.consume
-      @order.confirm
+      # 手続きの羅列...
     end
   end
-
-  private
-  # validate_stock, deduct_stock ...
 end
 ```
 
-名前は `Checkout` というドメイン概念ですが、構造は `ApplyCouponService#call` と同じです。
-単一のエントリポイントから手続きを上から下へ並べているだけで、**独自の状態も問い合わせ可能な振る舞いもありません。**
+クラス名を動詞（`Exchange` = 交換する）にすると、「交換を実行するクラス」という
+手続き的な発想になり、`swap` や `execute` のような単一エントリポイントに収束します。
 
-ドメインモデルとトランザクションスクリプトの違いは、**独自の状態を持ち、問い合わせできるかどうか**です。
+**クラス名は名詞にしてください。** 名詞は「状態を持つもの」「振る舞いを持つもの」
+という発想を誘い、複数のメソッドを持つ豊かなオブジェクトにつながります。
+
+たとえば「返品申請」という名詞で設計すると：
 
 ```ruby
-# ドメインモデル: 「注文確定」という概念が独自の状態と振る舞いを持つ
-class Order::Checkout
+# 良いパターン: クラス名が名詞 → 状態と複数の振る舞いを持つドメインモデルになる
+# app/models/order/return_claim.rb
+class Order::ReturnClaim
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  attr_reader :order
+  attr_reader :order, :item
 
-  validate :verify_stock_availability
+  validate :within_return_window
+  validate :item_in_order
 
-  def initialize(order)
+  def initialize(order:, item:)
     @order = order
+    @item = item
     super()
   end
 
-  def complete
+  def exchange_for(replacement)
+    return false unless valid?
+    return false unless verify_stock(replacement)
+
+    ActiveRecord::Base.transaction do
+      item.return_to_stock
+      replacement.deduct_stock
+      order.record_exchange(item, replacement)
+    end
+    true
+  end
+
+  def refund
     return false unless valid?
 
     ActiveRecord::Base.transaction do
-      order.order_items.each { |oi| oi.item.deduct_stock }
-      order.coupon&.consume
-      order.confirm
+      item.return_to_stock
+      order.record_refund(item)
     end
     true
   end
 
   private
 
-  def verify_stock_availability
-    order.order_items.each do |oi|
-      item = oi.item
-      if item.stock < oi.quantity
-        errors.add(:base, "#{item.name}: 必要数 #{oi.quantity}, 在庫 #{item.stock}")
-      end
-    end
+  def within_return_window
+    errors.add(:base, "返品可能期間を過ぎています") unless order.within_return_window?
+  end
+
+  def item_in_order
+    errors.add(:item, "この注文に含まれていません") unless order.includes_item?(item)
+  end
+
+  def verify_stock(replacement)
+    return true unless replacement.out_of_stock?
+
+    errors.add(:base, "交換先の商品の在庫がありません")
+    false
   end
 end
 ```
 
 ```ruby
-# Controller から利用する - valid? / errors は Rails 開発者にとって馴染みのあるインターフェース
+# Controller は ReturnClaim に命じるだけ。判断はオブジェクトが行う
 class OrdersController < ApplicationController
-  def checkout
-    order = current_user.orders.find(params[:id])
-    checkout = Order::Checkout.new(order)
+  def exchange
+    claim = Order::ReturnClaim.new(
+      order: current_user.orders.find(params[:id]),
+      item: Item.find(params[:item_id])
+    )
 
-    if checkout.complete
-      render json: order
+    if claim.exchange_for(Item.find(params[:replacement_item_id]))
+      render json: claim.order
     else
-      render json: { errors: checkout.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: claim.errors.full_messages }, status: :unprocessable_entity
     end
   end
 end
 ```
 
-**トランザクションスクリプトとの違い:**
-- `valid?` で状態を評価し、`errors` で結果を問い合わせできる
-- `ActiveModel::Validations` により、Rails 開発者に馴染みのあるインターフェースを持つ
-- Controller は `Checkout` に問い合わせて分岐できる（手続きの実行を委ねるだけではない）
-- `complete` は振る舞いの一つであり、唯一のエントリポイントではない
+**なぜこれはトランザクションスクリプトではないのか：**
+- `Order::ReturnClaim`（返品申請）は名詞であり、状態と複数の振る舞いを持つドメインモデル
+- `exchange_for` と `refund` という**異なる振る舞い**がある（単一エントリポイントではない）
+- 返品可否の判断はオブジェクト自身が行う（Tell, Don't Ask）
+- Controller は `claim.exchange_for(replacement)` と**命じるだけ**
+- `Order` でも `Item` でもない、交差する概念に対してのみ別クラスを作っている
 
 ---
 
@@ -470,7 +496,7 @@ end
 
 4. 複数モデルにまたがるドメイン概念か？
    → YES: その概念を表すドメインモデル（PORO）を設計する
-         独自の状態を持ち、問い合わせ可能な振る舞いがあること
+         命じれば自ら判断・行動できるオブジェクトにすること
    → NO: 次へ
 
 5. 外部APIとの連携か？
