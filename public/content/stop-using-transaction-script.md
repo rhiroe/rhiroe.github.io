@@ -358,13 +358,13 @@ class Coupon < ApplicationRecord
 end
 ```
 
-### 5.3 Domain Service (PORO) - 複数モデルにまたがる操作
+### 5.3 Domain Model (PORO) - 複数モデルにまたがる操作
 
-複数のモデルの協調が必要な場合は、PORO の Domain Service を使います。
+複数のモデルの協調が必要な場合は、PORO の Domain Model を使います。
 **ただし、これは Service Object ではありません。** ドメインの概念を表すオブジェクトです。
 
 ```ruby
-# 注文の確定処理は Order・Coupon・在庫の協調が必要 → Domain Service
+# 注文の確定処理は Order・Coupon・在庫の協調が必要 → Domain Model
 # app/models/order/checkout.rb
 # 「注文確定」というドメイン概念をオブジェクトとして表現
 class Order::Checkout
