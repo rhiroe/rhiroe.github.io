@@ -106,19 +106,18 @@ Ruby はオブジェクト指向言語です。トランザクションスクリ
 ### よくある誤解
 
 > 「Fat Model を避けるために Service Object に切り出すのがベストプラクティス」
-> 
 
 これは**誤り**です。Fat Model の解決策は Service Object ではなく **PORO への分解** です。
 
 Service Object がやっていることを分析すると、大半は次のどれかです：
 
 | Service がやっていること | 本来の置き場所 |
-| --- | --- |
+|---|---|
 | 1つのモデルのデータだけで完結するロジック | **そのモデル自身** |
 | バリデーション | **モデル or カスタムバリデータ** |
 | 計算・変換 | **Value Object（PORO）** |
 | 条件判定・認可 | **Policy Object（PORO）** |
-| 複数モデルにまたがるドメインルール | **Domain Model（PORO）** をモデルから委譲 |
+| 複数モデルにまたがるドメイン概念 | **その概念を表すドメインモデル（PORO）** を設計する |
 | 外部APIとの連携 | **Gateway / Adapter（PORO）** |
 
 **Service Object を作る前に、本当にそれがモデルやPOROに置けないか考えてください。**
@@ -162,7 +161,6 @@ end
 ```
 
 **問題点:**
-
 - クーポンの有効性判定ロジックが Service に漏れている
 - 割引額の計算ロジックが Service に漏れている
 - Coupon モデルを見ても何ができるか分からない
@@ -228,7 +226,6 @@ end
 ```
 
 **改善点:**
-
 - `Coupon` を見れば「有効性判定」「割引計算」ができることが一目で分かる
 - `Order` を見れば「クーポン適用」ができることが一目で分かる
 - クーポンの有効性判定をテストするのに Order のセットアップが不要
@@ -358,62 +355,99 @@ class Coupon < ApplicationRecord
 end
 ```
 
-### 5.3 Domain Model (PORO) - 複数モデルにまたがる操作
+### 5.3 複数モデルにまたがるドメイン概念
 
-複数のモデルの協調が必要な場合は、PORO の Domain Model を使います。
-**ただし、これは Service Object ではありません。** ドメインの概念を表すオブジェクトです。
+複数モデルの協調が必要なとき、「最も近いモデルに書く」だけでは不十分な場合があります。
+その協調自体が**独立したドメイン概念**であるなら、それを表現するドメインモデル（PORO）を設計すべきです。
+
+ただし、ここで注意が必要です。以下はトランザクションスクリプトです：
 
 ```ruby
-# 注文の確定処理は Order・Coupon・在庫の協調が必要 → Domain Model
-# app/models/order/checkout.rb
-# 「注文確定」というドメイン概念をオブジェクトとして表現
+# トランザクションスクリプト: 独自の状態がなく、手続きを並べているだけ
 class Order::Checkout
-  class InsufficientStockError < StandardError; end
-
-  attr_reader :order
-
   def initialize(order)
     @order = order
   end
 
   def complete
     validate_stock
-
     ActiveRecord::Base.transaction do
       deduct_stock
-      order.coupon&.consume
-      order.confirm
+      @order.coupon&.consume
+      @order.confirm
     end
   end
 
   private
+  # validate_stock, deduct_stock ...
+end
+```
 
-  def validate_stock
-    out_of_stock = order.order_items.select { |oi| oi.item.out_of_stock? }
-    raise InsufficientStockError, out_of_stock.map { |oi| oi.item.name } if out_of_stock.present?
+名前は `Checkout` というドメイン概念ですが、構造は `ApplyCouponService#call` と同じです。
+単一のエントリポイントから手続きを上から下へ並べているだけで、**独自の状態も問い合わせ可能な振る舞いもありません。**
+
+ドメインモデルとトランザクションスクリプトの違いは、**独自の状態を持ち、問い合わせできるかどうか**です。
+
+```ruby
+# ドメインモデル: 「注文確定」という概念が独自の状態と振る舞いを持つ
+class Order::Checkout
+  include ActiveModel::Model
+  include ActiveModel::Validations
+
+  attr_reader :order
+
+  validate :verify_stock_availability
+
+  def initialize(order)
+    @order = order
+    super()
   end
 
-  def deduct_stock
-    order.order_items.each { |oi| oi.item.deduct_stock }
+  def complete
+    return false unless valid?
+
+    ActiveRecord::Base.transaction do
+      order.order_items.each { |oi| oi.item.deduct_stock }
+      order.coupon&.consume
+      order.confirm
+    end
+    true
+  end
+
+  private
+
+  def verify_stock_availability
+    order.order_items.each do |oi|
+      item = oi.item
+      if item.stock < oi.quantity
+        errors.add(:base, "#{item.name}: 必要数 #{oi.quantity}, 在庫 #{item.stock}")
+      end
+    end
   end
 end
 ```
 
 ```ruby
-# モデルから委譲する
-class Order < ApplicationRecord
+# Controller から利用する - valid? / errors は Rails 開発者にとって馴染みのあるインターフェース
+class OrdersController < ApplicationController
   def checkout
-    Order::Checkout.new(self).complete
+    order = current_user.orders.find(params[:id])
+    checkout = Order::Checkout.new(order)
+
+    if checkout.complete
+      render json: order
+    else
+      render json: { errors: checkout.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 end
 ```
 
-**Service Object との違い:**
-
-- 名前が動詞（`PlaceOrderService`）ではなく、ドメインの概念（`Checkout`）
-- 状態を持ち、オブジェクトとして振る舞う
-- モデルの名前空間に配置される（`app/models/` 配下）
-- モデルから委譲される
+**トランザクションスクリプトとの違い:**
+- `valid?` で状態を評価し、`errors` で結果を問い合わせできる
+- `ActiveModel::Validations` により、Rails 開発者に馴染みのあるインターフェースを持つ
+- Controller は `Checkout` に問い合わせて分岐できる（手続きの実行を委ねるだけではない）
+- `complete` は振る舞いの一つであり、唯一のエントリポイントではない
 
 ---
 
@@ -434,9 +468,9 @@ end
    → YES: Policy Object (PORO) を作る
    → NO: 次へ
 
-4. 複数モデルの協調が必要か？
-   → YES: Domain Model (PORO) を models/ 配下に作る
-         ※ 「FooService」のような命名は避け、ドメインの概念名を使う
+4. 複数モデルにまたがるドメイン概念か？
+   → YES: その概念を表すドメインモデル（PORO）を設計する
+         独自の状態を持ち、問い合わせ可能な振る舞いがあること
    → NO: 次へ
 
 5. 外部APIとの連携か？
@@ -454,9 +488,9 @@ end
 
 ただし、以下をチェックしてください：
 
-- [ ]  Service の中にビジネスルール（条件分岐、計算）が書かれていないか？
-- [ ]  そのロジックはモデルや PORO に移せないか？
-- [ ]  Service は単にモデルのメソッドを呼び出しているだけの「中間層」になっていないか？
+- [ ] Service の中にビジネスルール（条件分岐、計算）が書かれていないか？
+- [ ] そのロジックはモデルや PORO に移せないか？
+- [ ] Service は単にモデルのメソッドを呼び出しているだけの「中間層」になっていないか？
 
 ---
 
@@ -475,7 +509,7 @@ end
 ## 9. まとめ
 
 | やめてほしいこと | 代わりにやってほしいこと |
-| --- | --- |
+|---|---|
 | ビジネスロジックを手続き的なクラスに羅列する | モデル自身にビジネスロジックを持たせる |
 | モデルの外にロジックを集める | PORO (Value Object, Policy Object) に分解してモデルから委譲する |
 | モデルをただのデータ入れ物にする | Rich Domain Model を育てる |
