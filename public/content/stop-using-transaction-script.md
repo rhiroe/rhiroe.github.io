@@ -240,52 +240,66 @@ end
 ### 5.1 Value Object - 値の概念を表現する
 
 ```ruby
-# 注文の割引額をValue Objectに抽出
-# app/models/order/discount.rb
-class Order::Discount
-  attr_reader :raw_amount, :order_total
+# 在庫数をValue Objectに抽出
+# app/models/item/quantity.rb
+class Item::Quantity
+  attr_reader :value
 
-  def initialize(raw_amount:, order_total:)
-    @raw_amount = raw_amount
-    @order_total = order_total
+  def initialize(value)
+    raise ArgumentError, "在庫数は0以上である必要があります" if value.negative?
+    @value = value
   end
 
-  # 割引額は注文合計を超えない
-  def amount
-    [raw_amount, order_total].min
+  def +(other)
+    self.class.new(value + other.value)
   end
 
-  def discounted_total
-    order_total - amount
+  def -(other)
+    self.class.new(value - other.value) # 負になればArgumentErrorで不変条件を保護
   end
 
-  def free?
-    discounted_total.zero?
+  def out_of_stock?
+    value.zero?
   end
 
   # Value Object は等価比較できる
   def ==(other)
-    amount == other.amount && order_total == other.order_total
-  end
-end
-```
-
-```ruby
-# Coupon#calculate_discount が Value Object を返すようにすると、
-# 割引に関するロジックが1箇所に集約される
-class Coupon < ApplicationRecord
-  def calculate_discount(order_total)
-    raw = percentage? ? order_total * discount_rate : discount_amount
-    Order::Discount.new(raw_amount: raw, order_total: order_total)
+    value == other.value
   end
 end
 ```
 
 ```ruby
 # Ruby 3.2+ なら Data.define でイミュータブルな Value Object を簡潔に定義できる
-Order::Money = Data.define(:amount, :currency) do
-  def to_s
-    "#{currency} #{amount}"
+Item::Quantity = Data.define(:value) do
+  def +(other)
+    self.class.new(value + other.value)
+  end
+
+  def -(other)
+    self.class.new(value - other.value)
+  end
+
+  def out_of_stock?
+    value.zero?
+  end
+end
+```
+
+```ruby
+# Item モデルから Quantity に委譲する
+class Item < ApplicationRecord
+  composed_of :stock_quantity,
+    class_name: "Item::Quantity",
+    mapping: { stock: :value }
+
+  def out_of_stock?
+    stock_quantity.out_of_stock?
+  end
+
+  def deduct_stock(quantity)
+    self.stock_quantity = stock_quantity - Item::Quantity.new(quantity)
+    save! # 在庫数が負なら Quantity が ArgumentError を発生
   end
 end
 ```
