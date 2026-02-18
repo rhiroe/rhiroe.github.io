@@ -118,7 +118,7 @@ Service Object がやっていることを分析すると、大半は次のど�
 | バリデーション | **モデル or カスタムバリデータ** |
 | 計算・変換 | **Value Object（PORO）** |
 | 条件判定・認可 | **Policy Object（PORO）** |
-| 複数モデルにまたがるドメインルール | **Domain Service（PORO）**をモデルから委譲 |
+| 複数モデルにまたがるドメインルール | **Domain Model（PORO）** をモデルから委譲 |
 | 外部APIとの連携 | **Gateway / Adapter（PORO）** |
 
 **Service Object を作る前に、本当にそれがモデルやPOROに置けないか考えてください。**
