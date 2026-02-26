@@ -13,6 +13,7 @@ import BlogIndex from './pages/BlogIndex'
 import BlogPost from './pages/BlogPost'
 import PresentationsIndex from './pages/PresentationsIndex'
 import Profile from './pages/Profile'
+import Apps from './pages/Apps'
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation()
@@ -262,6 +263,7 @@ function AppContent() {
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/presentations" element={<PresentationsIndex />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/apps" element={<Apps />} />
       </Routes>
     </AppLayout>
   )

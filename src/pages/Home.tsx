@@ -82,20 +82,14 @@ function Home() {
                     sx={{
                       color: 'text.primary',
                       fontWeight: 600,
-                      mb: 2,
+                      mb: 1,
                       fontSize: '1.5rem',
                     }}
                   >
                     📝 Blog
                   </Typography>
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      color: 'text.secondary',
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    技術的な学びや日々の気づきを記録しています
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    技術的な学びや日々の気づき
                   </Typography>
                 </CardContent>
               </Link>
@@ -122,20 +116,14 @@ function Home() {
                     sx={{
                       color: 'text.primary',
                       fontWeight: 600,
-                      mb: 2,
+                      mb: 1,
                       fontSize: '1.5rem',
                     }}
                   >
                     👤 Profile
                   </Typography>
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      color: 'text.secondary',
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    経歴やスキル、これまでの取り組みについて
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    経歴・スキル・取り組み
                   </Typography>
                 </CardContent>
               </Link>
@@ -162,20 +150,48 @@ function Home() {
                     sx={{
                       color: 'text.primary',
                       fontWeight: 600,
-                      mb: 2,
+                      mb: 1,
                       fontSize: '1.5rem',
                     }}
                   >
                     🎤 Presentations
                   </Typography>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    発表したスライド資料
+                  </Typography>
+                </CardContent>
+              </Link>
+            </Card>
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <Card
+              sx={{
+                transition: 'box-shadow 0.2s',
+                cursor: 'pointer',
+                '&:hover': {
+                  boxShadow: (theme) =>
+                    theme.palette.mode === 'light'
+                      ? '0 8px 25px rgba(0, 0, 0, 0.15)'
+                      : '0 8px 25px rgba(0, 0, 0, 0.6)',
+                },
+              }}
+            >
+              <Link to="/apps" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <CardContent sx={{ p: 4 }}>
                   <Typography
-                    variant="body1"
+                    variant="h4"
+                    component="h4"
                     sx={{
-                      color: 'text.secondary',
-                      lineHeight: 1.6,
+                      color: 'text.primary',
+                      fontWeight: 600,
+                      mb: 1,
+                      fontSize: '1.5rem',
                     }}
                   >
-                    これまでに発表したプレゼンテーション資料
+                    📱 Apps
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    自作のアプリケーション
                   </Typography>
                 </CardContent>
               </Link>
