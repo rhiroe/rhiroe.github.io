@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@10.10.0",
   "scripts": {
     "dev": "tsx scripts/generate-posts-index.ts && tsx scripts/generate-presentations-index.ts && vite",
     "build": "tsx scripts/generate-posts-index.ts && tsx scripts/generate-presentations-index.ts && tsc && vite build && tsx --tsconfig tsconfig.scripts.json scripts/generate-feeds.ts",

@@ -9,7 +9,7 @@
 - **Language**: TypeScript 5.9.3
 - **UI Library**: Material-UI (MUI) 7.1.0
 - **Styling**: Emotion + Styled Components
-- **Package Manager**: pnpm 10.10.0
+- **Package Manager**: npm
 - **Testing**: Jest + React Testing Library
 - **E2E Testing**: Playwright
 - **Deployment**: GitHub Pages
@@ -36,24 +36,24 @@
 
 ### 必要な環境
 - Node.js (最新のLTS版推奨)
-- pnpm
+- npm
 
 ### セットアップ
 ```bash
 # 依存関係のインストール
-pnpm install
+npm install
 
 # 開発サーバーの起動
-pnpm dev
+npm run dev
 
 # ビルド
-pnpm build
+npm run build
 
 # テスト実行
-pnpm test
+npm test
 
 # Linting
-pnpm lint
+npm run lint
 ```
 
 ## 📦 主要ライブラリ
