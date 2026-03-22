@@ -12,7 +12,7 @@ updates:
     schedule:
       interval: weekly
 
-  # pnpm の package.json の依存関係を監視
+  # npm の package.json の依存関係を監視
   - package-ecosystem: "npm"
     directory: "/"
     schedule:

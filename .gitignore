@@ -4,8 +4,6 @@
 /node_modules
 /.pnp
 .pnp.js
-.pnpm-store/
-.pnpm/
 
 # testing
 /coverage
@@ -23,7 +21,6 @@
 
 # debug
 npm-debug.log*
-.pnpm-debug.log*
 
 # local env files
 .env*.local

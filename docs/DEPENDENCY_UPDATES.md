@@ -1,6 +1,6 @@
 # 依存関係自動更新セットアップ（個別PR版）
 
-このリポジトリには、pnpmの依存関係を**個別に**自動で更新するシステムが構築されています。各パッケージは個別のPRとして作成され、より細かい制御と安全な更新が可能です。
+このリポジトリには、npmの依存関係を**個別に**自動で更新するシステムが構築されています。各パッケージは個別のPRとして作成され、より細かい制御と安全な更新が可能です。
 
 ## 🔧 構成要素
 
@@ -58,16 +58,16 @@
 
 ```bash
 # 特定のパッケージのみ更新
-pnpm run update-package react
+npm run update-package react
 
 # 全パッケージを個別に更新（個別レポート生成）
-pnpm run update-all-individual
+npm run update-all-individual
 
 # 更新可能なパッケージ一覧を確認
-pnpm run update-package
+npm run update-package
 
 # 現在の古い依存関係を確認のみ（レポート表示）
-pnpm run update-deps:check
+npm run update-deps:check
 
 # 現在の古い依存関係を確認のみ（JSON出力 - CI/CD用）
 npx tsx scripts/update-deps.ts --check --json
@@ -134,15 +134,15 @@ open-pull-requests-limit: 20  # 個別PRのため上限を増やす
 
 ```bash
 # 特定パッケージのセキュリティパッチなど
-pnpm run update-package パッケージ名
+npm run update-package パッケージ名
 ```
 
 ### 大型リリース前
 
 ```bash
 # 全パッケージを確認してから個別に判断
-pnpm run update-deps:check
-pnpm run update-package 重要なパッケージ名
+npm run update-deps:check
+npm run update-package 重要なパッケージ名
 ```
 
 ## 📈 メリット・デメリット
