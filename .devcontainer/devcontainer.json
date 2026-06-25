@@ -12,7 +12,7 @@
       "username": "vscode"
     },
     "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/devcontainers/features/docker-in-docker:3": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:4": {},
     "ghcr.io/devcontainers-extra/features/devcontainers-cli:1": {}
   },
 
