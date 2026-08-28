@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="created" content="2026-08-28">
+<title>値オブジェクトとcomposed_ofとAttributes API(CustomType)</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', 'Yu Gothic', 'Hiragino Sans', sans-serif;
+  background: #f5f5f5;
+  color: #222;
+  overflow: hidden;
+}
+
+.slide-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.slide {
+  display: none;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  padding: 40px 60px;
+  max-width: 900px;
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid #e0e0e0;
+}
+
+.slide.active {
+  display: flex;
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+  color: #222;
+}
+h1 {
+  font-size: 2.2em;
+  margin-bottom: 0.3em;
+  line-height: 1.1;
+}
+h2 {
+  font-size: 1.6em;
+  margin-bottom: 0.5em;
+  border-bottom: 2px solid #222;
+  padding-bottom: 0.2em;
+}
+h3 {
+  font-size: 1.2em;
+  margin-top: 0.5em;
+  margin-bottom: 0.3em;
+}
+p {
+  font-size: 1.05em;
+  line-height: 1.5;
+  margin-bottom: 0.6em;
+}
+ul, ol {
+  font-size: 1.05em;
+  line-height: 1.6;
+  margin-left: 2em;
+  margin-bottom: 0.6em;
+}
+li {
+  margin-bottom: 0.3em;
+}
+code {
+  background: #eee;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.9em;
+  color: #222;
+}
+pre {
+  background: #222;
+  color: #fafafa;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 0.5em 0;
+  font-size: 0.95em;
+  line-height: 1.4;
+}
+pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: 1em;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5em 0;
+  font-size: 0.95em;
+}
+th, td {
+  border: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  text-align: left;
+}
+th {
+  background: #222;
+  color: #fff;
+  font-weight: bold;
+}
+tr:nth-child(even) {
+  background: #f9f9f9;
+}
+.highlight {
+  background: #f6f6f6;
+  padding: 12px;
+  border-left: 4px solid #222;
+  margin: 0.5em 0;
+  border-radius: 5px;
+}
+.navigation {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-size: 1em;
+  color: #fff;
+  background: rgba(34,34,34,0.7);
+  padding: 10px 20px;
+  border-radius: 25px;
+  backdrop-filter: blur(10px);
+}
+.subtitle {
+  font-size: 1.1em;
+  color: #555;
+  margin-top: 0.3em;
+}
+.attention {
+  color: #dc3545;
+  font-weight: bold;
+}
+.check {
+  color: #222;
+  font-weight: bold;
+}
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 0.5em 0;
+}
+.comparison-item {
+  padding: 15px;
+  border-radius: 8px;
+}
+.comparison-bad {
+  background: #f6f6f6;
+  border: 1px solid #e0e0e0;
+}
+.comparison-good {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+}
+.rule-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 0.5em 0;
+}
+.rule-box {
+  background: #f6f6f6;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 14px;
+}
+.rule-box h3 {
+  margin-top: 0;
+  font-size: 1em;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.3em;
+  margin-bottom: 0.5em;
+}
+</style>
+</head>
+<body>
+
+<div class="slide-container">
+
+<!-- Slide 1: タイトル -->
+<div class="slide active">
+  <h1>値オブジェクトと<br><code style="font-size: 0.7em;">composed_of</code>と<br>Attributes API(CustomType)</h1>
+  <p class="subtitle">Railsで値オブジェクトを活かすための2つの機能を整理する</p>
+</div>
+
+<!-- Slide 2: はじめに -->
+<div class="slide">
+  <h2>はじめに</h2>
+  <p>"値オブジェクト"という言葉をDDDの流行とともによく耳にするようになりました。</p>
+  <p>そして値オブジェクトというワードとともに <code>composed_of</code> というRailsの機能を耳にすることも増えました。</p>
+  <div class="highlight" style="margin-top: 1em;">
+    <p>composed_ofは本当に「値オブジェクトのための機能」なのか？を整理します</p>
+  </div>
+</div>
+
+<!-- Slide 3: 値オブジェクトとは -->
+<div class="slide">
+  <h2>値オブジェクトとは</h2>
+  <div class="highlight">
+    <p style="font-size: 1.15em;"><strong>不変性と等価性の性質を持つ「値」を表現するため抽象化された概念</strong></p>
+  </div>
+  <p style="margin-top: 1em;">よく例として目にするのは"お金"です。</p>
+  <p>Rubyには値オブジェクトを定義するための <code>Data</code> クラスがあるため、こちらを利用して簡単に作ることができます。</p>
+  <pre><code>Money = Data.define(:amount, :currency)
+Money.new(amount: 1_000, currency: '¥')</code></pre>
+</div>
+
+<!-- Slide 4: composed_ofとは -->
+<div class="slide">
+  <h2><code>composed_of</code></h2>
+  <p>Railsには <strong>Rails2系から存在する</strong>、複数の値を1つのオブジェクトにまとめる <code>composed_of</code> という機能があります。</p>
+  <ul>
+    <li class="attention">値オブジェクト云々が広く話題になる前から存在する機能</li>
+    <li class="attention">しかし値オブジェクトのための機能かのように語られるのをよく見る</li>
+  </ul>
+  <div class="highlight" style="margin-top: 1em;">
+    <p><code>composed_of</code> は<strong>複数のカラムの値で構成されたオブジェクト</strong>を扱うための機能であり、値オブジェクトのための機能ではありません</p>
+  </div>
+</div>
+
+<!-- Slide 5: composed_ofの正しい使い方 -->
+<div class="slide">
+  <h2>値オブジェクトと <code>composed_of</code></h2>
+  <p><code>composed_of</code> は値オブジェクトのための機能ではありませんが、値オブジェクトを活用するために使える機能です。</p>
+  <pre><code>class User < ApplicationRecord
+  Address = Data.define(:postal_code, :prefecture,
+                         :city, :street, :building)
+  composed_of :address, class_name: 'Address', mapping: {
+    postal_code: :postal_code, prefecture: :prefecture,
+    city: :city, street: :street, building: :building
+  }
+
+  FullName = Data.define(:first_name, :middle_name, :last_name)
+  composed_of :fullname, class_name: 'FullName', mapping: {
+    first_name: :first_name, middle_name: :middle_name,
+    last_name: :last_name
+  }
+end</code></pre>
+</div>
+
+<!-- Slide 6: 不適切な使い方の例 -->
+<div class="slide">
+  <h2>composed_ofの本来の使い方ではない例</h2>
+  <p><code>composed_of</code> は値オブジェクトのための機能と思って使うと下記のような状態になることがあります。</p>
+  <pre><code>class Invoice < ApplicationRecord
+  YearMonth = Data.define(:reference_date) do
+    def initialize(**kwargs)
+      kwargs[:reference_date] =
+        kwargs[:reference_date].beginning_of_month
+      super
+    end
+  end
+
+  composed_of :target_month, class_name: 'YearMonth', mapping: {
+    reference_date: :reference_date
+  }
+end</code></pre>
+  <div class="highlight" style="margin-top: 0.8em;">
+    <p class="attention">複数の値で構成されたオブジェクトを扱っているわけではなく、カラムの値を別の型に変換するために使われている</p>
+  </div>
+</div>
+
+<!-- Slide 7: 何が問題か -->
+<div class="slide">
+  <h2>何が問題なのか</h2>
+  <div class="comparison">
+    <div class="comparison-bad">
+      <h3>composed_ofが得意なこと</h3>
+      <ul>
+        <li>複数カラム → 1つのオブジェクト</li>
+        <li>例：郵便番号・都道府県・市区町村…<br>→ 住所オブジェクト</li>
+      </ul>
+    </div>
+    <div class="comparison-good">
+      <h3>やろうとしていること</h3>
+      <ul>
+        <li>単一カラム → 別の型への変換</li>
+        <li>例：Date型のカラム<br>→ YearMonthオブジェクト</li>
+      </ul>
+    </div>
+  </div>
+  <div class="highlight" style="margin-top: 1em;">
+    <p><code>composed_of</code> は等価性比較・演算子オーバーロード・<br><code>mapping</code>アクセサ経由のクエリ発行など、値オブジェクトを<strong>「組み立てる」ための機構</strong>を前提にした機能</p>
+  </div>
+  <p style="margin-top: 0.8em;">単にカラムの値を別の型に変換したいだけなら、そうした機構は<strong>不要なオーバーヘッド</strong>になります。</p>
+</div>
+
+<!-- Slide 8: もう一つの選択肢 -->
+<div class="slide">
+  <h2>もう一つの選択肢<br>Attributes API(CustomType)</h2>
+  <p>型を変換するための機能もRailsには備わっています。</p>
+  <ul>
+    <li><code>ActiveRecord::Type</code> を継承したカスタム型を定義</li>
+    <li><code>attribute</code> でカラムに紐づける</li>
+    <li><code>cast</code> / <code>serialize</code> でDBとオブジェクトを相互変換</li>
+  </ul>
+  <div class="highlight" style="margin-top: 1em;">
+    <p><strong>カラムの値を別の型に変換する場合はこちらの機能を使う方が適しています</strong></p>
+  </div>
+</div>
+
+<!-- Slide 9: Attributes APIの実装 -->
+<div class="slide">
+  <h2>Attributes APIによる実装</h2>
+  <pre><code>class Invoice < ApplicationRecord
+  YearMonth = Data.define(:reference_date) do
+    def initialize(**kwargs)
+      kwargs[:reference_date] =
+        kwargs[:reference_date].beginning_of_month
+      super
+    end
+  end
+
+  class YearMonthType < ActiveRecord::Type::Date
+    def cast(value)
+      if value.is_a?(YearMonth)
+        value
+      elsif value.is_a?(::Date)
+        YearMonth.new(reference_date: value)
+      elsif value.respond_to?(:to_date)
+        YearMonth.new(reference_date: value.to_date)
+      end
+    end
+
+    def serialize(value) = super(value&.reference_date)
+  end
+
+  attribute :reference_date, YearMonthType.new
+  alias_attribute :target_month, :reference_date
+end</code></pre>
+</div>
+
+<!-- Slide 10: まとめ -->
+<div class="slide">
+  <h2>まとめ</h2>
+  <ol style="font-size: 1.1em;">
+    <li>値オブジェクトを活かすためのRailsの機能を2つ紹介したが、<strong>どちらも値オブジェクトのための機能ではない</strong></li>
+    <li><code>composed_of</code> は<strong>複数カラム→1オブジェクト</strong>のマッピングに使う</li>
+    <li>Attributes API(CustomType) は<strong>単一カラムの型変換</strong>に使う</li>
+  </ol>
+  <div class="highlight" style="margin-top: 1.5em;">
+    <p style="font-size: 1.2em; text-align: center;">
+      <strong>Railsの機能を目的に合わせて適切に使い分けていきましょう</strong>
+    </p>
+  </div>
+</div>
+
+</div>
+
+<div class="navigation">
+  <span id="current-slide">1</span> / <span id="total-slides">10</span>
+  <span style="margin-left: 20px;">← → で移動</span>
+</div>
+
+<script>
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
+
+document.getElementById('total-slides').textContent = totalSlides;
+
+function showSlide(n) {
+  if (n < 0 || n >= totalSlides) return;
+
+  slides[currentSlide].classList.remove('active');
+  currentSlide = n;
+  slides[currentSlide].classList.add('active');
+  document.getElementById('current-slide').textContent = currentSlide + 1;
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') showSlide(currentSlide - 1);
+  if (e.key === 'ArrowRight' || e.key === ' ') showSlide(currentSlide + 1);
+});
+
+// クリックでも次のスライドへ
+document.querySelector('.slide-container').addEventListener('click', () => {
+  showSlide(currentSlide + 1);
+});
+</script>
+
+</body>
+</html>
