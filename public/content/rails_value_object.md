@@ -38,12 +38,12 @@ composed_ofは値オブジェクトのための機能ではありませんが、
 ```rb
 class User < ApplicationRecord
   Address = Data.define(:postal_code, :prefecture, :city, :street, :building)
-  composed_of :address, class_name: 'Address' mapping: {
+  composed_of :address, class_name: 'Address', mapping: {
     postal_code: :postal_code, prefecture: :prefecture,
     city: :city, street: :street, building: :building
   }
   FullName = Data.define(:first_name, :middle_name, :last_name)
-  composed_of :fullname, class_name 'FullName', mapping: {
+  composed_of :fullname, class_name: 'FullName', mapping: {
     first_name: :first_name, middle_name: :middle_name, last_name: :last_name
   }
 end
@@ -61,13 +61,15 @@ class Invoice < ApplicationRecord
       super
     end
   end
-  composed_of :target_month, class_name: 'YearMonth' mapping: {
+  composed_of :target_month, class_name: 'YearMonth', mapping: {
     reference_date: :reference_date
   }
 end
 ```
 
 こちらは複数の値で構成されたオブジェクトを扱っているわけではなく、カラムの値を別の型に変換するために使われています。
+
+composed_ofは代入時の等価性比較や演算子オーバーロード、mappingで指定したアクセサを介したクエリ発行など、値オブジェクトを「組み立てる」ための複雑な機構を前提にした機能です。単にカラムの値を別の型に変換したいだけであれば、そうした機構は不要なオーバーヘッドになってしまいます。
 
 何か重大な問題があるわけではありませんが、composed_ofの本来の使い方ではないため今回の用途には適していません。
 
@@ -89,13 +91,13 @@ class Invoice < ApplicationRecord
       if value.is_a?(YearMonth)
         value
       elsif value.is_a?(::Date)
-        YearMonth.new(date: value)
+        YearMonth.new(reference_date: value)
       elsif value.respond_to?(:to_date)
-        YearMonth.new(date: value.to_date)
+        YearMonth.new(reference_date: value.to_date)
       end
     end
 
-    def serialize(value) = super&.date
+    def serialize(value) = super(value&.reference_date)
   end
 
   attribute :reference_date, YearMonthType.new
@@ -103,7 +105,7 @@ class Invoice < ApplicationRecord
 end
 ```
 
-カラムの値を別の型に変換する場合はこちらの機能を使う方が適しています。
+カラムの値を別の型に変換するだけの場合はこちらの機能を使う方が適しています。
 
 ## まとめ
 
