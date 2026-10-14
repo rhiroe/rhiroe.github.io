@@ -6,8 +6,8 @@ function Home() {
   return (
     <Box component="div">
       <Helmet>
-        <title>rhiroe</title>
-        <meta name="description" content="My page." />
+        <title>RHEO Studio</title>
+        <meta name="description" content="RHEO Studio は、Web 開発を中心に、個人開発と業務委託を行っています。" />
       </Helmet>
 
       <Box
@@ -44,7 +44,7 @@ function Home() {
               },
             }}
           >
-            rhiroe
+            RHEO Studio
           </Typography>
           <Typography
             variant="h2"
@@ -56,7 +56,7 @@ function Home() {
               mt: 3,
             }}
           >
-            ソフトウェアエンジニア
+            Web 開発 / 個人開発・業務委託
           </Typography>
         </Box>
 
@@ -90,40 +90,6 @@ function Home() {
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                     技術的な学びや日々の気づき
-                  </Typography>
-                </CardContent>
-              </Link>
-            </Card>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 6 }}>
-            <Card
-              sx={{
-                transition: 'box-shadow 0.2s',
-                cursor: 'pointer',
-                '&:hover': {
-                  boxShadow: (theme) =>
-                    theme.palette.mode === 'light'
-                      ? '0 8px 25px rgba(0, 0, 0, 0.15)'
-                      : '0 8px 25px rgba(0, 0, 0, 0.6)',
-                },
-              }}
-            >
-              <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
-                <CardContent sx={{ p: 4 }}>
-                  <Typography
-                    variant="h4"
-                    component="h4"
-                    sx={{
-                      color: 'text.primary',
-                      fontWeight: 600,
-                      mb: 1,
-                      fontSize: '1.5rem',
-                    }}
-                  >
-                    👤 Profile
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    経歴・スキル・取り組み
                   </Typography>
                 </CardContent>
               </Link>

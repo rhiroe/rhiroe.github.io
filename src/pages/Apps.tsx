@@ -30,8 +30,8 @@ function Apps() {
   return (
     <Box component="div">
       <Helmet>
-        <title>Apps - rhiroe</title>
-        <meta name="description" content="rhiroe が開発したアプリケーション一覧" />
+        <title>Apps - RHEO Studio</title>
+        <meta name="description" content="RHEO Studio が開発したアプリケーション一覧" />
       </Helmet>
 
       <Box

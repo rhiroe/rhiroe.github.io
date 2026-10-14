@@ -69,20 +69,20 @@ function BlogIndex() {
   return (
     <>
       <Helmet>
-        <title>rhiroeのブログ</title>
-        <meta name="description" content="rhiroeのブログ" />
+        <title>RHEO Studio ブログ</title>
+        <meta name="description" content="RHEO Studio ブログ" />
 
         {/* RSS・Atomフィードリンク */}
         <link
           rel="alternate"
           type="application/rss+xml"
-          title="rheo-studio.jp RSS Feed"
+          title="RHEO Studio RSS Feed"
           href="/feeds/rss.xml"
         />
         <link
           rel="alternate"
           type="application/atom+xml"
-          title="rheo-studio.jp Atom Feed"
+          title="RHEO Studio Atom Feed"
           href="/feeds/atom.xml"
         />
       </Helmet>
