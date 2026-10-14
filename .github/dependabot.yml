@@ -91,6 +91,8 @@ updates:
         patterns:
           - "eslint"
           - "eslint-*"
+          - "@eslint/*"
+          - "@typescript-eslint/*"
 
   # GitHub Actions の依存関係も監視
   - package-ecosystem: "github-actions"
