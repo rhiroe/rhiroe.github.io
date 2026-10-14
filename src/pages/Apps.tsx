@@ -4,8 +4,7 @@ import { Box, Typography, Grid, Card, CardContent } from '~/components/common'
 type App = {
   name: string
   description: string
-  icon: string
-  iconImage?: string
+  iconImage: string
   url: string
   platform: string
 }
@@ -14,7 +13,6 @@ const apps: App[] = [
   {
     name: 'osaifu',
     description: '.pkpass ファイルを Android で管理できるウォレットアプリ。',
-    icon: '💳',
     iconImage: '/apps/osaifu.png',
     url: 'https://rhiroe.github.io/osaifu/',
     platform: 'Android',
@@ -22,7 +20,6 @@ const apps: App[] = [
   {
     name: 'tore-tomo',
     description: '応援キャラ「ミカ」が励ましてくれる、毎日のメニューを記録する Android トレーニング記録アプリ。',
-    icon: '💪',
     iconImage: '/apps/tore-tomo.png',
     url: 'https://rheo-studio.jp/tore-tomo/',
     platform: 'Android',
@@ -116,22 +113,18 @@ function Apps() {
                         fontSize: '1.5rem',
                       }}
                     >
-                      {app.iconImage ? (
-                        <Box
-                          component="img"
-                          src={app.iconImage}
-                          alt=""
-                          sx={{
-                            width: '1.5em',
-                            height: '1.5em',
-                            borderRadius: 1,
-                            verticalAlign: 'middle',
-                            mr: 1,
-                          }}
-                        />
-                      ) : (
-                        `${app.icon} `
-                      )}
+                      <Box
+                        component="img"
+                        src={app.iconImage}
+                        alt=""
+                        sx={{
+                          width: '1.5em',
+                          height: '1.5em',
+                          borderRadius: 1,
+                          verticalAlign: 'middle',
+                          mr: 1,
+                        }}
+                      />
                       {app.name}
                     </Typography>
                     <Typography
