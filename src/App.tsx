@@ -12,7 +12,6 @@ import Home from './pages/Home'
 import BlogIndex from './pages/BlogIndex'
 import BlogPost from './pages/BlogPost'
 import PresentationsIndex from './pages/PresentationsIndex'
-import Profile from './pages/Profile'
 import Apps from './pages/Apps'
 
 function AppLayout({ children }: { children: React.ReactNode }) {
@@ -245,7 +244,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
                 textAlign: 'center',
               }}
             >
-              © 2022 - {new Date().getFullYear()} rhiroe. All rights reserved.
+              © 2022 - {new Date().getFullYear()} RHEO Studio. All rights reserved.
             </Typography>
           </Box>
         </Container>
@@ -262,7 +261,6 @@ function AppContent() {
         <Route path="/blog" element={<BlogIndex />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/presentations" element={<PresentationsIndex />} />
-        <Route path="/profile" element={<Profile />} />
         <Route path="/apps" element={<Apps />} />
       </Routes>
     </AppLayout>

@@ -22,7 +22,7 @@ function PresentationsIndex() {
   return (
     <Box component="div">
       <Helmet>
-        <title>プレゼンテーション一覧 | rhiroe</title>
+        <title>プレゼンテーション一覧 | RHEO Studio</title>
         <meta name="description" content="技術発表資料のコレクション" />
       </Helmet>
 

@@ -1,6 +1,6 @@
 # rhiroe.github.io
 
-個人ブログサイト・ポートフォリオサイトです。Vite + React + TypeScript + Material-UIで構築しています。
+RHEO Studioの公式サイトです。Vite + React + TypeScript + Material-UIで構築しています。
 
 ## 🚀 Tech Stack
 
@@ -22,10 +22,6 @@
 - Mermaid記法によるダイアグラム表示
 - GitHub Flavored Markdown (GFM) サポート
 - レスポンシブデザイン対応
-
-### プロフィール機能
-- `public/profile/resume.md`でプロフィール情報を管理
-- 経歴・スキル情報の表示
 
 ### テーマ機能
 - ダークモード・ライトモード対応
@@ -107,7 +103,6 @@ src/
 
 public/
 ├── content/             # ブログ記事（Markdown）
-├── profile/             # プロフィール情報
 └── images/              # 画像ファイル
 ```
 

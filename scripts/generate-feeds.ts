@@ -87,7 +87,7 @@ async function generateStaticFeeds() {
         };
         
         const feed = new Feed({
-            title: 'rheo-studio.jp',
+            title: 'RHEO Studio',
             description: 'プログラミングと技術に関するブログ',
             id: siteUrl,
             link: siteUrl,

@@ -120,7 +120,7 @@ export function getFeedConfig(): FeedConfig {
     
     return {
         siteUrl,
-        title: 'rheo-studio.jp',
+        title: 'RHEO Studio',
         description: 'プログラミングと技術に関するブログ',
         author: {
             name: 'rhiroe',
