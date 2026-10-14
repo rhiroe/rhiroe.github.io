@@ -29,7 +29,7 @@ describe('Grid', () => {
         container 
         spacing={2} 
         data-testid="custom-grid"
-        direction="column"
+        direction="row-reverse"
       >
         <div>Test Content</div>
       </Grid>
@@ -38,7 +38,7 @@ describe('Grid', () => {
     const gridElement = container.firstChild as HTMLElement;
     expect(gridElement).toHaveAttribute('data-testid', 'custom-grid');
     expect(gridElement).toHaveClass('MuiGrid-container');
-    expect(gridElement).toHaveClass('MuiGrid-direction-xs-column');
+    expect(gridElement).toHaveClass('MuiGrid-direction-xs-row-reverse');
   });
 
   it('handles Grid v2 responsive sizing', () => {
@@ -115,14 +115,14 @@ describe('Grid', () => {
     const { container } = render(
       <Grid 
         container 
-        direction={{ xs: 'column', sm: 'row' }}
+        direction={{ xs: 'row-reverse', sm: 'row' }}
       >
         <div>Directional Grid</div>
       </Grid>
     );
     
     const gridElement = container.firstChild as HTMLElement;
-    expect(gridElement).toHaveClass('MuiGrid-direction-xs-column');
+    expect(gridElement).toHaveClass('MuiGrid-direction-xs-row-reverse');
     expect(gridElement).toHaveClass('MuiGrid-direction-sm-row');
   });
 
