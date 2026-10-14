@@ -79,7 +79,7 @@ async function generateStaticFeeds() {
     try {
         console.log('フィードを生成中...');
         
-        const siteUrl = process.env.SITE_URL || 'https://rhiroe.github.io';
+        const siteUrl = process.env.SITE_URL || 'https://rheo-studio.jp';
         const author = {
             name: 'rhiroe',
             email: process.env.AUTHOR_EMAIL || '',
@@ -87,7 +87,7 @@ async function generateStaticFeeds() {
         };
         
         const feed = new Feed({
-            title: 'rhiroe.github.io',
+            title: 'rheo-studio.jp',
             description: 'プログラミングと技術に関するブログ',
             id: siteUrl,
             link: siteUrl,

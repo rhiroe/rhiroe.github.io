@@ -116,11 +116,11 @@ export async function generateFeed(config: FeedConfig): Promise<Feed> {
 }
 
 export function getFeedConfig(): FeedConfig {
-    const siteUrl = process.env.SITE_URL || 'https://rhiroe.github.io';
+    const siteUrl = process.env.SITE_URL || 'https://rheo-studio.jp';
     
     return {
         siteUrl,
-        title: 'rhiroe.github.io',
+        title: 'rheo-studio.jp',
         description: 'プログラミングと技術に関するブログ',
         author: {
             name: 'rhiroe',

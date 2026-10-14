@@ -4,7 +4,7 @@ import { Box, Typography, Grid, Card, CardContent } from '~/components/common'
 type App = {
   name: string
   description: string
-  icon: string
+  iconImage: string
   url: string
   platform: string
 }
@@ -13,8 +13,15 @@ const apps: App[] = [
   {
     name: 'osaifu',
     description: '.pkpass ファイルを Android で管理できるウォレットアプリ。',
-    icon: '💳',
-    url: 'https://rhiroe.github.io/osaifu/',
+    iconImage: '/apps/osaifu.png',
+    url: 'https://rheo-studio.jp/osaifu/',
+    platform: 'Android',
+  },
+  {
+    name: 'tore-tomo',
+    description: '応援キャラ「ミカ」が励ましてくれる、毎日のメニューを記録する Android トレーニング記録アプリ。',
+    iconImage: '/apps/tore-tomo.png',
+    url: 'https://rheo-studio.jp/tore-tomo/',
     platform: 'Android',
   },
 ]
@@ -106,7 +113,18 @@ function Apps() {
                         fontSize: '1.5rem',
                       }}
                     >
-                      {app.icon} {app.name}
+                      <img
+                        src={app.iconImage}
+                        alt=""
+                        style={{
+                          width: '1.5em',
+                          height: '1.5em',
+                          borderRadius: 4,
+                          verticalAlign: 'middle',
+                          marginRight: 8,
+                        }}
+                      />
+                      {app.name}
                     </Typography>
                     <Typography
                       variant="caption"

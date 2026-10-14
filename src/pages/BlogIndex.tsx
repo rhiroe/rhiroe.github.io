@@ -76,13 +76,13 @@ function BlogIndex() {
         <link
           rel="alternate"
           type="application/rss+xml"
-          title="rhiroe.github.io RSS Feed"
+          title="rheo-studio.jp RSS Feed"
           href="/feeds/rss.xml"
         />
         <link
           rel="alternate"
           type="application/atom+xml"
-          title="rhiroe.github.io Atom Feed"
+          title="rheo-studio.jp Atom Feed"
           href="/feeds/atom.xml"
         />
       </Helmet>
