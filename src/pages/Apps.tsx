@@ -113,16 +113,15 @@ function Apps() {
                         fontSize: '1.5rem',
                       }}
                     >
-                      <Box
-                        component="img"
+                      <img
                         src={app.iconImage}
                         alt=""
-                        sx={{
+                        style={{
                           width: '1.5em',
                           height: '1.5em',
-                          borderRadius: 1,
+                          borderRadius: 4,
                           verticalAlign: 'middle',
-                          mr: 1,
+                          marginRight: 8,
                         }}
                       />
                       {app.name}
