@@ -80,22 +80,22 @@ function BlogPost() {
         <link
           rel="alternate"
           type="application/rss+xml"
-          title="rhiroe.github.io RSS Feed"
+          title="rheo-studio.jp RSS Feed"
           href="/feeds/rss.xml"
         />
         <link
           rel="alternate"
           type="application/atom+xml"
-          title="rhiroe.github.io Atom Feed"
+          title="rheo-studio.jp Atom Feed"
           href="/feeds/atom.xml"
         />
 
         {/* OGP Tags */}
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt} />
-        <meta property="og:url" content={`https://rhiroe.github.io${location.pathname}`} />
+        <meta property="og:url" content={`https://rheo-studio.jp${location.pathname}`} />
         <meta property="og:type" content="article" />
-        <meta property="og:site_name" content="rhiroe.github.io" />
+        <meta property="og:site_name" content="rheo-studio.jp" />
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@rhiroe" />
@@ -165,7 +165,7 @@ function BlogPost() {
           <a
             href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
               post.title + '\n'
-            )}&url=${encodeURIComponent(`https://rhiroe.github.io${location.pathname}`)}`}
+            )}&url=${encodeURIComponent(`https://rheo-studio.jp${location.pathname}`)}`}
             target="_blank"
             rel="noopener noreferrer"
             style={{ textDecoration: 'none' }}

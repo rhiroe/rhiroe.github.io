@@ -36,15 +36,15 @@ function Profile() {
   return (
     <>
       <Helmet>
-        <title>プロフィール - rhiroe.github.io</title>
+        <title>プロフィール - rheo-studio.jp</title>
         <meta name="description" content="廣江 亮佑のプロフィール" />
 
         {/* OGP Tags */}
-        <meta property="og:title" content="プロフィール - rhiroe.github.io" />
+        <meta property="og:title" content="プロフィール - rheo-studio.jp" />
         <meta property="og:description" content="廣江 亮佑のプロフィール" />
-        <meta property="og:url" content="https://rhiroe.github.io/profile" />
+        <meta property="og:url" content="https://rheo-studio.jp/profile" />
         <meta property="og:type" content="profile" />
-        <meta property="og:site_name" content="rhiroe.github.io" />
+        <meta property="og:site_name" content="rheo-studio.jp" />
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@rhiroe" />

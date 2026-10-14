@@ -14,7 +14,7 @@ const apps: App[] = [
     name: 'osaifu',
     description: '.pkpass ファイルを Android で管理できるウォレットアプリ。',
     iconImage: '/apps/osaifu.png',
-    url: 'https://rhiroe.github.io/osaifu/',
+    url: 'https://rheo-studio.jp/osaifu/',
     platform: 'Android',
   },
   {
