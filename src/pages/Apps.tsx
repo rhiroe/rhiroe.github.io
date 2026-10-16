@@ -18,10 +18,10 @@ const apps: App[] = [
     platform: 'Android',
   },
   {
-    name: 'tore-tomo',
+    name: 'toretomo',
     description: '応援キャラ「ミカ」が励ましてくれる、毎日のメニューを記録する Android トレーニング記録アプリ。',
-    iconImage: '/apps/tore-tomo.png',
-    url: 'https://rheo-studio.jp/tore-tomo/',
+    iconImage: '/apps/toretomo.png',
+    url: 'https://rheo-studio.jp/toretomo/',
     platform: 'Android',
   },
 ]
